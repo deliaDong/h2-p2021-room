@@ -1,0 +1,26 @@
+// Default class
+
+strong
+  font-weight 700
+
+.error
+  color color-red
+  font-size font-small
+  width 100%
+
+.clickable
+  cursor pointer
+  text-decoration none
+  background color-white-lighter
+  transition background .3s cubic-bezier(.25,.1,.25,1.75)
+
+  &:hover
+    background color-blue-lighter
+    color color-white-lighter
+
+  &:active
+    background color-blue-light
+
+.danger
+  background color-red-light
+  color color-white-light
