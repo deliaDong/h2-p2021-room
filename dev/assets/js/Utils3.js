@@ -114,7 +114,7 @@ const Utils3 = (function () {
       camera,
       antialias = false,
       shadow = false,
-      color = "#454545"
+      color = "#1a2c41"
     } = {}) {
 
       this._renderer = new THREE.WebGLRenderer({

@@ -35,7 +35,7 @@ class Room {
       this._ctx.cAngle,
       this._ctx.w,
       this._ctx.h,
-      3
+      1.5
     )
     this._ctx.renderer = new Utils3.Renderer({
       canvas: this._ctx.$canvas,
@@ -56,7 +56,6 @@ class Room {
 
     // CTRL
     this._ctx.cameraYOffset = 0 // Y angle offset
-    this._ctx.speed = 0.05
     this._ctx.mouse = {x: 0, y: 0}
     this._ctx.input = {}
     this._ctx.keyboard = {
@@ -64,6 +63,15 @@ class Room {
       azerty: "zqsd"
     }
     this._ctx.keyBoardType = "azerty"
+    
+    // ENV
+    this._ctx.speed = 0.05
+    this._ctx.dayDuration = 120000
+    this._ctx.currentTime = () => {
+      return (Math.sin(Date.now() % this._ctx.dayDuration / this._ctx.dayDuration * Math.PI - Math.PI / 2) + 1) / 2
+    }
+    this._ctx.roomLenght = 5
+    this._ctx.roomDepth = 5
   }
   
   // Init everything
@@ -78,34 +86,33 @@ class Room {
     document.addEventListener("keydown", (e) => { this._ctx.input[e.key] = true })
     document.addEventListener("keyup", (e) => { this._ctx.input[e.key] = false })
     
-    this.torus()
+    this.initSky()
+    this.roomGestion()
     this.loop()
   }
   
-  torus () {
-    this._mesh = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(.7, .2, 100, 8),
-      new THREE.MeshPhongMaterial({ color: 0xff0000, flatShading: true})
-    )
-    this._mesh.position.y = 1.2
-    this._ctx.scene.add(this._mesh)
-    
-    this._floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(10, 10, 1, 1),
-      new THREE.MeshPhongMaterial({ color: 0x00ff00})
-    )
-    this._floor.rotation.x = -Math.PI * 0.5
-    this._ctx.scene.add(this._floor)
-    
-    const ambientLight = new THREE.AmbientLight(0x111111)
-    this._ctx.scene.add(ambientLight)
-
-    const sunLight = new THREE.DirectionalLight(0xffffff, 0.6)
-    sunLight.position.x = 1
-    sunLight.position.y = 1
-    sunLight.position.z = 1
-    this._ctx.scene.add(sunLight)
+  // Used for gestion of different room
+  roomGestion () {
+    this._currentRoom = new RoomHospital(this._ctx)
   }
+
+  // Init skybox
+  initSky () {
+    this._sky = new THREE.Sky()
+    this._skyDistance = 1000
+    this._sky.scale.setScalar(450)
+
+    this._sky.material.uniforms.turbidity.value = 1 // 2.5
+    this._sky.material.uniforms.rayleigh.value = 0.75 // 0.005
+    this._sky.material.uniforms.mieCoefficient.value = 0.002 // 0.003
+    this._sky.material.uniforms.mieDirectionalG.value = 0.8 // 0.665
+    this._sky.material.uniforms.luminance.value = 1.1 // 1.1
+    
+    this.updateSky(0)
+
+    this._ctx.scene.add(this._sky)
+  }
+
   
   // Handle resize
   sizeUpdate () {
@@ -121,13 +128,13 @@ class Room {
   loop () {
     window.requestAnimationFrame(this.loop.bind(this))
     this.updateCamera()
-    this._mesh.rotation.y += 0.01
+    this.updateSky(this._ctx.currentTime())
     this._ctx.composer.render()
   }
-
-  // Update camera according to context
+  
+  // Update camera according to context and user input
   updateCamera () {
-
+    
     // Camera first person view
     this._ctx.camera.set(
       "angle",
@@ -147,63 +154,62 @@ class Room {
       },
       true
     )
-
+    
     if (this._ctx.mouse.x > 0.45) {
       this._ctx.cameraYOffset -= Math.PI / 90
     }
-
+    
     if (this._ctx.mouse.x < -0.45) {
       this._ctx.cameraYOffset += Math.PI / 90
     }
-
+    
+    // Movement
+    let x = 0
+    let z = 0
     if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][1]]) { // if left
-      this._ctx.camera.add(
-        "pos",
-        {
-          x: -Math.sin(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed,
-          y: 0,
-          z: -Math.cos(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
-        },
-        true
-      )
+      x -= Math.sin(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
+      z -= Math.cos(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
     }
-
+    
     if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][3]]) { // if right
-      this._ctx.camera.add(
-        "pos",
-        {
-          x: Math.sin(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed,
-          y: 0,
-          z: Math.cos(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
-        },
-        true
-      )
+      x += Math.sin(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
+      z += Math.cos(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
     }
-
+    
     if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][0]]) { // if up
-      this._ctx.camera.add(
-        "pos",
-        {
-          x: -Math.sin(this._ctx.camera.get("angle", true).y) * this._ctx.speed,
-          y: 0,
-          z: -Math.cos(this._ctx.camera.get("angle", true).y) * this._ctx.speed
-        },
-        true
-      )
+      x -= Math.sin(this._ctx.camera.get("angle", true).y) * this._ctx.speed
+      z -= Math.cos(this._ctx.camera.get("angle", true).y) * this._ctx.speed
     }
-
+    
     if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][2]]) { // if down
+      x += Math.sin(this._ctx.camera.get("angle", true).y) * this._ctx.speed
+      z += Math.cos(this._ctx.camera.get("angle", true).y) * this._ctx.speed
+    }
+
+    if (x != 0 || z != 0) {
+      const pos = this._ctx.camera.get("pos", true)
+      if (pos.x + x > this._ctx.roomLenght / 2 * 0.9) { x = this._ctx.roomLenght / 2 * 0.9 - pos.x }
+      if (pos.x + x < -this._ctx.roomLenght / 2 * 0.9) { x = - this._ctx.roomLenght / 2 * 0.9 - pos.x }
+      if (pos.z + z > this._ctx.roomDepth / 2 * 0.9) { z = this._ctx.roomDepth / 2 * 0.9 - pos.z }
+      if (pos.z + z < -this._ctx.roomDepth / 2 * 0.9) { z = - this._ctx.roomLenght / 2 * 0.9 - pos.z }
       this._ctx.camera.add(
         "pos",
         {
-          x: Math.sin(this._ctx.camera.get("angle", true).y) * this._ctx.speed,
+          x: x,
           y: 0,
-          z: Math.cos(this._ctx.camera.get("angle", true).y) * this._ctx.speed
+          z: z
         },
         true
       )
     }
+  }
 
-
+  updateSky (time = 0) {
+    const angle = 2 * Math.PI * time - 0.5
+    const horizon = this._skyDistance * Math.cos(angle)
+    const altitude = this._skyDistance * Math.sin(angle)
+    /* const horizon = time * this._skyDistance * 2 - this._skyDistance
+    const altitude = Math.sqrt(this._skyDistance ** 2 - horizon ** 2) */
+    this._sky.material.uniforms.sunPosition.value = {x: horizon, y: altitude, z: -500}
   }
 }
