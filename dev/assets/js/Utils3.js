@@ -7,8 +7,8 @@ const Utils3 = (function () {
    */
   u.Camera = class {
     constructor (scene, angle, width, height) {
-      this._camera = new THREE.PerspectiveCamera(angle, width, height)
-      this._camera.position.z = 10
+      this._camera = new THREE.PerspectiveCamera(angle, width / height)
+      this._camera.position.z = 3
       this._camera.lookAt(new THREE.Vector3())
 
       scene.add(this._camera)
@@ -30,13 +30,13 @@ const Utils3 = (function () {
   u.Renderer = class {
     constructor ({
       canvas,
-      height,
       width,
+      height,
       scene,
       camera,
       antialias = false,
       shadow = false,
-      color = "hsl(0, 25%, 25%)"
+      color = "#000000"
     } = {}) {
 
       this._renderer = new THREE.WebGLRenderer({

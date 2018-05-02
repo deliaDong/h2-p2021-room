@@ -41,7 +41,6 @@ class Room {
       scene: this._ctx.scene,
       camera: this._ctx.camera
     })
-    
   }
   
   // Init everything
@@ -53,11 +52,28 @@ class Room {
   }
   
   torus () {
-    const geometry = new THREE.TorusKnotGeometry(3, 3, 100, 16);
-    const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    this._torusKnot = new THREE.Mesh(geometry, material);
+    this._mesh = new THREE.Mesh(
+      new THREE.TorusKnotGeometry(.7, .2, 100, 8),
+      new THREE.MeshPhongMaterial({ color: 0xff0000, flatShading: true})
+    )
+    this._ctx.scene.add(this._mesh)
+    
+    this._floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(10, 10, 1, 1),
+      new THREE.MeshPhongMaterial({ color: 0x00ff00})
+    )
+    this._floor.rotation.x = -Math.PI * 0.5
+    this._floor.position.y = -1.2
+    this._ctx.scene.add(this._floor)
+    
+    const ambientLight = new THREE.AmbientLight(0x111111)
+    this._ctx.scene.add(ambientLight)
 
-    this._ctx.scene.add(this._torusKnot);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 0.6)
+    sunLight.position.x = 1
+    sunLight.position.y = 1
+    sunLight.position.z = 1
+    this._ctx.scene.add(sunLight)
   }
   
   // Handle resize
@@ -72,8 +88,7 @@ class Room {
   
   loop () {
     window.requestAnimationFrame(this.loop.bind(this))
-    this._torusKnot.rotation.y += 0.01
-    //this._ctx.renderer.render()
+    this._mesh.rotation.y += 0.01
     this._ctx.composer.render()
   }
 }
