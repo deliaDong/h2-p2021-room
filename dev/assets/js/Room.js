@@ -83,7 +83,7 @@ class Room {
     
     this._ctx.camera.updateSize(this._ctx.w, this._ctx.h)
     this._ctx.renderer.updateSize(this._ctx.w, this._ctx.h)
-    //this._ctx.composer.updateSize(this._ctx.w, this._ctx.h)
+    this._ctx.composer.updateSize(this._ctx.w, this._ctx.h)
   }
   
   loop () {
