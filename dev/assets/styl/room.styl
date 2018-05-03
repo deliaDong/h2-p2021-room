@@ -6,6 +6,16 @@ div.roomApp
   height 100vh
   background #000000
 
+  .clickable
+    transition color .5s ease, transform .5s ease
+    will-change transform
+    padding 20px
+
+    &:hover
+      color color-red
+      transform scale(1.2, 1.2)
+      transition color .3s ease, transform .3s ease
+
   canvas
     width 100vw
     height 100vh
@@ -76,6 +86,11 @@ div.roomApp
 
     &.active
       opacity 0
+
+  .date
+    transition opacity .3s ease 1s
+    &.active
+      transition opacity .3s ease
   
   .desc, .next, .choice
     opacity 0
@@ -94,15 +109,12 @@ div.roomApp
     align-items center
     justify-content space-around
 
+  .desc.active
+    transition opacity .5s ease 1.3s
+
   .next
     text-align center
-
-  .clickable
-    transition color .5s ease, transform .5s ease
-    will-change transform, opacity
-    padding 20px
-
-    &:hover
-      color color-red
-      transform scale(1.2, 1.2)
-      transition color .3s ease, transform .3s ease
+    &.active
+      transition opacity .5s ease 1.6s, color .5s ease, transform .5s ease
+      &.hover
+        transition opacity .5s ease 1.6s, color .3s ease, transform .3s ease

@@ -312,6 +312,7 @@ class Room {
             this._$HUD.classList.add("dark")
           }
         } else if (action == "intro") {
+          console.log("intro")
           this._currentText = text
           this._actionText = action
           this._$textOutput.classList.add("active")
@@ -321,13 +322,9 @@ class Room {
           this._$HUD.classList.add("darker")
           this._$desc.innerText = subText
           
-          setTimeout(() => {
-            this._$date.classList.remove("active")
-            this._$desc.classList.add("active")
-            setTimeout(() => {
-              this._$next.classList.add("active")
-            }, 300);
-          }, 300);
+          this._$date.classList.remove("active")
+          this._$desc.classList.add("active")
+          this._$next.classList.add("active")
         }
       }
     } else if (this._currentText) {
