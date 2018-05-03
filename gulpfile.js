@@ -65,7 +65,7 @@ const path = {
 }
 
 // Folders to export with $ gulp export, will basically copy paste each folder in the array
-folders = ['assets/img']
+folders = ['assets/img', 'assets/audio']
 
 // Server config :
 

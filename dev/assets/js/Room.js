@@ -4,24 +4,55 @@ class Room {
     this._ctx = () => console.info("Not init with this.getContext($output)")
     
     // Try to get output element
-    const $output = document.querySelector(output)
-    if (!$output) { // Handle error
+    this._$output = document.querySelector(output)
+    if (!this._$output) { // Handle error
       console.error(`Room: Can't find ${output}, please check that value`)
     } else { // Success
-      // Create context
-      this.createContext($output)
       // Init everything once context ready
-      this.init()
+      this.load()
     }
   }
 
+  load () {
+    // Load sound
+    this._theme = new Pizzicato.Sound({
+      source: "file",
+      options: {
+        path: "assets/audio/the_stanley_parable_exploring_stanley.mp3",
+        loop: true,
+        attack: 5
+      }
+    }, () => {
+      this._theme.play()
+      this.init()
+    })
+  }
+
+  // Init everything
+  init () {
+    // Create context
+    this.createContext()
+
+    // Events listener
+    this.createListener()
+    
+    // Init skybox
+    this.initSky()
+
+    // Init game room gestion
+    this.roomGestion()
+
+    // Loop
+    this.loop()
+  }
+
   // Create default context
-  createContext ($output) {
+  createContext () {
     this._ctx = {}
 
     // DOM
-    this._ctx.$output = $output
-    this._ctx.$canvas = $output.querySelector("canvas")
+    this._ctx.$output = this._$output
+    this._ctx.$canvas = this._$output.querySelector("canvas")
 
     // GLOBAL
     this._ctx.w = this._ctx.$output.offsetWidth
@@ -44,14 +75,17 @@ class Room {
       scene: this._ctx.scene,
       camera: this._ctx.camera
     })
+
+    this._shader = true
+
     this._ctx.composer = new Utils3.Composer({
       renderer: this._ctx.renderer,
       scene: this._ctx.scene,
       camera: this._ctx.camera,
-      bloom: true,
-      film: true,
-      bleach: true,
-      vignette: true
+      bloom: this._shader,
+      film: this._shader,
+      bleach: this._shader,
+      vignette: this._shader
     })
 
     // CTRL
@@ -73,9 +107,8 @@ class Room {
     this._ctx.roomLenght = 5
     this._ctx.roomDepth = 5
   }
-  
-  // Init everything
-  init () {
+
+  createListener () {
     window.addEventListener("resize", this.sizeUpdate.bind(this))
     // Update mouse
     this._ctx.$output.addEventListener("mousemove", (e) => {
@@ -85,10 +118,16 @@ class Room {
     // Update keyboard
     document.addEventListener("keydown", (e) => { this._ctx.input[e.key] = true })
     document.addEventListener("keyup", (e) => { this._ctx.input[e.key] = false })
-    
-    this.initSky()
-    this.roomGestion()
-    this.loop()
+
+    document.addEventListener("mouseup", () => {
+      this._shader ? this._shader = false : this._shader = true
+      this._ctx.composer.updatePass({
+        bloom: this._shader,
+        film: this._shader,
+        bleach: this._shader,
+        vignette: this._shader
+      })
+    })
   }
   
   // Used for gestion of different room
