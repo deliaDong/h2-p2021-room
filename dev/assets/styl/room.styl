@@ -24,17 +24,26 @@ div.roomApp
     justify-content center
     user-select none
     pointer-events none
+    background rgba(0, 0, 0, .5)
     opacity 0
     transition .5s ease .5s
-    background rgba(0, 0, 0, .5)
 
     &.active
       opacity 1
-      transition .5s ease
+      transition .5s ease .3s
 
   .textOutput
     width 600px
     max-width 90vw
     height auto
     font-size font-big
+    line-height font-bigger
     text-align center
+
+  .choice
+    opacity 0
+    transition .5s ease .5s
+
+    &.active
+      opacity 1
+      transition .5s ease

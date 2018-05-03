@@ -19,10 +19,10 @@ class RoomHospital {
     this.createChairShape()
     this.createBedShape()
     this.createBBedShape()
-    this._ctx.scene.add(this._hospital)
+    this._ctx._scene.add(this._hospital)
 
     // Placing camera
-    this._ctx.camera.set("pos", {x: -0.5, y: 0, z: 2.2}, true)
+    this._ctx._camera.set("pos", {x: -0.5, y: 0, z: 2.2}, true)
   }
   
   // Init all needed geometry
@@ -133,8 +133,15 @@ class RoomHospital {
     this._roof = this.craft("room", "roof", this._roomShape)
     this._roof.rotation.x = Math.PI / 2
     this._roof.position.y = 3
-    this._roofLight = this.craft("roofLight", "roofLight", this._roomShape)
+
+    this._roofLightHolder = new THREE.Object3D()
+    this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light ? Just get to the next room."
+    this._roofLightHolder.textAction = "bubble"
+
+    this._roofLight = this.craft("roofLight", "roofLight", this._roofLightHolder)
     this._roofLight.position.y = 3
+
+    this._roomShape.add(this._roofLightHolder)
     
     // Building walls
     this._wall = []
@@ -165,7 +172,7 @@ class RoomHospital {
 
     // Door
     this._door = new THREE.Object3D()
-    this._door.text = "Go further..."
+    this._door.text = "Go further ?"
     this._door.textAction = "choice"
 
     this._doorPart = []
@@ -237,6 +244,8 @@ class RoomHospital {
 
   createTreeShape () {
     this._treeShape = new THREE.Object3D()
+    this._treeShape.text = "Just a potted tree, what did you expect ? It could have been anything else that i would not have remembered it."
+    this._treeShape.textAction = "bubble"
 
     this._treeStructure = []
     this._treeStructure.push(this.craft("treeP", "treeP", this._treeShape))
@@ -257,6 +266,8 @@ class RoomHospital {
 
   createTVShape () {
     this._TVShape = new THREE.Object3D()
+    this._TVShape.text = "A TV, like in every hospital's bedrooms."
+    this._TVShape.textAction = "bubble"
 
     this._TVStructure = []
     this._TVStructure.push(this.craft("TVStructureF", "TVStructure", this._TVShape))
@@ -390,6 +401,6 @@ class RoomHospital {
   }
 
   remove () {
-    this._ctx.scene.remove(this._hospital)
+    this._ctx._scene.remove(this._hospital)
   }
 }

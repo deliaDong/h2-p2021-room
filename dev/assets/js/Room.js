@@ -1,8 +1,5 @@
 class Room {
-  constructor (output) {
-    // Properties init
-    this._ctx = () => console.info("Not init with this.getContext($output)")
-    
+  constructor (output) {    
     // Try to get output element
     this._$output = document.querySelector(output)
     if (!this._$output) { // Handle error
@@ -46,7 +43,7 @@ class Room {
     this.roomGestion()
 
     this._stats = new Stats()
-    this._ctx.$output.appendChild(this._stats.dom)
+    this._$output.appendChild(this._stats.dom)
 
     // Loop
     this.loop()
@@ -54,46 +51,44 @@ class Room {
 
   // Create default context
   initContext () {
-    this._ctx = {}
-
     // DOM
-    this._ctx.$output = this._$output
-    this._ctx.$canvas = this._ctx.$output.querySelector("canvas")
-    this._ctx.$HUD = this._ctx.$output.querySelector(".HUDContainer")
-    this._ctx.$textOutput = this._ctx.$HUD.querySelector(".textOutput")
+    this._$output = this._$output
+    this._$canvas = this._$output.querySelector("canvas")
+    this._$HUD = this._$output.querySelector(".HUDContainer")
+    this._$textOutput = this._$HUD.querySelector(".textOutput")
 
     // GLOBAL
-    this._ctx.w = this._ctx.$output.offsetWidth
-    this._ctx.h = this._ctx.$output.offsetHeight
+    this._w = this._$output.offsetWidth
+    this._h = this._$output.offsetHeight
 
     // VIEW
-    this._ctx.cAngle = 70 // Camera angle
-    this._ctx.scene = new THREE.Scene()
-    this._ctx.camera = new Utils3.Camera(
-      this._ctx.scene,
-      this._ctx.cAngle,
-      this._ctx.w,
-      this._ctx.h,
+    this._cAngle = 70 // Camera angle
+    this._scene = new THREE.Scene()
+    this._camera = new Utils3.Camera(
+      this._scene,
+      this._cAngle,
+      this._w,
+      this._h,
       1.5
     )
-    this._ctx.renderer = new Utils3.Renderer({
-      canvas: this._ctx.$canvas,
-      width: this._ctx.w,
-      height: this._ctx.h,
-      scene: this._ctx.scene,
-      camera: this._ctx.camera
+    this._renderer = new Utils3.Renderer({
+      canvas: this._$canvas,
+      width: this._w,
+      height: this._h,
+      scene: this._scene,
+      camera: this._camera
     })
     this._shader = true
-    this._ctx.composer = new Utils3.Composer({
-      renderer: this._ctx.renderer,
-      scene: this._ctx.scene,
-      camera: this._ctx.camera,
+    this._composer = new Utils3.Composer({
+      renderer: this._renderer,
+      scene: this._scene,
+      camera: this._camera,
       bloom: this._shader,
       film: this._shader,
       bleach: this._shader,
       vignette: this._shader
     })
-    this._ctx.raycaster = new THREE.Raycaster(
+    this._raycaster = new THREE.Raycaster(
       THREE.Vector3(0, 0, 0),
       THREE.Vector3(0, 0, 0),
       0,
@@ -101,51 +96,51 @@ class Room {
     )
 
     // CTRL
-    this._ctx.cameraYOffset = 0 // Y angle offset
-    this._ctx.mouse = {x: 0, y: 0, clicked: false}
-    this._ctx.mouseUpdate = false
-    this._ctx.input = {}
-    this._ctx.keyboard = {
+    this._cameraYOffset = 0 // Y angle offset
+    this._mouse = {x: 0, y: 0, clicked: false}
+    this._mouseUpdate = false
+    this._input = {}
+    this._keyboard = {
       qwerty: "wasd",
       azerty: "zqsd"
     }
-    this._ctx.keyBoardType = "azerty"
+    this._keyBoardType = "azerty"
     
     // ENV
-    this._ctx.speed = 0.05
-    this._ctx.dayDuration = 120000
-    this._ctx.currentTime = () => {
-      return (Math.sin(Date.now() % this._ctx.dayDuration / this._ctx.dayDuration * Math.PI - Math.PI / 2) + 1) / 2
+    this._speed = 0.05
+    this._dayDuration = 120000
+    this._currentTime = () => {
+      return (Math.sin(Date.now() % this._dayDuration / this._dayDuration * Math.PI - Math.PI / 2) + 1) / 2
     }
-    this._ctx.roomLenght = 5
-    this._ctx.roomDepth = 5
+    this._roomLenght = 5
+    this._roomDepth = 5
 
     // TXT
-    this._ctx.currentText = false
+    this._currentText = false
   }
 
   // Init events listener
   initListener () {
     window.addEventListener("resize", this.updateSize.bind(this))
     // Update mouse
-    this._ctx.$output.addEventListener("mousemove", (e) => {
-      this._ctx.mouse.x = Math.round((e.clientX / this._ctx.w - 0.5) * 100) / 100
-      this._ctx.mouse.y = Math.round((e.clientY / this._ctx.h - 0.5) * 100) / -100
-      this._ctx.mouseUpdate = true
+    this._$output.addEventListener("mousemove", (e) => {
+      this._mouse.x = Math.round((e.clientX / this._w - 0.5) * 100) / 100
+      this._mouse.y = Math.round((e.clientY / this._h - 0.5) * 100) / -100
+      this._mouseUpdate = true
     })
     // Update keyboard
-    document.addEventListener("keydown", (e) => { this._ctx.input[e.key] = true })
-    document.addEventListener("keyup", (e) => { this._ctx.input[e.key] = false })
+    document.addEventListener("keydown", (e) => { this._input[e.key] = true })
+    document.addEventListener("keyup", (e) => { this._input[e.key] = false })
 
     // Mouse
-    this._ctx.$output.addEventListener("mousedown", () => {
-      this._ctx.mouse.clicked = true
-      this._ctx.mouseUpdate = true
+    this._$output.addEventListener("mousedown", () => {
+      this._mouse.clicked = true
+      this._mouseUpdate = true
     })
-    this._ctx.$output.addEventListener("mouseup", () => {
-      this._ctx.mouse.clicked = false
+    this._$output.addEventListener("mouseup", () => {
+      this._mouse.clicked = false
       //this._shader ? this._shader = false : this._shader = true
-      this._ctx.composer.updatePass({
+      this._composer.updatePass({
         bloom: this._shader,
         film: this._shader,
         bleach: this._shader,
@@ -169,7 +164,7 @@ class Room {
     
     this.updateSky(0)
 
-    this._ctx.scene.add(this._sky)
+    this._scene.add(this._sky)
   }
 
   // Init cursor using Cursor.js
@@ -215,17 +210,17 @@ class Room {
 
   // Used for gestion of different room
   roomGestion () {
-    this._currentRoom = new RoomHospital(this._ctx)
+    this._currentRoom = new RoomHospital(this)
   }
 
   // Object mouse selector to check intersection
   objectSelector () {
-    this._ctx.raycaster.setFromCamera(
-      {x: this._ctx.mouse.x * 2, y: this._ctx.mouse.y * 2},
-      this._ctx.camera.get()
+    this._raycaster.setFromCamera(
+      {x: this._mouse.x * 2, y: this._mouse.y * 2},
+      this._camera.get()
     )
 
-    const intersections = this._ctx.raycaster.intersectObjects([this._ctx.scene], true)
+    const intersections = this._raycaster.intersectObjects([this._scene], true)
 
     if (
       intersections.length > 0 &&
@@ -234,47 +229,50 @@ class Room {
     ) {
       const action = intersections[0].object.parent.textAction
       const text = intersections[0].object.parent.text
-      if (this._ctx.mouse.clicked) {
+      if (this._mouse.clicked) {
         this.updateText(action, text)
       }
-      this._ctx.composer.outlineSelect([intersections[0].object.parent])
+      this._composer.outlineSelect([intersections[0].object.parent])
     } else {
       this.updateText()
-      this._ctx.composer.outlineSelect()
+      this._composer.outlineSelect()
     }
   }
 
   // Update text
   updateText (action = false, text = "") {
     if (action) {
-      if (this._ctx.currentText != text) {
-        this._ctx.currentText = text
+      if (this._currentText != text) {
+        this._currentText = text
+        this._$textOutput.innerText = this._currentText
+        this._$HUD.classList.add("active")
         
-        this._ctx.$textOutput.innerText = this._ctx.currentText
-        this._ctx.$HUD.classList.add("active")
+        if (action == "choice") {
+          this._$choice.classList.add("actice")
+        }
       }
-    } else if (this._ctx.currentText) {
-      this._ctx.currentText = false
-      this._ctx.$HUD.classList.remove("active")
+    } else if (this._currentText) {
+      this._currentText = false
+      this._$HUD.classList.remove("active")
     }
   }
   
   // Handle resize
   updateSize () {
-    this._ctx.w = this._ctx.$output.offsetWidth
-    this._ctx.h = this._ctx.$output.offsetHeight
+    this._w = this._$output.offsetWidth
+    this._h = this._$output.offsetHeight
     
-    this._ctx.camera.updateSize(this._ctx.w, this._ctx.h)
-    this._ctx.renderer.updateSize(this._ctx.w, this._ctx.h)
-    this._ctx.composer.updateSize(this._ctx.w, this._ctx.h)
+    this._camera.updateSize(this._w, this._h)
+    this._renderer.updateSize(this._w, this._h)
+    this._composer.updateSize(this._w, this._h)
   }
   
   // Main loop
   loop () {
     window.requestAnimationFrame(this.loop.bind(this))
     this.updateCamera()
-    this.updateSky(this._ctx.currentTime())
-    this._ctx.composer.render()
+    this.updateSky(this._currentTime())
+    this._composer.render()
     this._stats.update() // Stats
   }
   
@@ -282,12 +280,12 @@ class Room {
   updateCamera () {
     
     // When mouse have moved
-    if (this._ctx.mouseUpdate) {
+    if (this._mouseUpdate) {
       // Camera first person view
-      this._ctx.camera.set(
+      this._camera.set(
         "angle",
         {
-          x: Math.round(this._ctx.mouse.y * Math.PI / 2 * 1000) / 1000,
+          x: Math.round(this._mouse.y * Math.PI / 2 * 1000) / 1000,
           y: 0,
           z: 0
         }
@@ -295,57 +293,57 @@ class Room {
       
       this.objectSelector()
 
-      this._ctx.mouseUpdate = false
+      this._mouseUpdate = false
     }
 
-    this._ctx.camera.set(
+    this._camera.set(
       "angle",
       {
         x: 0,
-        y: Math.round((this._ctx.cameraYOffset - this._ctx.mouse.x * Math.PI / 2) * 1000) / 1000,
+        y: Math.round((this._cameraYOffset - this._mouse.x * Math.PI / 2) * 1000) / 1000,
         z: 0
       },
       true
     )
     
-    if (this._ctx.mouse.x > 0.45) {
-      this._ctx.cameraYOffset -= Math.PI / 90
+    if (this._mouse.x > 0.45) {
+      this._cameraYOffset -= Math.PI / 90
     }
     
-    if (this._ctx.mouse.x < -0.45) {
-      this._ctx.cameraYOffset += Math.PI / 90
+    if (this._mouse.x < -0.45) {
+      this._cameraYOffset += Math.PI / 90
     }
     
     // Movement
     let x = 0
     let z = 0
-    if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][1]]) { // if left
-      x -= Math.sin(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
-      z -= Math.cos(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
+    if (this._input[this._keyboard[this._keyBoardType][1]]) { // if left
+      x -= Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
+      z -= Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
     
-    if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][3]]) { // if right
-      x += Math.sin(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
-      z += Math.cos(this._ctx.camera.get("angle", true).y + Math.PI / 2) * this._ctx.speed
+    if (this._input[this._keyboard[this._keyBoardType][3]]) { // if right
+      x += Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
+      z += Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
     
-    if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][0]]) { // if up
-      x -= Math.sin(this._ctx.camera.get("angle", true).y) * this._ctx.speed
-      z -= Math.cos(this._ctx.camera.get("angle", true).y) * this._ctx.speed
+    if (this._input[this._keyboard[this._keyBoardType][0]]) { // if up
+      x -= Math.sin(this._camera.get("angle", true).y) * this._speed
+      z -= Math.cos(this._camera.get("angle", true).y) * this._speed
     }
     
-    if (this._ctx.input[this._ctx.keyboard[this._ctx.keyBoardType][2]]) { // if down
-      x += Math.sin(this._ctx.camera.get("angle", true).y) * this._ctx.speed
-      z += Math.cos(this._ctx.camera.get("angle", true).y) * this._ctx.speed
+    if (this._input[this._keyboard[this._keyBoardType][2]]) { // if down
+      x += Math.sin(this._camera.get("angle", true).y) * this._speed
+      z += Math.cos(this._camera.get("angle", true).y) * this._speed
     }
 
     if (x != 0 || z != 0) {
-      const pos = this._ctx.camera.get("pos", true)
-      if (pos.x + x > this._ctx.roomLenght / 2 * 0.9) { x = this._ctx.roomLenght / 2 * 0.9 - pos.x }
-      if (pos.x + x < -this._ctx.roomLenght / 2 * 0.9) { x = - this._ctx.roomLenght / 2 * 0.9 - pos.x }
-      if (pos.z + z > this._ctx.roomDepth / 2 * 0.9) { z = this._ctx.roomDepth / 2 * 0.9 - pos.z }
-      if (pos.z + z < -this._ctx.roomDepth / 2 * 0.9) { z = - this._ctx.roomLenght / 2 * 0.9 - pos.z }
-      this._ctx.camera.add(
+      const pos = this._camera.get("pos", true)
+      if (pos.x + x > this._roomLenght / 2 * 0.9) { x = this._roomLenght / 2 * 0.9 - pos.x }
+      if (pos.x + x < -this._roomLenght / 2 * 0.9) { x = - this._roomLenght / 2 * 0.9 - pos.x }
+      if (pos.z + z > this._roomDepth / 2 * 0.9) { z = this._roomDepth / 2 * 0.9 - pos.z }
+      if (pos.z + z < -this._roomDepth / 2 * 0.9) { z = - this._roomLenght / 2 * 0.9 - pos.z }
+      this._camera.add(
         "pos",
         {
           x: x,
