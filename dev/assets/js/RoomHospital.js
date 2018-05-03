@@ -14,9 +14,11 @@ class RoomHospital {
     
     this.createLight()
     this.createRoomShape()
+    this.createTreeShape()
     this.createTVShape()
     this.createChairShape()
     this.createBedShape()
+    this.createBBedShape()
     this._ctx.scene.add(this._hospital)
 
     // Placing camera
@@ -49,6 +51,10 @@ class RoomHospital {
     this._g.bedStructureM1 = new THREE.BoxGeometry(1.6, 0.3, 1.2)
     this._g.bedStructureM2 = new THREE.BoxGeometry(0.8, 0.3, 1.2)
     this._g.bedStructureP = new THREE.BoxGeometry(0.6, 0.1, 1)
+    this._g.bedStructureH1 = new THREE.BoxGeometry(0.1, 2.3, 0.1)
+    this._g.bedStructureH2 = new THREE.BoxGeometry(0.8, 0.05, 0.05)
+    this._g.bedBlood1 = new THREE.BoxGeometry(0.2, 0.3, 0.025)
+    this._g.bedBlood2 = new THREE.PlaneGeometry(0.18, 0.28)
 
     // Chair
     this._g.chairStructureP1 = new THREE.BoxGeometry(0.05, 0.8, 0.05)
@@ -62,6 +68,23 @@ class RoomHospital {
     this._g.TVStructureF = new THREE.BoxGeometry(0.1, 0.55, 0.9)
     this._g.TVStructureS = new THREE.BoxGeometry(0.05, 0.5, 0.85)
     this._g.TVStructureH = new THREE.BoxGeometry(0.5, 0.2, 0.2)
+
+    // Tree
+    this._g.treeP = new THREE.ConeGeometry(0.3, 2, 6)
+    this._g.treeB = new THREE.BoxGeometry(0.1, 1, 0.1)
+    this._g.treeL1 = new THREE.SphereGeometry(0.3, 12, 12)
+    this._g.treeL2 = new THREE.SphereGeometry(0.2, 8, 8)
+    
+    // Baby bed
+    this._g.bBedW = new THREE.BoxGeometry(0.8, 0.1, 0.1)
+    this._g.bBedB1 = new THREE.BoxGeometry(0.8, 0.05, 1.2)
+    this._g.bBedB2 = new THREE.BoxGeometry(0.8, 0.05, 0.9)
+    this._g.bBedB3 = new THREE.BoxGeometry(0.8, 0.05, 1.1)
+    this._g.bBedS1 = new THREE.BoxGeometry(0.05, 0.3, 1.1)
+    this._g.bBedS2 = new THREE.BoxGeometry(0.8, 0.3, 0.05)
+    this._g.bBedM = new THREE.BoxGeometry(0.8, 0.1, 1.1)
+    this._g.bBedP = new THREE.BoxGeometry(0.6, 0.05, 0.2)
+
   }
   
   // Init all needed material
@@ -82,6 +105,7 @@ class RoomHospital {
     this._m.bedStructure = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0.2, roughness: 0.5})
     this._m.bedMatress = new THREE.MeshStandardMaterial({color: 0xa3d8dc, flatShading: true, metalness: 0, roughness: 0.7})
     this._m.bedPillow = new THREE.MeshStandardMaterial({color: 0xcecece, flatShading: true, metalness: 0, roughness: 0.7})
+    this._m.bedBlood = new THREE.MeshStandardMaterial({color: 0xfd0e1e, flatShading: true, metalness: 0.1, roughness: 0.7})
 
     // Chair
     this._m.chairStructure = new THREE.MeshStandardMaterial({color: 0xd7b27f, flatShading: true, metalness: 0, roughness: 0.5})
@@ -90,6 +114,14 @@ class RoomHospital {
     // TV
     this._m.TVStructure = new THREE.MeshStandardMaterial({color: 0x494949, flatShading: true, metalness: 0.5, roughness: 0.5})
     this._m.TVScreen = new THREE.MeshStandardMaterial({color: 0x898989, flatShading: true, metalness: 0.1, roughness: 0.5})
+    
+    // Tree
+    this._m.treeP = new THREE.MeshStandardMaterial({color: 0xc6020b, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.treeB = new THREE.MeshStandardMaterial({color: 0x623410, flatShading: true, metalness: 0, roughness: 1})
+    this._m.treeL = new THREE.MeshStandardMaterial({color: 0x56c344, flatShading: true, metalness: 0, roughness: 1})
+
+    // Baby bed
+    
   }
 
   // Create global room shape
@@ -133,6 +165,9 @@ class RoomHospital {
 
     // Door
     this._door = new THREE.Object3D()
+    this._door.text = "Go further..."
+    this._door.textAction = "choice"
+
     this._doorPart = []
     this._doorPart.push(this.craft("door", "door1", this._door))
     this._doorPart[this._doorPart.length - 1].position.set(0, 1.25, 0)
@@ -156,7 +191,70 @@ class RoomHospital {
     this._hospital.add(this._shapeShape)
   }
 
-  // Shape template
+  createBBedShape () {
+    this._bBedShape = new THREE.Object3D()
+    this._bBedShape.text = "I was sleeping here after i was born..."
+    this._bBedShape.textAction = "bubble"
+
+    // Holder
+    this._bBedStructure = []
+    this._bBedStructure.push(this.craft("bBedW", "bedWheel", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.05, 0.5)
+    this._bBedStructure.push(this.craft("bBedW", "bedWheel", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.05, -0.5)
+    this._bBedStructure.push(this.craft("bBedB1", "bedStructure", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.125, 0)
+    this._bBedStructure.push(this.craft("bBedB2", "bedStructure", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.5, -0.3)
+    this._bBedStructure[this._bBedStructure.length - 1].rotation.x = -Math.PI / 3
+    this._bBedStructure.push(this.craft("bBedB3", "bedStructure", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.9, 0)
+    
+    // Glass border
+    this._bBedStructure.push(this.craft("bBedS1", "glass", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0.4, 1.025, 0)
+    this._bBedStructure[this._bBedStructure.length - 1].rotation.z = -Math.PI / 16
+    this._bBedStructure.push(this.craft("bBedS1", "glass", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(-0.4, 1.025, 0)
+    this._bBedStructure[this._bBedStructure.length - 1].rotation.z = Math.PI / 16
+    this._bBedStructure.push(this.craft("bBedS2", "glass", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 1.025, 0.55)
+    this._bBedStructure[this._bBedStructure.length - 1].rotation.x = Math.PI / 16
+    this._bBedStructure.push(this.craft("bBedS2", "glass", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 1.025, -0.55)
+    this._bBedStructure[this._bBedStructure.length - 1].rotation.x = -Math.PI / 16
+
+    // Matress
+    this._bBedStructure.push(this.craft("bBedM", "bedMatress", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.975, 0)
+    this._bBedStructure.push(this.craft("bBedP", "bedPillow", this._bBedShape))
+    this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 1.025, -0.4)
+
+    this._bBedShape.position.set(-2, 0, -0.7)
+
+    this._hospital.add(this._bBedShape)
+  }
+
+  createTreeShape () {
+    this._treeShape = new THREE.Object3D()
+
+    this._treeStructure = []
+    this._treeStructure.push(this.craft("treeP", "treeP", this._treeShape))
+    this._treeStructure[this._treeStructure.length - 1].rotation.x = Math.PI
+    this._treeStructure[this._treeStructure.length - 1].position.set(0, -0.5, 0)
+    this._treeStructure.push(this.craft("treeB", "treeB", this._treeShape))
+    this._treeStructure[this._treeStructure.length - 1].rotation.set(-Math.PI / 32, Math.PI / 8, Math.PI / 48)
+    this._treeStructure[this._treeStructure.length - 1].position.set(-0.05, 1, -0.05)
+    this._treeStructure.push(this.craft("treeL1", "treeL", this._treeShape))
+    this._treeStructure[this._treeStructure.length - 1].position.set(0, 0.9, 0)
+    this._treeStructure.push(this.craft("treeL2", "treeL", this._treeShape))
+    this._treeStructure[this._treeStructure.length - 1].position.set(-0.1, 1.5, -0.1)
+
+    this._treeShape.position.set(-2, 0, 2)
+
+    this._hospital.add(this._treeShape)
+  }
+
   createTVShape () {
     this._TVShape = new THREE.Object3D()
 
@@ -178,6 +276,8 @@ class RoomHospital {
 
   createChairShape () {
     this._chairShape = new THREE.Object3D()
+    this._chairShape.text = "Dad was watching over me and my mom."
+    this._chairShape.textAction = "bubble"
 
     this._chairStructure = []
     this._chairStructure.push(this.craft("chairStructureP2", "chairStructure", this._chairShape))
@@ -208,13 +308,17 @@ class RoomHospital {
 
   createBedShape () {
     this._bedShape = new THREE.Object3D()
+    this._bedShape.text = "Mom was having some rest here after my birth."
+    this._bedShape.textAction = "bubble"
 
+    // Wheel
     this._bedWheels = []
     this._bedWheels.push(this.craft("bedWheel", "bedWheel", this._bedShape))
     this._bedWheels[this._bedWheels.length - 1].position.set(0.9, 0, 0)
     this._bedWheels.push(this.craft("bedWheel", "bedWheel", this._bedShape))
     this._bedWheels[this._bedWheels.length - 1].position.set(-0.9, 0, 0)
 
+    // Holder
     this._bedStructure = []
     this._bedStructure.push(this.craft("bedStructureB", "bedStructure", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.15, 0)
@@ -223,6 +327,7 @@ class RoomHospital {
     this._bedStructure.push(this.craft("bedStructureR", "bedStructure", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(1.15, 0.65, 0)
 
+    // Bottom part
     this._bedStructure.push(this.craft("bedStructureS1", "bedStructure", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(-0.3, 0.60, 0.65)
     this._bedStructure.push(this.craft("bedStructureS1", "bedStructure", this._bedShape))
@@ -230,6 +335,7 @@ class RoomHospital {
     this._bedStructure.push(this.craft("bedStructureM1", "bedMatress", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(-0.3, 0.55, 0)
 
+    // Top part
     this._bedStructure.push(this.craft("bedStructureS2", "bedStructure", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0.7, 0.9, 0.65)
     this._bedStructure[this._bedStructure.length - 1].rotation.z = Math.PI / 5
@@ -242,6 +348,20 @@ class RoomHospital {
     this._bedStructure.push(this.craft("bedStructureP", "bedPillow", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0.65, 0.925, 0)
     this._bedStructure[this._bedStructure.length - 1].rotation.z = Math.PI / 5
+    
+    this._bedStructure.push(this.craft("bedStructureH1", "bedStructure", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0.5, 1.05, -1)
+    this._bedStructure.push(this.craft("bedStructureH2", "bedStructure", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0.5, 2.075, -1)
+    this._bedStructure.push(this.craft("bedStructureH2", "bedStructure", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0.5, 2.075, -1)
+    this._bedStructure[this._bedStructure.length - 1].rotation.y = Math.PI / 2
+    this._bedStructure.push(this.craft("bedBlood1", "bedPillow", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0.15, 1.885, -1)
+    this._bedStructure[this._bedStructure.length - 1].rotation.y = -Math.PI / 8
+    this._bedStructure.push(this.craft("bedBlood2", "bedBlood", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0.145, 1.885, -0.985)
+    this._bedStructure[this._bedStructure.length - 1].rotation.y = -Math.PI / 8
 
     this._bedShape.position.set(1.2, 0.1, -1)
 

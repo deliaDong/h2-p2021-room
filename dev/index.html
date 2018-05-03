@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Main - edhbr</title>
+  <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
   <!--build:css assets/css/styles.min.css-->
   <link rel="stylesheet" href="assets/css/reset.css" /> 
   <link rel="stylesheet" href="assets/css/main.css" /> 
@@ -13,10 +14,15 @@
 <body>
   <div class="roomApp">
     <canvas>Your browser doesn't support canvas D:</canvas>
+    <div class="HUDContainer">
+      <div class="textOutput"></div>
+    </div>
   </div>
   <!--build:js assets/js/global.js -->
+  <script type="text/javascript" src="assets/js/vendor/modernizr.js"></script>
   <script type="text/javascript" src="assets/js/vendor/pizzicato.min.js"></script>
   <script type="text/javascript" src="assets/js/vendor/three.min.js"></script>
+  <script type="text/javascript" src="assets/js/vendor/stats.min.js"></script>
   <script type="text/javascript" src="assets/js/vendor/shaders/BleachBypassShader.js"></script>
   <script type="text/javascript" src="assets/js/vendor/shaders/ConvolutionShader.js"></script>
   <script type="text/javascript" src="assets/js/vendor/shaders/DotScreenShader.js"></script>
@@ -32,8 +38,10 @@
   <script type="text/javascript" src="assets/js/vendor/postprocessing/CopyShader.js"></script>
   <script type="text/javascript" src="assets/js/vendor/postprocessing/DotScreenPass.js"></script>
   <script type="text/javascript" src="assets/js/vendor/postprocessing/FilmPass.js"></script>
+  <script type="text/javascript" src="assets/js/vendor/postprocessing/OutlinePass.js"></script>
   <script type="text/javascript" src="assets/js/vendor/postprocessing/RenderPass.js"></script>
   <script type="text/javascript" src="assets/js/vendor/postprocessing/ShaderPass.js"></script>
+  <script type="text/javascript" src="assets/js/Cursor.js"></script>
   <script type="text/javascript" src="assets/js/Utils3.js"></script>
   <script type="text/javascript" src="assets/js/RoomHospital.js"></script>
   <script type="text/javascript" src="assets/js/Room.js"></script>

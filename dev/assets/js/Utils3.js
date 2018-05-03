@@ -123,7 +123,7 @@ const Utils3 = (function () {
       })
 
       this._renderer.setClearColor(new THREE.Color(color))
-      this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
       this._renderer.setSize(width, height)
       this._renderer.shadowMap.enabled = shadow
 
@@ -157,7 +157,8 @@ const Utils3 = (function () {
       film = false,
       bleach = false,
       dotScreen = false,
-      vignette = false
+      vignette = false,
+      outline = false
     } = {}) {
       this._composer = () => console.info("Not init with this.updatePass()")
       
@@ -171,7 +172,8 @@ const Utils3 = (function () {
         film: film,
         bleach: bleach,
         dotScreen: dotScreen,
-        vignette: vignette
+        vignette: vignette,
+        outline: outline
       }
       
       // Basic render
@@ -198,7 +200,14 @@ const Utils3 = (function () {
 
       // Dot screen effect
       this._dotScreenPass = new THREE.DotScreenPass(new THREE.Vector2(0, 0), 0.5, 0.8)
-      //this._dotScreenPass.uniforms['scale'].value = 2
+
+      // Outline Pass
+      this._outlinePass = new THREE.OutlinePass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        this._scene,
+        this._camera
+      )
+      this._outlinePass.pulsePeriod = 5
 
       // CopyPass
       this._copyPass = new THREE.ShaderPass(THREE.CopyShader)
@@ -214,7 +223,8 @@ const Utils3 = (function () {
       film,
       bleach,
       dotScreen,
-      vignette
+      vignette,
+      outline
     } = {}) {
       if (bloom != undefined) { this._config.bloom = bloom}
       if (blur != undefined) { this._config.blur = blur}
@@ -222,6 +232,7 @@ const Utils3 = (function () {
       if (bleach != undefined) { this._config.bleach = bleach}
       if (dotScreen != undefined) { this._config.dotScreen = dotScreen}
       if (vignette != undefined) { this._config.vignette = vignette}
+      if (outline != undefined) { this._config.outline = outline}
 
       this._composer = new THREE.EffectComposer(this._renderer)
       this._composer.addPass(this._renderPass)
@@ -236,12 +247,25 @@ const Utils3 = (function () {
       if (this._config.bleach) { this._composer.addPass(this._bleachPass) }
       if (this._config.dotScreen) { this._composer.addPass(this._dotScreenPass) }
       if (this._config.vignette) { this._composer.addPass(this._vignettePass) }
+      if (this._config.outline) { this._composer.addPass(this._outlinePass) }
 
       this._composer.addPass(this._copyPass)
     }
 
     updateSize (width, height) {
       this._composer.setSize(width, height)
+      // Updating vector bases pass
+      this._outlinePass = new THREE.OutlinePass(
+        new THREE.Vector2(width, height),
+        this._scene,
+        this._camera
+      )
+      this._outlinePass.pulsePeriod = 5
+      this.updatePass()
+    }
+
+    outlineSelect (array = []) {
+      this._outlinePass.selectedObjects = array
     }
 
     render () {

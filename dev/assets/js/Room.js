@@ -24,35 +24,43 @@ class Room {
       }
     }, () => {
       this._theme.play()
-      this.init()
     })
+    this.init() // Dont wait if outside sound
   }
 
   // Init everything
   init () {
     // Create context
-    this.createContext()
+    this.initContext()
 
     // Events listener
-    this.createListener()
+    this.initListener()
     
     // Init skybox
     this.initSky()
 
+    // Init curosr
+    this.initCursor()
+
     // Init game room gestion
     this.roomGestion()
+
+    this._stats = new Stats()
+    this._ctx.$output.appendChild(this._stats.dom)
 
     // Loop
     this.loop()
   }
 
   // Create default context
-  createContext () {
+  initContext () {
     this._ctx = {}
 
     // DOM
     this._ctx.$output = this._$output
-    this._ctx.$canvas = this._$output.querySelector("canvas")
+    this._ctx.$canvas = this._ctx.$output.querySelector("canvas")
+    this._ctx.$HUD = this._ctx.$output.querySelector(".HUDContainer")
+    this._ctx.$textOutput = this._ctx.$HUD.querySelector(".textOutput")
 
     // GLOBAL
     this._ctx.w = this._ctx.$output.offsetWidth
@@ -75,9 +83,7 @@ class Room {
       scene: this._ctx.scene,
       camera: this._ctx.camera
     })
-
     this._shader = true
-
     this._ctx.composer = new Utils3.Composer({
       renderer: this._ctx.renderer,
       scene: this._ctx.scene,
@@ -87,10 +93,17 @@ class Room {
       bleach: this._shader,
       vignette: this._shader
     })
+    this._ctx.raycaster = new THREE.Raycaster(
+      THREE.Vector3(0, 0, 0),
+      THREE.Vector3(0, 0, 0),
+      0,
+      2
+    )
 
     // CTRL
     this._ctx.cameraYOffset = 0 // Y angle offset
-    this._ctx.mouse = {x: 0, y: 0}
+    this._ctx.mouse = {x: 0, y: 0, clicked: false}
+    this._ctx.mouseUpdate = false
     this._ctx.input = {}
     this._ctx.keyboard = {
       qwerty: "wasd",
@@ -106,35 +119,42 @@ class Room {
     }
     this._ctx.roomLenght = 5
     this._ctx.roomDepth = 5
+
+    // TXT
+    this._ctx.currentText = false
   }
 
-  createListener () {
-    window.addEventListener("resize", this.sizeUpdate.bind(this))
+  // Init events listener
+  initListener () {
+    window.addEventListener("resize", this.updateSize.bind(this))
     // Update mouse
     this._ctx.$output.addEventListener("mousemove", (e) => {
       this._ctx.mouse.x = Math.round((e.clientX / this._ctx.w - 0.5) * 100) / 100
       this._ctx.mouse.y = Math.round((e.clientY / this._ctx.h - 0.5) * 100) / -100
+      this._ctx.mouseUpdate = true
     })
     // Update keyboard
     document.addEventListener("keydown", (e) => { this._ctx.input[e.key] = true })
     document.addEventListener("keyup", (e) => { this._ctx.input[e.key] = false })
 
-    document.addEventListener("mouseup", () => {
-      this._shader ? this._shader = false : this._shader = true
+    // Mouse
+    this._ctx.$output.addEventListener("mousedown", () => {
+      this._ctx.mouse.clicked = true
+      this._ctx.mouseUpdate = true
+    })
+    this._ctx.$output.addEventListener("mouseup", () => {
+      this._ctx.mouse.clicked = false
+      //this._shader ? this._shader = false : this._shader = true
       this._ctx.composer.updatePass({
         bloom: this._shader,
         film: this._shader,
         bleach: this._shader,
-        vignette: this._shader
+        vignette: this._shader,
+        outline: this._shader
       })
     })
   }
   
-  // Used for gestion of different room
-  roomGestion () {
-    this._currentRoom = new RoomHospital(this._ctx)
-  }
-
   // Init skybox
   initSky () {
     this._sky = new THREE.Sky()
@@ -152,9 +172,95 @@ class Room {
     this._ctx.scene.add(this._sky)
   }
 
+  // Init cursor using Cursor.js
+  initCursor () {
+    new Cursor ([
+      {
+        el : "div",
+        css : `
+          width: 8px;
+          height: 8px;
+          margin-left: -4px;
+          margin-top: -4px;
+          border-radius: 50%;
+          background: #dedede;
+          transition: background .9s ease;
+        `,
+        activeCSS : `
+          background: #ce4444;
+          transition: background .3s ease;
+        `,
+        easing : 1
+      },
+      {
+        el : "div",
+        css : `
+          width: 16px;
+          height: 16px;
+          margin-left: -8px;
+          margin-top: -8px;
+          border-radius: 50%;
+          border: 1px solid #dedede;
+          opacity: .6;
+          transition: opacity .9s ease;
+        `,
+        activeCSS : `
+          opacity: .2;
+          transition: opacity .3s ease;
+        `,
+        easing : 0.8
+      }
+    ])
+  }
+
+  // Used for gestion of different room
+  roomGestion () {
+    this._currentRoom = new RoomHospital(this._ctx)
+  }
+
+  // Object mouse selector to check intersection
+  objectSelector () {
+    this._ctx.raycaster.setFromCamera(
+      {x: this._ctx.mouse.x * 2, y: this._ctx.mouse.y * 2},
+      this._ctx.camera.get()
+    )
+
+    const intersections = this._ctx.raycaster.intersectObjects([this._ctx.scene], true)
+
+    if (
+      intersections.length > 0 &&
+      intersections[0].object.parent &&
+      intersections[0].object.parent.text != undefined
+    ) {
+      const action = intersections[0].object.parent.textAction
+      const text = intersections[0].object.parent.text
+      if (this._ctx.mouse.clicked) {
+        this.updateText(action, text)
+      }
+      this._ctx.composer.outlineSelect([intersections[0].object.parent])
+    } else {
+      this.updateText()
+      this._ctx.composer.outlineSelect()
+    }
+  }
+
+  // Update text
+  updateText (action = false, text = "") {
+    if (action) {
+      if (this._ctx.currentText != text) {
+        this._ctx.currentText = text
+        
+        this._ctx.$textOutput.innerText = this._ctx.currentText
+        this._ctx.$HUD.classList.add("active")
+      }
+    } else if (this._ctx.currentText) {
+      this._ctx.currentText = false
+      this._ctx.$HUD.classList.remove("active")
+    }
+  }
   
   // Handle resize
-  sizeUpdate () {
+  updateSize () {
     this._ctx.w = this._ctx.$output.offsetWidth
     this._ctx.h = this._ctx.$output.offsetHeight
     
@@ -169,21 +275,29 @@ class Room {
     this.updateCamera()
     this.updateSky(this._ctx.currentTime())
     this._ctx.composer.render()
+    this._stats.update() // Stats
   }
   
   // Update camera according to context and user input
   updateCamera () {
     
-    // Camera first person view
-    this._ctx.camera.set(
-      "angle",
-      {
-        x: Math.round(this._ctx.mouse.y * Math.PI / 2 * 1000) / 1000,
-        y: 0,
-        z: 0
-      }
-    )
-    
+    // When mouse have moved
+    if (this._ctx.mouseUpdate) {
+      // Camera first person view
+      this._ctx.camera.set(
+        "angle",
+        {
+          x: Math.round(this._ctx.mouse.y * Math.PI / 2 * 1000) / 1000,
+          y: 0,
+          z: 0
+        }
+      )
+      
+      this.objectSelector()
+
+      this._ctx.mouseUpdate = false
+    }
+
     this._ctx.camera.set(
       "angle",
       {
