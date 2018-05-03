@@ -39,8 +39,8 @@ class Room {
     // Init curosr
     this.initCursor()
 
-    // Init game room gestion
-    this.roomGestion()
+    // Go to the first room
+    this.getNextRoom()
 
     this._stats = new Stats()
     this._$output.appendChild(this._stats.dom)
@@ -56,6 +56,12 @@ class Room {
     this._$canvas = this._$output.querySelector("canvas")
     this._$HUD = this._$output.querySelector(".HUDContainer")
     this._$textOutput = this._$HUD.querySelector(".textOutput")
+    this._$choice = this._$HUD.querySelector(".choice")
+    this._$desc = this._$HUD.querySelector(".desc")
+    this._$next = this._$HUD.querySelector(".next")
+    this._$date = this._$HUD.querySelector(".date")
+    this._$positive = this._$choice.querySelector(".yes")
+    this._$negative = this._$choice.querySelector(".no")
 
     // GLOBAL
     this._w = this._$output.offsetWidth
@@ -105,6 +111,25 @@ class Room {
       azerty: "zqsd"
     }
     this._keyBoardType = "azerty"
+
+    // EXP VAR
+    this._months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+    this._getMonths = () => this._months[Math.floor(Math.random() * 12)]
+    this._getDay = () => Math.floor(Math.random() * 28) + 1
+    this._birthYear = Math.floor(Math.random() * 15) + 1985
     
     // ENV
     this._speed = 0.05
@@ -114,9 +139,26 @@ class Room {
     }
     this._roomLenght = 5
     this._roomDepth = 5
+    this._nextRoom = 0
+    this._currentRoom = false
+    this._rooms = [
+      {
+        scene: () => new RoomHospital(this),
+        intro: `Birth - ${this._getMonths()} ${this._getDay()}, ${this._birthYear}`,
+        desc: "Here i was born.",
+        nextRoomIndex: 1
+      },
+      {
+        scene: () => new RoomChild(this),
+        intro: `Childhood - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 8}`,
+        desc: "I was enjoying my childhood.",
+        nextRoomIndex: 0
+      }
+    ]
 
     // TXT
     this._currentText = false
+    this._actionText = false
   }
 
   // Init events listener
@@ -148,8 +190,11 @@ class Room {
         outline: this._shader
       })
     })
+
+    this._$positive.addEventListener("mouseup", () => { this.getNextRoom() })
+    this._$negative.addEventListener("mouseup", () => { this.updateText() })
   }
-  
+
   // Init skybox
   initSky () {
     this._sky = new THREE.Sky()
@@ -207,10 +252,20 @@ class Room {
       }
     ])
   }
-
-  // Used for gestion of different room
-  roomGestion () {
-    this._currentRoom = new RoomHospital(this)
+  
+  // Load next room
+  getNextRoom () {
+    if (this._currentRoom) {
+      this._currentRoom.remove()
+      this._currentRoom = null
+    }
+    const nextRoom = this._rooms[this._nextRoom]
+    this.updateText("intro", nextRoom.intro, nextRoom.desc)
+    this._$next.addEventListener("mouseup", () => {
+      this._currentRoom = nextRoom.scene()
+      this._nextRoom = nextRoom.nextRoomIndex
+      this.updateText()
+    }, {once: true})
   }
 
   // Object mouse selector to check intersection
@@ -234,26 +289,55 @@ class Room {
       }
       this._composer.outlineSelect([intersections[0].object.parent])
     } else {
-      this.updateText()
+      if (this._actionText != "choice" && this._actionText != "intro" && this._actionText) {
+        this.updateText()
+      }
       this._composer.outlineSelect()
     }
   }
 
   // Update text
-  updateText (action = false, text = "") {
+  updateText (action = false, text = "", subText = "") {
     if (action) {
       if (this._currentText != text) {
-        this._currentText = text
-        this._$textOutput.innerText = this._currentText
-        this._$HUD.classList.add("active")
-        
-        if (action == "choice") {
-          this._$choice.classList.add("actice")
+        if (this._actionText != "choice" && action != "intro") {
+          this._currentText = text
+          this._actionText = action
+          this._$textOutput.innerText = this._currentText
+          this._$textOutput.classList.remove("active")
+          this._$HUD.classList.add("active")
+          
+          if (action == "choice") {
+            this._$choice.classList.add("active")
+            this._$HUD.classList.add("dark")
+          }
+        } else if (action == "intro") {
+          this._currentText = text
+          this._actionText = action
+          this._$textOutput.classList.add("active")
+          this._$date.innerText = this._currentText
+          
+          this._$choice.classList.remove("active")
+          this._$HUD.classList.add("darker")
+          this._$desc.innerText = subText
+          
+          setTimeout(() => {
+            this._$date.classList.remove("active")
+            this._$desc.classList.add("active")
+            setTimeout(() => {
+              this._$next.classList.add("active")
+            }, 300);
+          }, 300);
         }
       }
     } else if (this._currentText) {
       this._currentText = false
-      this._$HUD.classList.remove("active")
+      this._actionText = false
+      this._$HUD.classList.remove("active", "dark", "darker")
+      this._$choice.classList.remove("active")
+      this._$desc.classList.remove("active")
+      this._$next.classList.remove("active")
+      this._$date.classList.add("active")
     }
   }
   

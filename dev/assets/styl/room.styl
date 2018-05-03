@@ -4,6 +4,7 @@ div.roomApp
   left 0
   width 100vw
   height 100vh
+  background #000000
 
   canvas
     width 100vw
@@ -22,28 +23,86 @@ div.roomApp
     display flex
     align-items center
     justify-content center
+    flex-flow column nowrap
     user-select none
     pointer-events none
-    background rgba(0, 0, 0, .5)
     opacity 0
-    transition .5s ease .5s
+    transition opacity .5s ease .5s
+    will-change opacity
 
     &.active
       opacity 1
-      transition .5s ease .3s
+      transition opacity .5s ease
 
-  .textOutput
+    .bg
+      width 100vw
+      height 100vh
+      position absolute
+      top 0
+      left 0
+      z-index -10
+      background radial-gradient(#191919, #000000)
+      opacity .6
+      transition opacity .5s ease .5s
+      will-change opacity
+
+
+    &.dark .bg
+      opacity .8
+      transition opacity .5s ease
+    
+    &.darker .bg
+      opacity 1
+      transition opacity .5s ease
+
+  .wrapper
     width 600px
     max-width 90vw
-    height auto
+    position relative
+
+  .module
+    width 100%
+    position absolute
+    top 100%
+    left 0
+
+  .textOutput, .date
     font-size font-big
     line-height font-bigger
     text-align center
+    opacity 1
+    transition opacity .3s ease
+    will-change opacity
 
-  .choice
+    &.active
+      opacity 0
+  
+  .desc, .next, .choice
     opacity 0
-    transition .5s ease .5s
+    transition opacity .5s ease
+    will-change opacity
+    padding-top 3rem
 
     &.active
       opacity 1
-      transition .5s ease
+      transition opacity .5s ease .3s
+      pointer-events auto
+
+  .choice
+    display flex
+    flex-flow row nowrap
+    align-items center
+    justify-content space-around
+
+  .next
+    text-align center
+
+  .clickable
+    transition color .5s ease, transform .5s ease
+    will-change transform, opacity
+    padding 20px
+
+    &:hover
+      color color-red
+      transform scale(1.2, 1.2)
+      transition color .3s ease, transform .3s ease

@@ -14,14 +14,22 @@
 <body>
   <div class="roomApp">
     <canvas>Your browser doesn't support canvas D:</canvas>
-    <div class="HUDContainer">
+    <div class="HUDContainer darker active">
       <div class="wrapper">
-        <div class="textOutput">Room text</div>
-        <div class="choice">
-          <div class="yes">Next room...</div>
-          <div class="no">Stay...</div>
+        <div class="module">
+          <div class="textOutput active">Loading</div>
+          <div class="choice">
+            <div class="yes clickable">Next room...</div>
+            <div class="no clickable">Stay...</div>
+          </div>
+        </div>
+        <div class="module">
+          <div class="date"></div>
+          <div class="desc"></div>
+          <div class="next clickable">Next...</div>
         </div>
       </div>
+      <div class="bg"></div>
     </div>
   </div>
   <!--build:js assets/js/global.js -->
@@ -50,6 +58,7 @@
   <script type="text/javascript" src="assets/js/Cursor.js"></script>
   <script type="text/javascript" src="assets/js/Utils3.js"></script>
   <script type="text/javascript" src="assets/js/RoomHospital.js"></script>
+  <script type="text/javascript" src="assets/js/RoomChild.js"></script>
   <script type="text/javascript" src="assets/js/Room.js"></script>
   <script type="text/javascript" src="assets/js/main.js"></script>
   <!-- endbuild -->
