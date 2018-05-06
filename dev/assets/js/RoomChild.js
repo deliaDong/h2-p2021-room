@@ -160,7 +160,7 @@ class RoomChild {
 
     this._roofLightHolder = new THREE.Object3D()
     this._roofLightHolder.textKey = "cLight"
-    const lightNum = 0
+    let lightNum = 0
     if (this._ctx._textMemory["hLight"]) { lightNum++ }
     this._roofLightHolder.text = this._ctx._lightMessage[lightNum]
     this._roofLightHolder.textAction = "bubble"

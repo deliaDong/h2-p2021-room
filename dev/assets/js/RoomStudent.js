@@ -149,7 +149,7 @@ class RoomStudent {
 
     this._roofLightHolder = new THREE.Object3D()
     this._roofLightHolder.textKey = "sLight"
-    const lightNum = 0
+    let lightNum = 0
     if (this._ctx._textMemory["hLight"]) { lightNum++ }
     if (this._ctx._textMemory["cLight"]) { lightNum++ }
     this._roofLightHolder.text = this._ctx._lightMessage[lightNum]

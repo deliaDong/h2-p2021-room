@@ -72,7 +72,7 @@ class RoomSquat {
 
     this._roofLightHolder = new THREE.Object3D()
     this._roofLightHolder.textKey = "sqLight"
-    const lightNum = 0
+    let lightNum = 0
     if (this._ctx._textMemory["hLight"]) { lightNum++ }
     if (this._ctx._textMemory["cLight"]) { lightNum++ }
     if (this._ctx._textMemory["sLight"]) { lightNum++ }
