@@ -142,7 +142,7 @@ class Room {
     this._roomDepth = 5
 
     // ROOM GESTION
-    this._nextRoom = 1
+    this._nextRoom = 2
     this._currentRoom = false
     this._rooms = [
       {
@@ -155,6 +155,12 @@ class Room {
         scene: () => new RoomChild(this),
         intro: `Childhood - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 8}`,
         desc: "I was enjoying my childhood.",
+        nextRoomIndex: 2
+      },
+      {
+        scene: () => new RoomStudent(this),
+        intro: `Studies - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 19}`,
+        desc: "Studying was hard but necessary.",
         nextRoomIndex: 0
       }
     ]

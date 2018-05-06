@@ -2,11 +2,6 @@ class RoomHospital {
   constructor (ctx) {
     this._ctx = ctx
 
-    this._mesh = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(.7, .2, 100, 8),
-      new THREE.MeshStandardMaterial({ color: 0xff0000, flatShading: true})
-    )
-
     this._meshHolder = new THREE.Object3D()
 
     this.initGeometry()
