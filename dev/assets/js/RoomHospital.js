@@ -4,6 +4,10 @@ class RoomHospital {
 
     this._meshHolder = new THREE.Object3D()
 
+    // Room var
+    this._ctx._roomLenght = 5
+    this._ctx._roomDepth = 5
+
     this.initGeometry()
     this.initMaterial()
     
@@ -386,9 +390,29 @@ class RoomHospital {
 
   // Allow to craft thing easily
   craft (geometry, material, parent) {
-    const child = new THREE.Mesh(this._g[geometry], this._m[material])
+    let child
+    if (typeof(material) == "string") {
+      child = new THREE.Mesh(this._g[geometry], this._m[material])
+    } else {
+      child = new THREE.Mesh(this._g[geometry], material)
+    }
     parent.add(child)
     return child
+  }
+
+  // Return a material with a random color
+  randomColorMaterial ({
+    saturation = 100,
+    lightness = 50,
+    metalness = 0.1,
+    roughness = 0.7
+  } = {}) {
+    return new THREE.MeshStandardMaterial({
+      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
+      flatShading: true,
+      metalness: metalness,
+      roughness: roughness
+    })
   }
 
   remove () {

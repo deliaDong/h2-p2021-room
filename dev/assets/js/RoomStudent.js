@@ -7,6 +7,8 @@ class RoomStudent {
     // Window var
     this._angle = Math.PI / 4
     this._zOffset = Math.sin(this._angle) * 3 / 2
+    this._ctx._roomLenght = 5
+    this._ctx._roomDepth = 5
 
     this.initGeometry()
     this.initMaterial()
@@ -62,8 +64,7 @@ class RoomStudent {
     this._floor.position.z = - this._zOffset / 2
     this._roof = this.craft("room", "wall", this._roomShape)
     this._roof.rotation.x = Math.PI / 2
-    this._floor.position.z = - this._zOffset / 2
-    this._roof.position.set(0, 3, 0.5 + this._zOffset - 0.1)
+    this._roof.position.set(0, 3, 0.7 + this._zOffset)
 
     this._roofLightHolder = new THREE.Object3D()
     this._roofLightHolder.textKey = "cLight"
@@ -175,21 +176,27 @@ class RoomStudent {
   // Allow to craft thing easily
   craft (geometry, material, parent) {
     let child
-    if (material == "random") {
-      child = new THREE.Mesh(this._g[geometry], this.randomColorMaterial())
-    } else {
+    if (typeof(material) == "string") {
       child = new THREE.Mesh(this._g[geometry], this._m[material])
+    } else {
+      child = new THREE.Mesh(this._g[geometry], material)
     }
     parent.add(child)
     return child
   }
 
-  randomColorMaterial () {
+  // Return a material with a random color
+  randomColorMaterial ({
+    saturation = 100,
+    lightness = 50,
+    metalness = 0.1,
+    roughness = 0.7
+  } = {}) {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, 100%, 50%)`),
+      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
       flatShading: true,
-      metalness: 0.1,
-      roughness: 0.7
+      metalness: metalness,
+      roughness: roughness
     })
   }
 

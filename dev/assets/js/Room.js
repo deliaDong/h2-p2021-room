@@ -148,19 +148,19 @@ class Room {
       {
         scene: () => new RoomHospital(this),
         intro: `Birth - ${this._getMonths()} ${this._getDay()}, ${this._birthYear}`,
-        desc: "Here i was born.",
+        desc: "Here i was born. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod maxime, quibusdam, consectetur, nemo labore natus dicta voluptatibus sint ad debitis obcaecati quas voluptates possimus quaerat! Nostrum id sunt saepe facere?",
         nextRoomIndex: 1
       },
       {
         scene: () => new RoomChild(this),
         intro: `Childhood - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 8}`,
-        desc: "I was enjoying my childhood.",
+        desc: "I was enjoying my childhood. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod maxime, quibusdam, consectetur, nemo labore natus dicta voluptatibus sint ad debitis obcaecati quas voluptates possimus quaerat! Nostrum id sunt saepe facere?",
         nextRoomIndex: 2
       },
       {
         scene: () => new RoomStudent(this),
         intro: `Studies - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 19}`,
-        desc: "Studying was hard but necessary.",
+        desc: "Studying was hard but necessary. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod maxime, quibusdam, consectetur, nemo labore natus dicta voluptatibus sint ad debitis obcaecati quas voluptates possimus quaerat! Nostrum id sunt saepe facere?",
         nextRoomIndex: 0
       }
     ]
@@ -282,11 +282,11 @@ class Room {
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    //this._$next.addEventListener("mouseup", () => {
+    this._$next.addEventListener("mouseup", () => {
       this._currentRoom = nextRoom.scene()
       this._nextRoom = nextRoom.nextRoomIndex
       this.updateText()
-    //}, {once: true})
+    }, {once: true})
   }
 
   // Object mouse selector to check intersection
