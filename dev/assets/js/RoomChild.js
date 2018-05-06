@@ -159,7 +159,7 @@ class RoomChild {
     this._roof.position.set(0, 3, 0.7 + this._zOffset)
 
     this._roofLightHolder = new THREE.Object3D()
-    this._roofLightHolder.textKey = "sqLight"
+    this._roofLightHolder.textKey = "cLight"
     const lightNum = 0
     if (this._ctx._textMemory["hLight"]) { lightNum++ }
     this._roofLightHolder.text = this._ctx._lightMessage[lightNum]
