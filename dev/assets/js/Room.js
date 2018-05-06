@@ -142,25 +142,31 @@ class Room {
     this._roomDepth = 5
 
     // ROOM GESTION
-    this._nextRoom = 2
+    this._nextRoom = 0
     this._currentRoom = false
     this._rooms = [
       {
         scene: () => new RoomHospital(this),
         intro: `Birth - ${this._getMonths()} ${this._getDay()}, ${this._birthYear}`,
-        desc: "Here i was born. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod maxime, quibusdam, consectetur, nemo labore natus dicta voluptatibus sint ad debitis obcaecati quas voluptates possimus quaerat! Nostrum id sunt saepe facere?",
+        desc: "It was here that I was born in a small suburban hospital. My parents were neither too rich nor too poor. My future seemed safe.",
         nextRoomIndex: 1
       },
       {
         scene: () => new RoomChild(this),
         intro: `Childhood - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 8}`,
-        desc: "I was enjoying my childhood. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod maxime, quibusdam, consectetur, nemo labore natus dicta voluptatibus sint ad debitis obcaecati quas voluptates possimus quaerat! Nostrum id sunt saepe facere?",
+        desc: "I was enjoying my childhood. My parents were loving me and spent a lot of time with me doing activities of all kinds.",
         nextRoomIndex: 2
       },
       {
         scene: () => new RoomStudent(this),
         intro: `Studies - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 19}`,
-        desc: "Studying was hard but necessary. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod maxime, quibusdam, consectetur, nemo labore natus dicta voluptatibus sint ad debitis obcaecati quas voluptates possimus quaerat! Nostrum id sunt saepe facere?",
+        desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
+        nextRoomIndex: 3
+      },
+      {
+        scene: () => new RoomSquat(this),
+        intro: `Squating - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 24}`,
+        desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
         nextRoomIndex: 0
       }
     ]
@@ -282,11 +288,11 @@ class Room {
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    //this._$next.addEventListener("mouseup", () => {
+    this._$next.addEventListener("mouseup", () => {
       this._currentRoom = nextRoom.scene()
       this._nextRoom = nextRoom.nextRoomIndex
       this.updateText()
-    //}, {once: true})
+    }, {once: true})
   }
 
   // Object mouse selector to check intersection

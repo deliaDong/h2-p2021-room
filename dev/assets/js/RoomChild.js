@@ -462,7 +462,7 @@ class RoomChild {
   // Shape template
   createShapeShape () {
     this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "cShape"
+    this._shapeShape.textKey = "sShape"
     this._shapeShape.text = "Go further?"
     this._shapeShape.textAction = "bubble"
 
@@ -492,11 +492,9 @@ class RoomChild {
   // Allow to craft thing easily
   craft (geometry, material, parent) {
     let child
-    if (typeof(material) == "string") {
-      child = new THREE.Mesh(this._g[geometry], this._m[material])
-    } else {
-      child = new THREE.Mesh(this._g[geometry], material)
-    }
+    const trueGeometry = typeof(geometry) == "string" ? this._g[geometry] : geometry
+    const trueMaterial = typeof(material) == "string" ? this._m[material] : material
+    child = new THREE.Mesh(trueGeometry, trueMaterial)
     parent.add(child)
     return child
   }

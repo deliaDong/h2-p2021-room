@@ -69,7 +69,7 @@ class RoomHospital {
     this._g.TVStructureH = new THREE.BoxGeometry(0.5, 0.2, 0.2)
 
     // Tree
-    this._g.treeP = new THREE.ConeGeometry(0.3, 2, 6)
+    this._g.treeP = new THREE.CylinderGeometry(0.25, 0.3, 0.5, 6)
     this._g.treeB = new THREE.BoxGeometry(0.1, 1, 0.1)
     this._g.treeL1 = new THREE.SphereGeometry(0.3, 12, 12)
     this._g.treeL2 = new THREE.SphereGeometry(0.2, 8, 8)
@@ -115,7 +115,7 @@ class RoomHospital {
     this._m.TVScreen = new THREE.MeshStandardMaterial({color: 0x898989, flatShading: true, metalness: 0.1, roughness: 0.5})
     
     // Tree
-    this._m.treeP = new THREE.MeshStandardMaterial({color: 0xc6020b, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.treeP = new THREE.MeshStandardMaterial({color: 0xf6424b, flatShading: true, metalness: 0.1, roughness: 0.7})
     this._m.treeB = new THREE.MeshStandardMaterial({color: 0x623410, flatShading: true, metalness: 0, roughness: 1})
     this._m.treeL = new THREE.MeshStandardMaterial({color: 0x56c344, flatShading: true, metalness: 0, roughness: 1})
     
@@ -242,7 +242,7 @@ class RoomHospital {
     this._treeStructure = []
     this._treeStructure.push(this.craft("treeP", "treeP", this._treeShape))
     this._treeStructure[this._treeStructure.length - 1].rotation.x = Math.PI
-    this._treeStructure[this._treeStructure.length - 1].position.set(0, -0.5, 0)
+    this._treeStructure[this._treeStructure.length - 1].position.set(0, 0.25, 0)
     this._treeStructure.push(this.craft("treeB", "treeB", this._treeShape))
     this._treeStructure[this._treeStructure.length - 1].rotation.set(-Math.PI / 32, Math.PI / 8, Math.PI / 48)
     this._treeStructure[this._treeStructure.length - 1].position.set(-0.05, 1, -0.05)
@@ -391,11 +391,9 @@ class RoomHospital {
   // Allow to craft thing easily
   craft (geometry, material, parent) {
     let child
-    if (typeof(material) == "string") {
-      child = new THREE.Mesh(this._g[geometry], this._m[material])
-    } else {
-      child = new THREE.Mesh(this._g[geometry], material)
-    }
+    const trueGeometry = typeof(geometry) == "string" ? this._g[geometry] : geometry
+    const trueMaterial = typeof(material) == "string" ? this._m[material] : material
+    child = new THREE.Mesh(trueGeometry, trueMaterial)
     parent.add(child)
     return child
   }

@@ -7,8 +7,8 @@ class RoomStudent {
     // Window var
     this._angle = Math.PI / 4
     this._zOffset = Math.sin(this._angle) * 3 / 2
-    this._ctx._roomLenght = 10
-    this._ctx._roomDepth = 10
+    this._ctx._roomLenght = 5
+    this._ctx._roomDepth = 5
 
     this.initGeometry()
     this.initMaterial()
@@ -18,6 +18,9 @@ class RoomStudent {
     this.createBedShape()
     this.createNightstandShape()
     this.createWardrobeShape()
+    this.createDeskShape()
+    this.createChairShape()
+    this.createCanvasShape()
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
@@ -45,6 +48,7 @@ class RoomStudent {
     this._g.bedT = new THREE.BoxGeometry(2, 0.1, 2.4)
     this._g.bedM1 = new THREE.BoxGeometry(1.8, 0.2, 2.2)
     this._g.bedM2 = new THREE.BoxGeometry(1.9125, 0.25, 1.8)
+    this._g.bedP = new THREE.BoxGeometry(0.8, 0.2, 0.5)
 
     // Nightstand
     this._g.nightstandS = new THREE.BoxGeometry(0.8, 0.7, 0.7)
@@ -65,6 +69,31 @@ class RoomStudent {
     this._g.wardrobeRC1 = new THREE.BoxGeometry(0.3, 1, 0.05)
     this._g.wardrobeRC2 = new THREE.BoxGeometry(0.4, 0.8, 0.05)
     this._g.wardrobeRC3 = new THREE.BoxGeometry(0.5, 0.6, 0.05)
+    this._g.torusKnot = new THREE.TorusKnotGeometry(0.075, 0.02, 32, 12)
+    
+    // Desk
+    this._g.deskL = new THREE.CylinderGeometry(0.05, 0.05, 0.9, 5)
+    this._g.deskT = new THREE.BoxGeometry(2, 0.05, 0.8)
+    this._g.screenB = new THREE.BoxGeometry(0.2, 0.05, 0.1)
+    this._g.screenP = new THREE.BoxGeometry(0.05, 0.2, 0.05)
+    this._g.screen = new THREE.BoxGeometry(0.6, 0.35, 0.05)
+    this._g.screenF = new THREE.PlaneGeometry(0.55, 0.3, 1, 1)
+    this._g.keyboard = new THREE.BoxGeometry(0.575, 0.05, 0.2)
+    this._g.keyboardK1 = new THREE.BoxGeometry(0.35, 0.05, 0.15)
+    this._g.keyboardK2 = new THREE.BoxGeometry(0.15, 0.05, 0.15)
+    this._g.mouse = new THREE.BoxGeometry(0.075, 0.05, 0.1)
+    this._g.case = new THREE.BoxGeometry(0.3, 0.6, 0.7)
+    
+    // Chair
+    this._g.chairL = new THREE.BoxGeometry(0.7, 0.05, 0.05)
+    this._g.chairW = new THREE.CylinderGeometry(0.05, 0.05, 0.05, 7)
+    this._g.chairP = new THREE.CylinderGeometry(0.04, 0.04, 0.35, 5)
+    this._g.chairB = new THREE.BoxGeometry(0.5, 0.15, 0.5)
+    this._g.chairBAlt = new THREE.BoxGeometry(0.5, 0.15, 0.3)
+    this._g.chairF = new THREE.BoxGeometry(0.5, 0.1, 0.1)
+    
+    // Canvas
+    this._g.canvas = new THREE.BoxGeometry(0.05, 1, 1.8)
 
   }
   
@@ -72,8 +101,10 @@ class RoomStudent {
   initMaterial () {
     this._m = {}
     
-    // Color
+    // Common
     this._m.white = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.black = new THREE.MeshStandardMaterial({color: 0x393939, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.rod = new THREE.MeshStandardMaterial({color: 0xcecece, flatShading: true, metalness: 0.5, roughness: 0.5})
 
     // Room
     this._m.floor = new THREE.MeshStandardMaterial({color: 0xbf9978, flatShading: true, metalness: 0.1, roughness: 0.7})
@@ -96,8 +127,13 @@ class RoomStudent {
     // Wardrobe
     this._m.wardrobe = new THREE.MeshStandardMaterial({color: 0xba8340, flatShading: true, metalness: 0.1, roughness: 0.7})
     this._m.wardrobeD = new THREE.MeshStandardMaterial({color: 0xf7ae55, flatShading: true, metalness: 0.1, roughness: 0.5})
-    this._m.rod = new THREE.MeshStandardMaterial({color: 0xcecece, flatShading: true, metalness: 0.5, roughness: 0.5})
-
+    this._m.torusKnot = new THREE.MeshStandardMaterial({color: 0xed0707, flatShading: true, metalness: 0.1, roughness: 0.7})
+    
+    // Desk
+    this._m.deskT = new THREE.MeshStandardMaterial({color: 0xa7473b, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.screen = new THREE.MeshStandardMaterial({color: 0x494949, flatShading: true, metalness: 0.5, roughness: 0.5})
+    this._m.keyboard = new THREE.MeshStandardMaterial({color: 0x898989, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.case = new THREE.MeshStandardMaterial({color: 0xd60606, flatShading: true, metalness: 0.1, roughness: 0.7})
   }
 
   // Create global room shape
@@ -205,6 +241,9 @@ class RoomStudent {
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.45, 0)
     this._bedStructure.push(this.craft("bedM2", "matress", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.475, 0.25)
+    this._bedStructure.push(this.craft("bedP", "white", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.525, -0.8)
+    this._bedStructure[this._bedStructure.length - 1].rotation.x = Math.PI / 16
 
     this._bedShape.position.set(0, 0, -1.2 - this._zOffset)
 
@@ -297,16 +336,183 @@ class RoomStudent {
 
     // Clothes
     const clothesNumber = Math.floor(Math.random() * 5) + 2
-    console.log(clothesNumber)
     for (let i = 0; i < clothesNumber; i++) {
       const offset = Math.floor(Math.random() * 3) + 1
       this._wardrobeStructure.push(this.craft(`wardrobeRC${offset}`, this.randomColorMaterial({lightness: 70}), this._wardrobeShape))
       this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.65 + offset * 0.1, 0.35 + 0.15 * i + Math.random() * 0.1)
     }
 
+    // Torus knot one
+    this._torusKnotHolder = new THREE.Object3D()
+    this._torusKnotHolder.textKey = "sTorusKnot"
+    this._torusKnotHolder.text = "I still took care of my special edition torus knot."
+    this._torusKnotHolder.textAction = "bubble"
+    this._wardrobeStructure.push(this.craft("torusKnot", "torusKnot", this._torusKnotHolder))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 1.15, -1.3)
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].rotation.x = Math.PI / 2
+    this._wardrobeShape.add(this._torusKnotHolder)
+
     this._wardrobeShape.position.set(2.1, 0, -0.5)
 
     this._meshHolder.add(this._wardrobeShape)
+  }
+
+  createDeskShape () {
+    this._deskShape = new THREE.Object3D()
+    this._deskShape.textKey = "sDesk"
+    this._deskShape.text = "I've done so much work on this desk..."
+    this._deskShape.textAction = "bubble"
+
+    // Desk
+    this._deskStructure = []
+    this._deskStructure.push(this.craft("deskL", "rod", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.8, 0.4, 0.3)
+    this._deskStructure[this._deskStructure.length - 1].rotation.x = -Math.PI / 12
+    this._deskStructure.push(this.craft("deskL", "rod", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(-0.8, 0.4, 0.3)
+    this._deskStructure[this._deskStructure.length - 1].rotation.x = -Math.PI / 12
+    this._deskStructure.push(this.craft("deskL", "rod", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.8, 0.4, -0.3)
+    this._deskStructure[this._deskStructure.length - 1].rotation.x = Math.PI / 12
+    this._deskStructure.push(this.craft("deskL", "rod", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(-0.8, 0.4, -0.3)
+    this._deskStructure[this._deskStructure.length - 1].rotation.x = Math.PI / 12
+    this._deskStructure.push(this.craft("deskT", "deskT", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0, 0.9, 0)
+    
+    // Screen 1
+    this._deskStructure.push(this.craft("screenB", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.575, 0.95, 0.1)
+    this._deskStructure[this._deskStructure.length - 1].rotation.y = Math.PI / 8
+    this._deskStructure.push(this.craft("screenP", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.6, 1.05, 0.15)
+    this._deskStructure[this._deskStructure.length - 1].rotation.x = -Math.PI / 16
+    this._deskStructure.push(this.craft("screen", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.6, 1.275, 0.12)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(Math.PI, -Math.PI / 8, 0)
+
+    // Message
+    this._messageHolder = new THREE.Object3D()
+    this._messageHolder.textKey = "sMessage"
+    this._messageHolder.text = "There is a message from Vico that reminds me that if I have a problem I can count on him, Vico is really a cool guy."
+    this._messageHolder.textAction = "bubble"
+
+    this._deskStructure.push(this.craft("screenF", "white", this._messageHolder))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.6, 1.28, 0.0925)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(Math.PI, -Math.PI / 8, 0)
+
+    this._deskShape.add(this._messageHolder)
+    // Screen 2
+    this._deskStructure.push(this.craft("screenB", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0, 0.95, 0.225)
+    this._deskStructure.push(this.craft("screenP", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0, 1.05, 0.275)
+    this._deskStructure[this._deskStructure.length - 1].rotation.x = -Math.PI / 16
+    this._deskStructure.push(this.craft("screen", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0, 1.275, 0.2475)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(Math.PI, 0, 0)
+    this._deskStructure.push(this.craft("screenF", "white", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0, 1.28, 0.22)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(Math.PI, 0, 0)
+
+    // PC
+    this._deskStructure.push(this.craft("keyboard", "screen", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.1125, 0.925, -0.1)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(0, Math.PI / 16, 0)
+    this._deskStructure.push(this.craft("keyboardK1", "keyboard", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.2, 0.95, -0.125)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(0, Math.PI / 16, 0)
+    this._deskStructure.push(this.craft("keyboardK2", "keyboard", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(-0.075, 0.95, -0.07)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(0, Math.PI / 16, 0)
+    this._deskStructure.push(this.craft("mouse", "keyboard", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(-0.4, 0.95, -0.07)
+    this._deskStructure[this._deskStructure.length - 1].rotation.set(0, -Math.PI / 16, 0)
+    this._deskStructure.push(this.craft("case", "case", this._deskShape))
+    this._deskStructure[this._deskStructure.length - 1].position.set(0.55, 0.3, 0)
+
+    this._deskShape.position.set(0, 0, 2)
+
+    this._meshHolder.add(this._deskShape)
+  }
+
+  createChairShape () {
+    this._chairShape = new THREE.Object3D()
+    this._chairShape.textKey = "sChair"
+    this._chairShape.text = "Dad gifted me this chair from his work. It's so good to work on it (and to move in all my room around while sitting on also)."
+    this._chairShape.textAction = "bubble"
+
+    this._chairStructure = []
+    // Leg
+    this._chairStructure.push(this.craft("chairL", "rod", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.175, 0)
+    this._chairStructure.push(this.craft("chairL", "rod", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.175, 0)
+    this._chairStructure[this._chairStructure.length - 1].rotation.y = Math.PI / 3
+    this._chairStructure.push(this.craft("chairL", "rod", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.175, 0)
+    this._chairStructure[this._chairStructure.length - 1].rotation.y = -Math.PI / 3
+    // Wheel
+    this._chairStructure.push(this.craft("chairW", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0.35, 0.1, 0)
+    this._chairStructure[this._chairStructure.length - 1].rotation.set(Math.PI / 2, 0, -Math.PI / 3)
+    this._chairStructure.push(this.craft("chairW", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(-0.35, 0.1, 0)
+    this._chairStructure[this._chairStructure.length - 1].rotation.set(Math.PI / 2, 0, -Math.PI / 3)
+    this._chairStructure.push(this.craft("chairW", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(-0.35 * Math.cos(Math.PI / 3), 0.1, -0.35 * Math.sin(Math.PI / 3))
+    this._chairStructure[this._chairStructure.length - 1].rotation.set(Math.PI / 2, 0, -Math.PI / 3)
+    this._chairStructure.push(this.craft("chairW", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0.35 * Math.cos(Math.PI / 3), 0.1, 0.35 * Math.sin(Math.PI / 3))
+    this._chairStructure[this._chairStructure.length - 1].rotation.set(Math.PI / 2, 0, -Math.PI / 3)
+    this._chairStructure.push(this.craft("chairW", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0.35 * Math.cos(-Math.PI / 3), 0.1, 0.35 * Math.sin(-Math.PI / 3))
+    this._chairStructure[this._chairStructure.length - 1].rotation.set(Math.PI / 2, 0, -Math.PI / 3)
+    this._chairStructure.push(this.craft("chairW", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(-0.35 * Math.cos(-Math.PI / 3), 0.1, -0.35 * Math.sin(-Math.PI / 3))
+    this._chairStructure[this._chairStructure.length - 1].rotation.set(Math.PI / 2, 0, -Math.PI / 3)
+    // Seat
+    this._chairStructure.push(this.craft("chairP", "rod", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.375, 0)
+    this._chairStructure.push(this.craft("chairB", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.6, 0)
+    this._chairStructure.push(this.craft("chairF", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.6, 0.25)
+    this._chairStructure[this._chairStructure.length - 1].rotation.x = Math.PI / 4
+    this._chairStructure.push(this.craft("chairB", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 0.85, -0.25)
+    this._chairStructure[this._chairStructure.length - 1].rotation.x = -Math.PI / 12 + Math.PI / 2
+    this._chairStructure.push(this.craft("chairBAlt", "black", this._chairShape))
+    this._chairStructure[this._chairStructure.length - 1].position.set(0, 1.2, -0.3)
+    this._chairStructure[this._chairStructure.length - 1].rotation.x = Math.PI / 2
+    
+    this._chairShape.position.set(-0.2, 0, 1.2)
+    this._chairShape.rotation.y = -Math.PI / 8
+
+    this._meshHolder.add(this._chairShape)
+  }
+
+  createCanvasShape () {
+    this._canvasShape = new THREE.Object3D()
+    this._canvasShape.textKey = "sCanvas"
+    this._canvasShape.text = "A New York painting, i wasn't an original person."
+    this._canvasShape.textAction = "bubble"
+
+    this._canvasStructure = []
+    this._canvasStructure.push(this.craft("canvas", "white", this._canvasShape))
+    this._canvasStructure[this._canvasStructure.length - 1].position.set(-2.45, 1.5, -0.5)
+
+    for (let i = 0; i < 50; i++) {
+      const geometry = new THREE.PlaneGeometry(0.1 + Math.random() * 0.1, 0.2 + Math.random() * 0.4, 1, 1)
+      const material = this.randomColorMaterial({saturation: 0, lightness: 25 + Math.floor(Math.random() * 50)})
+      this._canvasStructure.push(this.craft(geometry, material, this._canvasShape))
+      this._canvasStructure[this._canvasStructure.length - 1].position.set(-2.42 + 0.00001 * i, 1.3 + Math.random() * 0.3, -0.5 + 1.6 * Math.random() - 0.8)
+      this._canvasStructure[this._canvasStructure.length - 1].rotation.y = Math.PI / 2
+    }
+
+    this._canvasShape.position.set(0, 0, 0)
+
+    this._meshHolder.add(this._canvasShape)
   }
 
   // Shape template
@@ -342,11 +548,9 @@ class RoomStudent {
   // Allow to craft thing easily
   craft (geometry, material, parent) {
     let child
-    if (typeof(material) == "string") {
-      child = new THREE.Mesh(this._g[geometry], this._m[material])
-    } else {
-      child = new THREE.Mesh(this._g[geometry], material)
-    }
+    const trueGeometry = typeof(geometry) == "string" ? this._g[geometry] : geometry
+    const trueMaterial = typeof(material) == "string" ? this._m[material] : material
+    child = new THREE.Mesh(trueGeometry, trueMaterial)
     parent.add(child)
     return child
   }
