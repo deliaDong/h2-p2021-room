@@ -282,11 +282,11 @@ class Room {
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    this._$next.addEventListener("mouseup", () => {
+    //this._$next.addEventListener("mouseup", () => {
       this._currentRoom = nextRoom.scene()
       this._nextRoom = nextRoom.nextRoomIndex
       this.updateText()
-    }, {once: true})
+    //}, {once: true})
   }
 
   // Object mouse selector to check intersection

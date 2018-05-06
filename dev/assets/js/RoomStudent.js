@@ -7,14 +7,15 @@ class RoomStudent {
     // Window var
     this._angle = Math.PI / 4
     this._zOffset = Math.sin(this._angle) * 3 / 2
-    this._ctx._roomLenght = 5
-    this._ctx._roomDepth = 5
+    this._ctx._roomLenght = 10
+    this._ctx._roomDepth = 10
 
     this.initGeometry()
     this.initMaterial()
     
     this.createLight()
     this.createRoomShape()
+    this.createBedShape()
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
@@ -33,9 +34,16 @@ class RoomStudent {
     this._g.wallS = new THREE.BoxGeometry(1, 1.8, 0.2)
     this._g.wallT = new THREE.BoxGeometry(5, 1, 0.2)
     this._g.glass = new THREE.BoxGeometry(3, 1.8, 0.1)
-    this._g.roofLight = new THREE.BoxGeometry(0.6, 0.05, 0.6)
+    this._g.roofLight = new THREE.BoxGeometry(0.6, 0.3, 0.05)
     this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
     this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
+    
+    // Bed
+    this._g.bedB = new THREE.BoxGeometry(1.9, 0.25, 2.3)
+    this._g.bedT = new THREE.BoxGeometry(2, 0.1, 2.4)
+    this._g.bedM1 = new THREE.BoxGeometry(1.8, 0.2, 2.2)
+    this._g.bedM2 = new THREE.BoxGeometry(1.9125, 0.25, 1.8)
+
   }
   
   // Init all needed material
@@ -46,13 +54,19 @@ class RoomStudent {
     this._m.white = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0, roughness: 0.5})
 
     // Room
-    this._m.floor = new THREE.MeshStandardMaterial({color: 0xd3b287, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.floor = new THREE.MeshStandardMaterial({color: 0xbf9978, flatShading: true, metalness: 0.1, roughness: 0.7})
     this._m.wall = new THREE.MeshStandardMaterial({color: 0xf7f1e5, flatShading: true, metalness: 0.1, roughness: 0.7})
-    this._m.wallAlt = new THREE.MeshStandardMaterial({color: 0xfecb9c, flatShading: true, metalness: 0, roughness: 0.8})
+    this._m.wallAlt = new THREE.MeshStandardMaterial({color: 0xbfecee, flatShading: true, metalness: 0, roughness: 0.8})
     this._m.glass = new THREE.MeshStandardMaterial({color: 0xc3f0e0, metalness: 0.1, roughness: 0.5, opacity: 0.2, transparent: true})
-    this._m.roofLight = new THREE.MeshStandardMaterial({color: 0xedce59, flatShading: true, metalness: 0.1, roughness: 0.5})
-    this._m.door1 = new THREE.MeshStandardMaterial({color: 0x906947, flatShading: true, metalness: 0.1, roughness: 1})
-    this._m.door2 = new THREE.MeshStandardMaterial({color: 0xa07957, flatShading: true, metalness: 0.4, roughness: 0})
+    this._m.roofLight = new THREE.MeshStandardMaterial({color: 0x8fede9, metalness: 0.1, roughness: 0.5, opacity: 0.2, transparent: true})
+    this._m.door1 = new THREE.MeshStandardMaterial({color: 0xbebebe, flatShading: true, metalness: 0.1, roughness: 1})
+    this._m.door2 = new THREE.MeshStandardMaterial({color: 0x9e9e9e, flatShading: true, metalness: 0.4, roughness: 0.5})
+    
+    // Bed
+    this._m.bed = new THREE.MeshStandardMaterial({color: 0xfd8250, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.bedAlt = new THREE.MeshStandardMaterial({color: 0xed7240, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.matress = this.randomColorMaterial({lightness: 70})
+
   }
 
   // Create global room shape
@@ -67,8 +81,10 @@ class RoomStudent {
     this._roof.position.set(0, 3, 0.7 + this._zOffset)
 
     this._roofLightHolder = new THREE.Object3D()
-    this._roofLightHolder.textKey = "cLight"
-    if (this._ctx._textMemory["hLight"]) {
+    this._roofLightHolder.textKey = "sLight"
+    if (this._ctx._textMemory["hLight"] && this._ctx._textMemory["cLight"]) {
+      this._roofLightHolder.text = "Come on, that's the third time you try to check the light, everything is right, no worries. But maybe the next one will contains something more interesting, who knows?"
+    } else if (this._ctx._textMemory["hLight"] || this._ctx._textMemory["cLight"]) {
       this._roofLightHolder.text = "Again nothing here... what did you expect?"
     } else {
       this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room."
@@ -78,18 +94,18 @@ class RoomStudent {
     this._roofLight = []
     this._roofLight.push(this.craft("roofLight", "roofLight", this._roofLightHolder))
     this._roofLight[this._roofLight.length - 1].position.set(0, 0, 0.2)
-    this._roofLight[this._roofLight.length - 1].rotation.x = Math.PI / 8
+    this._roofLight[this._roofLight.length - 1].rotation.x = -Math.PI / 3
     this._roofLight.push(this.craft("roofLight", "roofLight", this._roofLightHolder))
     this._roofLight[this._roofLight.length - 1].position.set(-0.2, 0, 0)
-    this._roofLight[this._roofLight.length - 1].rotation.z = Math.PI / 8
+    this._roofLight[this._roofLight.length - 1].rotation.set(Math.PI / 2, Math.PI / 6, Math.PI / 2)
     this._roofLight.push(this.craft("roofLight", "roofLight", this._roofLightHolder))
     this._roofLight[this._roofLight.length - 1].position.set(0, 0, -0.2)
-    this._roofLight[this._roofLight.length - 1].rotation.x = -Math.PI / 8
+    this._roofLight[this._roofLight.length - 1].rotation.x = Math.PI / 3
     this._roofLight.push(this.craft("roofLight", "roofLight", this._roofLightHolder))
     this._roofLight[this._roofLight.length - 1].position.set(0.2, 0, 0)
-    this._roofLight[this._roofLight.length - 1].rotation.z = -Math.PI / 8
+    this._roofLight[this._roofLight.length - 1].rotation.set(Math.PI / 2, -Math.PI / 6, Math.PI / 2)
 
-    this._roofLightHolder.position.y = 3
+    this._roofLightHolder.position.y = 2.9
     this._roomShape.add(this._roofLightHolder)
 
     // Building walls
@@ -126,7 +142,7 @@ class RoomStudent {
 
     // Door
     this._door = new THREE.Object3D()
-    this._door.textKey = "cDoor"
+    this._door.textKey = "sDoor"
     this._door.text = "Go further ?"
     this._door.textAction = "choice"
 
@@ -143,10 +159,31 @@ class RoomStudent {
     this._meshHolder.add(this._roomShape)
   }
 
+  createBedShape () {
+    this._bedShape = new THREE.Object3D()
+    this._bedShape.textKey = "sBed"
+    this._bedShape.text = "I went for a wider bed, so i was able to enjoy better nights, especially after watching streamings."
+    this._bedShape.textAction = "bubble"
+
+    this._bedStructure = []
+    this._bedStructure.push(this.craft("bedB", "bedAlt", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.125, 0)
+    this._bedStructure.push(this.craft("bedT", "bed", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.3, 0)
+    this._bedStructure.push(this.craft("bedM1", "white", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.45, 0)
+    this._bedStructure.push(this.craft("bedM2", "matress", this._bedShape))
+    this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.475, 0.25)
+
+    this._bedShape.position.set(1.4 * 0, 0, -1.2 - this._zOffset)
+
+    this._meshHolder.add(this._bedShape)
+  }
+
   // Shape template
   createShapeShape () {
     this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "cShape"
+    this._shapeShape.textKey = "sShape"
     this._shapeShape.text = "Go further?"
     this._shapeShape.textAction = "bubble"
 
