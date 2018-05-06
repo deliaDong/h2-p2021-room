@@ -16,6 +16,8 @@ class RoomStudent {
     this.createLight()
     this.createRoomShape()
     this.createBedShape()
+    this.createNightstandShape()
+    this.createWardrobeShape()
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
@@ -44,6 +46,26 @@ class RoomStudent {
     this._g.bedM1 = new THREE.BoxGeometry(1.8, 0.2, 2.2)
     this._g.bedM2 = new THREE.BoxGeometry(1.9125, 0.25, 1.8)
 
+    // Nightstand
+    this._g.nightstandS = new THREE.BoxGeometry(0.8, 0.7, 0.7)
+    this._g.nightstandD = new THREE.BoxGeometry(0.7, 0.25, 0.6)
+    this._g.nightstandH = new THREE.BoxGeometry(0.2, 0.05, 0.1)
+    this._g.picture = new THREE.BoxGeometry(0.2, 0.25, 0.05)
+    this._g.pictureH = new THREE.BoxGeometry(0.05, 0.15, 0.05)
+    this._g.pictureF = new THREE.PlaneGeometry(0.15, 0.2, 1, 1)
+    
+    // Wardrobe
+    this._g.wardrobeL = new THREE.BoxGeometry(0.6, 1.1, 1.5)
+    this._g.wardrobeLD = new THREE.BoxGeometry(0.1, 0.45, 1.4)
+    this._g.wardrobeLH = new THREE.BoxGeometry(0.1, 0.05, 0.2)
+    this._g.wardrobeR = new THREE.BoxGeometry(0.6, 2.2, 0.1)
+    this._g.wardrobeRH = new THREE.BoxGeometry(0.55, 0.05, 1.3)
+    this._g.wardrobeRR = new THREE.BoxGeometry(0.05, 0.05, 1.3)
+    this._g.wardrobeRT = new THREE.BoxGeometry(0.6, 0.1, 1.3)
+    this._g.wardrobeRC1 = new THREE.BoxGeometry(0.3, 1, 0.05)
+    this._g.wardrobeRC2 = new THREE.BoxGeometry(0.4, 0.8, 0.05)
+    this._g.wardrobeRC3 = new THREE.BoxGeometry(0.5, 0.6, 0.05)
+
   }
   
   // Init all needed material
@@ -66,6 +88,15 @@ class RoomStudent {
     this._m.bed = new THREE.MeshStandardMaterial({color: 0xfd8250, flatShading: true, metalness: 0, roughness: 0.5})
     this._m.bedAlt = new THREE.MeshStandardMaterial({color: 0xed7240, flatShading: true, metalness: 0, roughness: 0.5})
     this._m.matress = this.randomColorMaterial({lightness: 70})
+
+    // Nightstand
+    this._m.nightstandS = new THREE.MeshStandardMaterial({color: 0xffe2c3, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.nightstandD = new THREE.MeshStandardMaterial({color: 0xe2874e, flatShading: true, metalness: 0.1, roughness: 0.5})
+    
+    // Wardrobe
+    this._m.wardrobe = new THREE.MeshStandardMaterial({color: 0xba8340, flatShading: true, metalness: 0.1, roughness: 0.7})
+    this._m.wardrobeD = new THREE.MeshStandardMaterial({color: 0xf7ae55, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.rod = new THREE.MeshStandardMaterial({color: 0xcecece, flatShading: true, metalness: 0.5, roughness: 0.5})
 
   }
 
@@ -175,9 +206,107 @@ class RoomStudent {
     this._bedStructure.push(this.craft("bedM2", "matress", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.475, 0.25)
 
-    this._bedShape.position.set(1.4 * 0, 0, -1.2 - this._zOffset)
+    this._bedShape.position.set(0, 0, -1.2 - this._zOffset)
 
     this._meshHolder.add(this._bedShape)
+  }
+
+  createNightstandShape () {
+    this._nightstandShape = new THREE.Object3D()
+    this._nightstandShape.textKey = "sNightstand"
+    this._nightstandShape.text = "Still using the same nightstand that i used during my childhood, impressively durable."
+    this._nightstandShape.textAction = "bubble"
+
+    this._nightstandStructure = []
+    this._nightstandStructure.push(this.craft("nightstandS", "nightstandS", this._nightstandShape))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.35, 0)
+    this._nightstandStructure.push(this.craft("nightstandD", "nightstandD", this._nightstandShape))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.175, 0.1)
+    this._nightstandStructure.push(this.craft("nightstandH", "nightstandS", this._nightstandShape))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.25, 0.375)
+    this._nightstandStructure.push(this.craft("nightstandD", "nightstandD", this._nightstandShape))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.525, 0.1)
+    this._nightstandStructure.push(this.craft("nightstandH", "nightstandS", this._nightstandShape))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.6, 0.375)
+
+    this._picture = new THREE.Object3D()
+    this._picture.textKey = "sPicture"
+    this._picture.text = "A picture of Agathe and me at the park."
+    this._picture.textAction = "bubble"
+    let x = Math.random() * 0.2 - 0.1
+    let z = Math.random() * 0.2 - 0.1
+    this._nightstandStructure.push(this.craft("picture", "bedAlt", this._picture))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(x, 0.825, z)
+    this._nightstandStructure[this._nightstandStructure.length - 1].rotation.set(-Math.PI / 16, 0, 0)
+    this._nightstandStructure.push(this.craft("pictureH", "bedAlt", this._picture))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(x, 0.775, z - 0.05)
+    this._nightstandStructure[this._nightstandStructure.length - 1].rotation.x = Math.PI / 8
+    this._nightstandStructure.push(this.craft("pictureF", this.randomColorMaterial(), this._picture))
+    this._nightstandStructure[this._nightstandStructure.length - 1].position.set(x, 0.825, z + 0.026)
+    this._nightstandStructure[this._nightstandStructure.length - 1].rotation.set(-Math.PI / 16, 0, 0)
+
+    this._picture.rotation.y = Math.PI / 4
+    this._nightstandShape.add(this._picture)
+
+    this._nightstandShape.position.set(-1.7, 0, -1.95 - this._zOffset)
+
+    this._meshHolder.add(this._nightstandShape)
+  }
+
+  createWardrobeShape () {
+    this._wardrobeShape = new THREE.Object3D()
+    this._wardrobeShape.textKey = "sWardrobe"
+    if (this._ctx._textMemory["cWardrobe"]) {
+      this._wardrobeShape.text = "I'm finally a magician too, just like mom was during my childhood."
+    } else {
+      this._wardrobeShape.text = "Just a wardrobe, it remember something to me but don't know what..."
+    }
+    this._wardrobeShape.textAction = "bubble"
+
+    this._wardrobeStructure = []
+    // Left part
+    this._wardrobeStructure.push(this.craft("wardrobeL", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.55, -0.75)
+    this._wardrobeStructure.push(this.craft("wardrobeLD", "wardrobeD", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(-0.3, 0.825, -0.75)
+    this._wardrobeStructure.push(this.craft("wardrobeLH", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(-0.35, 0.925, -0.75)
+    this._wardrobeStructure.push(this.craft("wardrobeLD", "wardrobeD", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(-0.3, 0.275, -0.75)
+    this._wardrobeStructure.push(this.craft("wardrobeLH", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(-0.35, 0.375, -0.75)
+    // Right part
+    this._wardrobeStructure.push(this.craft("wardrobeR", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 1.1, 0.05)
+    this._wardrobeStructure.push(this.craft("wardrobeR", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 1.1, 1.45)
+    this._wardrobeStructure.push(this.craft("wardrobeRT", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 2.15, 0.75)
+    // Bottom plate
+    this._wardrobeStructure.push(this.craft("wardrobeRH", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.1, 0.75)
+    // Rod
+    this._wardrobeStructure.push(this.craft("wardrobeRR", "rod", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 1.2, 0.75)
+    // Medium plate
+    this._wardrobeStructure.push(this.craft("wardrobeRH", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 1.35, 0.75)
+    // Top Plate
+    this._wardrobeStructure.push(this.craft("wardrobeRH", "wardrobe", this._wardrobeShape))
+    this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 1.75, 0.75)
+
+    // Clothes
+    const clothesNumber = Math.floor(Math.random() * 5) + 2
+    console.log(clothesNumber)
+    for (let i = 0; i < clothesNumber; i++) {
+      const offset = Math.floor(Math.random() * 3) + 1
+      this._wardrobeStructure.push(this.craft(`wardrobeRC${offset}`, this.randomColorMaterial({lightness: 70}), this._wardrobeShape))
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.65 + offset * 0.1, 0.35 + 0.15 * i + Math.random() * 0.1)
+    }
+
+    this._wardrobeShape.position.set(2.1, 0, -0.5)
+
+    this._meshHolder.add(this._wardrobeShape)
   }
 
   // Shape template
