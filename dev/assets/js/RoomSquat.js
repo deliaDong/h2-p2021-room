@@ -13,6 +13,8 @@ class RoomSquat {
     
     this.createLight()
     this.createRoomShape()
+
+    this.loop()
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
@@ -26,14 +28,14 @@ class RoomSquat {
     // Room
     this._g.room = new THREE.PlaneGeometry(5, 5, 1, 1)
     this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
-    this._g.wallB = new THREE.BoxGeometry(5, 1, 0.2)
-    this._g.wallS = new THREE.BoxGeometry(1, 2, 0.2)
-    this._g.wallT = new THREE.BoxGeometry(3, 0.2, 0.2)
-    this._g.glass = new THREE.BoxGeometry(3, 1.8, 0.1)
+    this._g.wallB = new THREE.BoxGeometry(5, 1.2, 0.2)
+    this._g.wallS = new THREE.BoxGeometry(1.5, 1.8, 0.2)
+    this._g.wallT = new THREE.BoxGeometry(2, 0.2, 0.2)
+    this._g.glass = new THREE.BoxGeometry(2, 1, 0.1)
+    this._g.glassB = new THREE.BoxGeometry(2, 0.1, 0.15)
     this._g.roofLight = new THREE.BoxGeometry(1, 0.05, 1)
-    this._g.door = new THREE.BoxGeometry(1.2, 1.9, 0.1)
-    this._g.doorB = new THREE.BoxGeometry(1.2, 0.3, 0.1)
-    this._g.doorH = new THREE.BoxGeometry(0.2, 0.3, 0.05)
+    this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
+    this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
 
   }
   
@@ -41,14 +43,20 @@ class RoomSquat {
   initMaterial () {
     this._m = {}
 
+    // Common
+    this._m.white = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.black = new THREE.MeshStandardMaterial({color: 0x393939, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.rod = new THREE.MeshStandardMaterial({color: 0xcecece, flatShading: true, metalness: 0.5, roughness: 0.5})
+
     // Room
-    this._m.floor = new THREE.MeshStandardMaterial({color: 0xf7e8cb, flatShading: true, metalness: 0.1, roughness: 0.5})
-    this._m.roof = new THREE.MeshStandardMaterial({color: 0x89cfd1, flatShading: true, metalness: 0, roughness: 0.8})
-    this._m.wall = new THREE.MeshStandardMaterial({color: 0xf7f1e5, flatShading: true, metalness: 0.1, roughness: 0.5})
+    this._m.floor = new THREE.MeshStandardMaterial({color: 0x3d3845, flatShading: true, metalness: 0.1, roughness: 0.8})
+    this._m.roof = new THREE.MeshStandardMaterial({color: 0xffffff, flatShading: true, metalness: 0, roughness: 0.8})
+    this._m.wall = new THREE.MeshStandardMaterial({color: 0xa13c23, flatShading: true, metalness: 0.1, roughness: 0.8})
     this._m.glass = new THREE.MeshStandardMaterial({color: 0xc3f0e0, metalness: 0.1, roughness: 0.5, opacity: 0.2, transparent: true})
+    this._m.glassB = new THREE.MeshStandardMaterial({color: 0x8f351f, flatShading: true, metalness: 0.1, roughness: 0.8})
     this._m.roofLight = new THREE.MeshStandardMaterial({color: 0xf7f1e5, metalness: 0, roughness: 1, opacity: 0.8, transparent: true})
-    this._m.door1 = new THREE.MeshStandardMaterial({color: 0xb25f40, flatShading: true, metalness: 0.1, roughness: 1})
-    this._m.door2 = new THREE.MeshStandardMaterial({color: 0xfefefe, flatShading: true, metalness: 0.4, roughness: 0})
+    this._m.door1 = new THREE.MeshStandardMaterial({color: 0x8f352c, flatShading: true, metalness: 0.1, roughness: 1})
+    this._m.door2 = new THREE.MeshStandardMaterial({color: 0x341b16, flatShading: true, metalness: 0.1, roughness: 0.7})
     
   }
 
@@ -64,7 +72,11 @@ class RoomSquat {
 
     this._roofLightHolder = new THREE.Object3D()
     this._roofLightHolder.textKey = "sqLight"
-    this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room."
+    const lightNum = 0
+    if (this._ctx._textMemory["hLight"]) { lightNum++ }
+    if (this._ctx._textMemory["cLight"]) { lightNum++ }
+    if (this._ctx._textMemory["sLight"]) { lightNum++ }
+    this._roofLightHolder.text = this._ctx._lightMessage[lightNum]
     this._roofLightHolder.textAction = "bubble"
 
     this._roofLight = this.craft("roofLight", "roofLight", this._roofLightHolder)
@@ -86,15 +98,19 @@ class RoomSquat {
     // Building window
     this._window = new THREE.Object3D()
     this._wall.push(this.craft("wallB", "wall", this._window))
-    this._wall[this._wall.length - 1].position.set(0, 0.5, 0)
+    this._wall[this._wall.length - 1].position.set(0, 0.6, 0)
     this._wall.push(this.craft("wallS", "wall", this._window))
-    this._wall[this._wall.length - 1].position.set(2, 2, 0)
+    this._wall[this._wall.length - 1].position.set(1.75, 2.1, 0)
     this._wall.push(this.craft("wallS", "wall", this._window))
-    this._wall[this._wall.length - 1].position.set(-2, 2, 0)
+    this._wall[this._wall.length - 1].position.set(-1.75, 2.1, 0)
     this._wall.push(this.craft("wallT", "wall", this._window))
     this._wall[this._wall.length - 1].position.set(0, 2.9, 0)
     this._wall.push(this.craft("glass", "glass", this._window))
-    this._wall[this._wall.length - 1].position.set(0, 1.9, 0)
+    this._wall[this._wall.length - 1].position.set(0, 2.3, 0)
+    this._wall.push(this.craft("glassB", "glassB", this._window))
+    this._wall[this._wall.length - 1].position.set(0, 1.75, 0)
+    this._wall.push(this.craft("glassB", "glassB", this._window))
+    this._wall[this._wall.length - 1].position.set(0, 2.05, 0)
 
     this._window.position.z = -2.6
     this._roomShape.add(this._window)
@@ -107,11 +123,10 @@ class RoomSquat {
 
     this._doorPart = []
     this._doorPart.push(this.craft("door", "door1", this._door))
-    this._doorPart[this._doorPart.length - 1].position.set(0, 1.25, 0)
-    this._doorPart.push(this.craft("doorB", "door2", this._door))
-    this._doorPart[this._doorPart.length - 1].position.set(0, 0.15, 0)
+    this._doorPart[this._doorPart.length - 1].position.set(0, 1.1, 0)
     this._doorPart.push(this.craft("doorH", "door2", this._door))
-    this._doorPart[this._doorPart.length - 1].position.set(-0.4, 1.1, -0.05)
+    this._doorPart[this._doorPart.length - 1].position.set(-0.4, 1.15, -0.05)
+    this._doorPart[this._doorPart.length - 1].rotation.z = -Math.PI / 16
 
     this._door.position.set(-0.5, 0, 2.5)
     this._roomShape.add(this._door)
@@ -142,8 +157,8 @@ class RoomSquat {
     this._ambient = new THREE.AmbientLight(0x111111)
     this._lights.add(this._ambient)
 
-    this._point = new THREE.PointLight(0xa9c1af, 0.5, 10)
-    this._point.position.y = 2.75
+    this._point = new THREE.PointLight(0xd9c726, 0.5, 10)
+    this._point.position.y = 2.5
     this._lights.add(this._point)
 
     this._meshHolder.add(this._lights)
@@ -174,7 +189,15 @@ class RoomSquat {
     })
   }
 
+  loop () {
+    if (!this._kill) { window.requestAnimationFrame(this.loop.bind(this)) }
+    const flash = Math.random() < 0.9 ? 1 : 0.5
+    const intensity = 0.5 * flash
+    this._point.intensity = intensity
+  }
+
   remove () {
     this._ctx._scene.remove(this._meshHolder)
+    this._kill = true
   }
 }

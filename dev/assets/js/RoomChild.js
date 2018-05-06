@@ -159,12 +159,10 @@ class RoomChild {
     this._roof.position.set(0, 3, 0.7 + this._zOffset)
 
     this._roofLightHolder = new THREE.Object3D()
-    this._roofLightHolder.textKey = "cLight"
-    if (this._ctx._textMemory["hLight"]) {
-      this._roofLightHolder.text = "Again nothing here... what did you expect?"
-    } else {
-      this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room."
-    }
+    this._roofLightHolder.textKey = "sqLight"
+    const lightNum = 0
+    if (this._ctx._textMemory["hLight"]) { lightNum++ }
+    this._roofLightHolder.text = this._ctx._lightMessage[lightNum]
     this._roofLightHolder.textAction = "bubble"
 
     this._roofLight = []

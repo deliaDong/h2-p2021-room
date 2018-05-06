@@ -132,8 +132,8 @@ class RoomHospital {
     this._roof.position.y = 3
 
     this._roofLightHolder = new THREE.Object3D()
-    this._roofLightHolder.textKey = "hLight"
-    this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room."
+    this._roofLightHolder.textKey = "sqLight"
+    this._roofLightHolder.text = this._ctx._lightMessage[0]
     this._roofLightHolder.textAction = "bubble"
 
     this._roofLight = this.craft("roofLight", "roofLight", this._roofLightHolder)

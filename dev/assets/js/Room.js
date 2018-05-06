@@ -166,7 +166,7 @@ class Room {
       {
         scene: () => new RoomSquat(this),
         intro: `Squating - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 24}`,
-        desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
+        desc: "My father had ended his life and I had not passed my studies. I lived by sharing a room in the flat of Milan. It was not great but life went on anyway.",
         nextRoomIndex: 0
       }
     ]
@@ -176,6 +176,12 @@ class Room {
     this._currentText = false
     this._actionText = false
     this._textMemory = {}
+    this._lightMessage = [
+      "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room.",
+      "Again nothing here... what did you expect?",
+      "Come on, that's the third time you try to check the light, everything is right, no worries. But maybe the next one will contains something more interesting, who knows?",
+      "Disappointed?"
+    ]
   }
 
   // Init events listener
