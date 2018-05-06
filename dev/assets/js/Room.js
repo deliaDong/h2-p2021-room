@@ -10,6 +10,7 @@ class Room {
     }
   }
 
+  // Load ressources before game start
   load () {
     // Load sound
     this._theme = new Pizzicato.Sound({
@@ -101,7 +102,7 @@ class Room {
       2
     )
 
-    // CTRL
+    // CONTROL
     this._cameraYOffset = 0 // Y angle offset
     this._mouse = {x: 0, y: 0, clicked: false}
     this._mouseUpdate = false
@@ -139,7 +140,9 @@ class Room {
     }
     this._roomLenght = 5
     this._roomDepth = 5
-    this._nextRoom = 0
+
+    // ROOM GESTION
+    this._nextRoom = 1
     this._currentRoom = false
     this._rooms = [
       {
@@ -156,9 +159,11 @@ class Room {
       }
     ]
 
-    // TXT
+    // TEXT
+    this._canAnswer = false
     this._currentText = false
     this._actionText = false
+    this._textMemory = {}
   }
 
   // Init events listener
@@ -191,8 +196,18 @@ class Room {
       })
     })
 
-    this._$positive.addEventListener("mouseup", () => { this.getNextRoom() })
-    this._$negative.addEventListener("mouseup", () => { this.updateText() })
+    this._$positive.addEventListener("mouseup", () => {
+      if (this._canAnswer) {
+        this._canAnswer = false
+        this.getNextRoom()
+      }
+    })
+    this._$negative.addEventListener("mouseup", () => {
+      if (this._canAnswer) {
+        this._canAnswer = false
+        this.updateText()
+      }
+    })
   }
 
   // Init skybox
@@ -261,11 +276,11 @@ class Room {
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    this._$next.addEventListener("mouseup", () => {
+    //this._$next.addEventListener("mouseup", () => {
       this._currentRoom = nextRoom.scene()
       this._nextRoom = nextRoom.nextRoomIndex
       this.updateText()
-    }, {once: true})
+    //}, {once: true})
   }
 
   // Object mouse selector to check intersection
@@ -285,6 +300,7 @@ class Room {
       const action = intersections[0].object.parent.textAction
       const text = intersections[0].object.parent.text
       if (this._mouse.clicked) {
+        this._textMemory[intersections[0].object.parent.textKey] = true
         this.updateText(action, text)
       }
       this._composer.outlineSelect([intersections[0].object.parent])
@@ -310,9 +326,9 @@ class Room {
           if (action == "choice") {
             this._$choice.classList.add("active")
             this._$HUD.classList.add("dark")
+            setTimeout(() => { this._canAnswer = true }, 450);
           }
         } else if (action == "intro") {
-          console.log("intro")
           this._currentText = text
           this._actionText = action
           this._$textOutput.classList.add("active")
@@ -423,7 +439,7 @@ class Room {
       if (pos.x + x > this._roomLenght / 2 * 0.9) { x = this._roomLenght / 2 * 0.9 - pos.x }
       if (pos.x + x < -this._roomLenght / 2 * 0.9) { x = - this._roomLenght / 2 * 0.9 - pos.x }
       if (pos.z + z > this._roomDepth / 2 * 0.9) { z = this._roomDepth / 2 * 0.9 - pos.z }
-      if (pos.z + z < -this._roomDepth / 2 * 0.9) { z = - this._roomLenght / 2 * 0.9 - pos.z }
+      if (pos.z + z < -this._roomDepth / 2 * 0.9) { z = - this._roomDepth / 2 * 0.9 - pos.z }
       this._camera.add(
         "pos",
         {

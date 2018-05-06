@@ -7,7 +7,7 @@ class RoomHospital {
       new THREE.MeshStandardMaterial({ color: 0xff0000, flatShading: true})
     )
 
-    this._hospital = new THREE.Object3D()
+    this._meshHolder = new THREE.Object3D()
 
     this.initGeometry()
     this.initMaterial()
@@ -19,7 +19,7 @@ class RoomHospital {
     this.createChairShape()
     this.createBedShape()
     this.createBBedShape()
-    this._ctx._scene.add(this._hospital)
+    this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
     this._ctx._camera.set("pos", {x: -0.5, y: 0, z: 2.2}, true)
@@ -92,7 +92,7 @@ class RoomHospital {
     this._m = {}
 
     // Room
-    this._m.floor = new THREE.MeshStandardMaterial({color: 0xf7e8cb, flatShading: true, metalness: 0.5, roughness: 0.5})
+    this._m.floor = new THREE.MeshStandardMaterial({color: 0xf7e8cb, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.roof = new THREE.MeshStandardMaterial({color: 0x89cfd1, flatShading: true, metalness: 0, roughness: 0.8})
     this._m.wall = new THREE.MeshStandardMaterial({color: 0xf7f1e5, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.glass = new THREE.MeshStandardMaterial({color: 0xc3f0e0, metalness: 0.1, roughness: 0.5, opacity: 0.2, transparent: true})
@@ -119,8 +119,6 @@ class RoomHospital {
     this._m.treeP = new THREE.MeshStandardMaterial({color: 0xc6020b, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.treeB = new THREE.MeshStandardMaterial({color: 0x623410, flatShading: true, metalness: 0, roughness: 1})
     this._m.treeL = new THREE.MeshStandardMaterial({color: 0x56c344, flatShading: true, metalness: 0, roughness: 1})
-
-    // Baby bed
     
   }
 
@@ -135,7 +133,8 @@ class RoomHospital {
     this._roof.position.y = 3
 
     this._roofLightHolder = new THREE.Object3D()
-    this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light ? Just get to the next room."
+    this._roofLightHolder.textKey = "hLight"
+    this._roofLightHolder.text = "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room."
     this._roofLightHolder.textAction = "bubble"
 
     this._roofLight = this.craft("roofLight", "roofLight", this._roofLightHolder)
@@ -172,7 +171,8 @@ class RoomHospital {
 
     // Door
     this._door = new THREE.Object3D()
-    this._door.text = "Go further ?"
+    this._door.textKey = "hDoor"
+    this._door.text = "Go further?"
     this._door.textAction = "choice"
 
     this._doorPart = []
@@ -186,20 +186,12 @@ class RoomHospital {
     this._door.position.set(-0.5, 0, 2.5)
     this._roomShape.add(this._door)
 
-    this._hospital.add(this._roomShape)
-  }
-
-  // Shape template
-  createShapeShape () {
-    this._shapeShape = new THREE.Object3D()
-
-    this._shapeShape.position.set(0, 0, 0)
-
-    this._hospital.add(this._shapeShape)
+    this._meshHolder.add(this._roomShape)
   }
 
   createBBedShape () {
     this._bBedShape = new THREE.Object3D()
+    this._bBedShape.textKey = "hbBed"
     this._bBedShape.text = "I was sleeping here after i was born..."
     this._bBedShape.textAction = "bubble"
 
@@ -239,12 +231,13 @@ class RoomHospital {
 
     this._bBedShape.position.set(-2, 0, -0.7)
 
-    this._hospital.add(this._bBedShape)
+    this._meshHolder.add(this._bBedShape)
   }
 
   createTreeShape () {
     this._treeShape = new THREE.Object3D()
-    this._treeShape.text = "Just a potted tree, what did you expect ? It could have been anything else that i would not have remembered it."
+    this._treeShape.textKey = "hTree"
+    this._treeShape.text = "Just a potted tree, what did you expect? It could have been anything else that i would not have remembered it."
     this._treeShape.textAction = "bubble"
 
     this._treeStructure = []
@@ -261,11 +254,12 @@ class RoomHospital {
 
     this._treeShape.position.set(-2, 0, 2)
 
-    this._hospital.add(this._treeShape)
+    this._meshHolder.add(this._treeShape)
   }
 
   createTVShape () {
     this._TVShape = new THREE.Object3D()
+    this._TVShape.textKey = "hTV"
     this._TVShape.text = "A TV, like in every hospital's bedrooms."
     this._TVShape.textAction = "bubble"
 
@@ -282,11 +276,12 @@ class RoomHospital {
 
     this._TVShape.position.set(-2.2, 2.3, 1.2)
 
-    this._hospital.add(this._TVShape)
+    this._meshHolder.add(this._TVShape)
   }
 
   createChairShape () {
     this._chairShape = new THREE.Object3D()
+    this._chairShape.textKey = "hChair"
     this._chairShape.text = "Dad was watching over me and my mom."
     this._chairShape.textAction = "bubble"
 
@@ -314,11 +309,12 @@ class RoomHospital {
     this._chairShape.position.set(1.7, 0, 1.4)
     this._chairShape.rotation.y = -Math.PI / 8
 
-    this._hospital.add(this._chairShape)
+    this._meshHolder.add(this._chairShape)
   }
 
   createBedShape () {
     this._bedShape = new THREE.Object3D()
+    this._bedShape.textKey = "hBed"
     this._bedShape.text = "Mom was having some rest here after my birth."
     this._bedShape.textAction = "bubble"
 
@@ -376,7 +372,7 @@ class RoomHospital {
 
     this._bedShape.position.set(1.2, 0.1, -1)
 
-    this._hospital.add(this._bedShape)
+    this._meshHolder.add(this._bedShape)
   }
 
   // Create lighting
@@ -390,7 +386,7 @@ class RoomHospital {
     this._point.position.y = 2.75
     this._lights.add(this._point)
 
-    this._hospital.add(this._lights)
+    this._meshHolder.add(this._lights)
   }
 
   // Allow to craft thing easily
@@ -401,6 +397,6 @@ class RoomHospital {
   }
 
   remove () {
-    this._ctx._scene.remove(this._hospital)
+    this._ctx._scene.remove(this._meshHolder)
   }
 }
