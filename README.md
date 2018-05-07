@@ -1,5 +1,6 @@
 Room
 ====
+
 A THREE.js solo school project made within 2 weeks.
 
 **[Live version here](https://room.edhbr.fr/)**
@@ -15,19 +16,43 @@ Without NPM :
 ## Features
 
 ## Tech
-- Front :
+- Front:
   - HTML
   - CSS
   - JS
-- Libraries :
+- Libraries:
   - [THREE.js](https://threejs.org/) (webGL)
   - [Pizzicato.js](https://alemangui.github.io/pizzicato/) (audio)
   - [Cursor.js](https://github.com/edhbr/bin-brary) (cursor), a personnal library
 
 ## Credits
-- Musics from [The Stanley Parable](https://fr.wikipedia.org/wiki/The_Stanley_Parable) by [The Blake Robinson Synthetic Orchestra](https://syntheticorchestra.com/)
+- Musics from [The Stanley Parable](https://fr.wikipedia.org/wiki/The_Stanley_Parable) by The Blake Robinson Synthetic Orchestra:
+  - [Website](http://syntheticorchestra.com/)
+  - [Bandcamp](http://blake.so/bandcamp)
+  - [Youtube](http://youtube.com/SyntheticOrchestra)
 
-##
-A custom template i made from different tutorial in order to learn [Gulp](https://gulpjs.com/) usage and MVC arch.
+## Benchmarks
 
-AMD RADEON HD 5450 (2010) : ~25fps under Chrome, ~20fps under Firefox
+- Windows:
+  - Desktop with **GTX 1070** & 16Go RAM:
+    - Chrome: ~60fps, constant
+    - Firefox: ~60fps, constant
+  - Laptop with **GTX 1050** & 16Go RAM:
+    - Chrome: ~60fps, constant
+    - Firefox: ~55fps, constant
+  - Laptop with **GTX 950M** & 16Go RAM:
+    - Chrome: ~40fps, constant
+  - Desktop with **AMD RADEON HD 5450 (2010)** & 2Go RAM:
+    - Chrome: ~25fps, inconstant
+    - Firefox: ~20fps, inconstant
+
+- Mac OS:
+  - MBP13 2013 with **Intel Iris 5100** & 8Go RAM:
+    - Chrome: ~35fps, iconstant
+  - MBP15 2015 with **AMD RADEON R9370X** & 16Go RAM:
+    - Chrome: ~60fps, constant
+
+## Gallery
+![Hospital](dev/assets/img/hospital.png)
+![Child](dev/assets/img/child.png)
+![Student](dev/assets/img/student.png)
