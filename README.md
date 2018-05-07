@@ -15,6 +15,13 @@ Without NPM :
 
 ## Features
 
+- First person view
+- Discover memory about furnitures and object
+- Random room generation (at some level)
+- Day / Night cycle
+- Multi-ending according to the memory you discovered while exploring (coming soon!)
+- Keyboard binding choice (coming soon!)
+
 ## Tech
 - Front:
   - HTML
@@ -24,6 +31,9 @@ Without NPM :
   - [THREE.js](https://threejs.org/) (webGL)
   - [Pizzicato.js](https://alemangui.github.io/pizzicato/) (audio)
   - [Cursor.js](https://github.com/edhbr/bin-brary) (cursor), a personnal library
+- Development:
+  - Gulp
+  - Babel
 
 ## Credits
 - Musics from [The Stanley Parable](https://fr.wikipedia.org/wiki/The_Stanley_Parable) by The Blake Robinson Synthetic Orchestra:
