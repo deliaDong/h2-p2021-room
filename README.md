@@ -11,7 +11,7 @@ With NPM :
 - Run `gulp` (gulp-cli required)
 
 Without NPM :
-- Just run index.html in `dev/` (audio may not work on chromium based browser)
+- Just run index.html in `dev/` (local server may be needed on chromium based browser)
 
 ## Features
 
@@ -33,7 +33,6 @@ Without NPM :
   - [Cursor.js](https://github.com/edhbr/bin-brary) (cursor), a personnal library
 - Development:
   - Gulp
-  - Babel
 
 ## Credits
 - Musics from [The Stanley Parable](https://fr.wikipedia.org/wiki/The_Stanley_Parable) by The Blake Robinson Synthetic Orchestra:

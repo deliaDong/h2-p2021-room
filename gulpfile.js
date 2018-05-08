@@ -3,9 +3,9 @@
  * Commands :
  *
  * $gulp // to launch development server
- * 
+ *
  * $gulp build // to build project
- * 
+ *
  */
 
 /*
@@ -117,9 +117,9 @@ gulp.task('styl', () => {
 
 // Watcher
 gulp.task('watch', ['browserSync', 'styl'], () => {
-  gulp.watch(path.stylAll, ['styl']); 
-  gulp.watch(path.web, reload); 
-  gulp.watch(path.js, reload); 
+  gulp.watch(path.stylAll, ['styl']);
+  gulp.watch(path.web, reload);
+  gulp.watch(path.js, reload);
 })
 
 // Server setup
@@ -153,18 +153,12 @@ gulp.task('useref', () => {
     .src(path.web)
     .pipe(useref({searchPath: devPath}))
     .pipe(gulpIf('*.css', cleanCSS()))
-    .pipe(gulpIf('*.js', babel({
+    /* .pipe(gulpIf('*.js', babel({
       presets: ['env']
     })))
-    .pipe(gulpIf('*.js', uglify()))
+    .pipe(gulpIf('*.js', uglify())) */
     .pipe(gulp.dest(path.dist))
 })
-
-// Folder export after useref
-gulp.task('exportAfter', () => {
-  gulp.src(path.js_vendor).pipe(gulp.dest(`${path.dist}/js/vendor`))
-})
-
 
 // Global export
 gulp.task('build', (callback) => {
@@ -173,7 +167,6 @@ gulp.task('build', (callback) => {
     'styl',
     'export',
     'useref',
-    'exportAfter',
     callback
   )
 })
