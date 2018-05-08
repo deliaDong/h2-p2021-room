@@ -10,7 +10,7 @@ class RoomHospital {
 
     this.initGeometry()
     this.initMaterial()
-    
+
     this.createLight()
     this.createRoomShape()
     this.createTreeShape()
@@ -23,11 +23,11 @@ class RoomHospital {
     // Placing camera
     this._ctx._camera.set("pos", {x: -0.5, y: 0, z: 2.2}, true)
   }
-  
+
   // Init all needed geometry
   initGeometry() {
     this._g = {}
-    
+
     // Room
     this._g.room = new THREE.PlaneGeometry(5, 5, 1, 1)
     this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
@@ -39,7 +39,7 @@ class RoomHospital {
     this._g.door = new THREE.BoxGeometry(1.2, 1.9, 0.1)
     this._g.doorB = new THREE.BoxGeometry(1.2, 0.3, 0.1)
     this._g.doorH = new THREE.BoxGeometry(0.2, 0.3, 0.05)
-    
+
     // Bed
     this._g.bedWheel = new THREE.BoxGeometry(0.3, 0.2, 1.4)
     this._g.bedStructureB = new THREE.BoxGeometry(2.4, 0.1, 1.4)
@@ -62,18 +62,18 @@ class RoomHospital {
     this._g.chairStructureS = new THREE.BoxGeometry(0.7, 0.05, 0.05)
     this._g.chairStructureM1 = new THREE.BoxGeometry(0.7, 0.05, 0.6)
     this._g.chairStructureM2 = new THREE.BoxGeometry(0.05, 0.3, 0.6)
-    
+
     // TV
     this._g.TVStructureF = new THREE.BoxGeometry(0.1, 0.55, 0.9)
     this._g.TVStructureS = new THREE.BoxGeometry(0.05, 0.5, 0.85)
-    this._g.TVStructureH = new THREE.BoxGeometry(0.5, 0.2, 0.2)
+    this._g.TVStructureH = new THREE.BoxGeometry(0.3, 0.2, 0.2)
 
     // Tree
     this._g.treeP = new THREE.CylinderGeometry(0.25, 0.3, 0.5, 6)
     this._g.treeB = new THREE.BoxGeometry(0.1, 1, 0.1)
     this._g.treeL1 = new THREE.SphereGeometry(0.3, 12, 12)
     this._g.treeL2 = new THREE.SphereGeometry(0.2, 8, 8)
-    
+
     // Baby bed
     this._g.bBedW = new THREE.BoxGeometry(0.8, 0.1, 0.1)
     this._g.bBedB1 = new THREE.BoxGeometry(0.8, 0.05, 1.2)
@@ -85,7 +85,7 @@ class RoomHospital {
     this._g.bBedP = new THREE.BoxGeometry(0.6, 0.05, 0.2)
 
   }
-  
+
   // Init all needed material
   initMaterial () {
     this._m = {}
@@ -98,7 +98,7 @@ class RoomHospital {
     this._m.roofLight = new THREE.MeshStandardMaterial({color: 0xf7f1e5, metalness: 0, roughness: 1, opacity: 0.8, transparent: true})
     this._m.door1 = new THREE.MeshStandardMaterial({color: 0xb25f40, flatShading: true, metalness: 0.1, roughness: 1})
     this._m.door2 = new THREE.MeshStandardMaterial({color: 0xfefefe, flatShading: true, metalness: 0.4, roughness: 0})
-    
+
     // Bed
     this._m.bedWheel = new THREE.MeshStandardMaterial({color: 0x787878, flatShading: true, metalness: 0.5, roughness: 0.5})
     this._m.bedStructure = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0.2, roughness: 0.5})
@@ -109,16 +109,16 @@ class RoomHospital {
     // Chair
     this._m.chairStructure = new THREE.MeshStandardMaterial({color: 0xd7b27f, flatShading: true, metalness: 0, roughness: 0.5})
     this._m.chairMatress = new THREE.MeshStandardMaterial({color: 0xf7f1e5, flatShading: true, metalness: 0, roughness: 0.7})
-    
+
     // TV
     this._m.TVStructure = new THREE.MeshStandardMaterial({color: 0x494949, flatShading: true, metalness: 0.5, roughness: 0.5})
     this._m.TVScreen = new THREE.MeshStandardMaterial({color: 0x898989, flatShading: true, metalness: 0.1, roughness: 0.5})
-    
+
     // Tree
     this._m.treeP = new THREE.MeshStandardMaterial({color: 0xf6424b, flatShading: true, metalness: 0.1, roughness: 0.7})
     this._m.treeB = new THREE.MeshStandardMaterial({color: 0x623410, flatShading: true, metalness: 0, roughness: 1})
     this._m.treeL = new THREE.MeshStandardMaterial({color: 0x56c344, flatShading: true, metalness: 0, roughness: 1})
-    
+
   }
 
   // Create global room shape
@@ -140,7 +140,7 @@ class RoomHospital {
     this._roofLight.position.y = 3
 
     this._roomShape.add(this._roofLightHolder)
-    
+
     // Building walls
     this._wall = []
     this._wall.push(this.craft("wall", "wall", this._roomShape))
@@ -151,7 +151,7 @@ class RoomHospital {
     this._wall[this._wall.length - 1].rotation.y = - Math.PI / 2
     this._wall.push(this.craft("wall", "wall", this._roomShape))
     this._wall[this._wall.length - 1].position.set(0, 1.5, 2.6)
-    
+
     // Building window
     this._window = new THREE.Object3D()
     this._wall.push(this.craft("wallB", "wall", this._window))
@@ -207,7 +207,7 @@ class RoomHospital {
     this._bBedStructure[this._bBedStructure.length - 1].rotation.x = -Math.PI / 3
     this._bBedStructure.push(this.craft("bBedB3", "bedStructure", this._bBedShape))
     this._bBedStructure[this._bBedStructure.length - 1].position.set(0, 0.9, 0)
-    
+
     // Glass border
     this._bBedStructure.push(this.craft("bBedS1", "glass", this._bBedShape))
     this._bBedStructure[this._bBedStructure.length - 1].position.set(0.4, 1.025, 0)
@@ -271,7 +271,7 @@ class RoomHospital {
     this._TVStructure[this._TVStructure.length - 1].rotation.y = Math.PI / 16
     this._TVStructure[this._TVStructure.length - 1].rotation.z = -Math.PI / 16
     this._TVStructure.push(this.craft("TVStructureH", "TVStructure", this._TVShape))
-    this._TVStructure[this._TVStructure.length - 1].position.set(-0.25, 0, 0)
+    this._TVStructure[this._TVStructure.length - 1].position.set(-0.15, 0, 0)
 
     this._TVShape.position.set(-2.2, 2.3, 1.2)
 
@@ -354,7 +354,7 @@ class RoomHospital {
     this._bedStructure.push(this.craft("bedStructureP", "bedPillow", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0.65, 0.925, 0)
     this._bedStructure[this._bedStructure.length - 1].rotation.z = Math.PI / 5
-    
+
     this._bedStructure.push(this.craft("bedStructureH1", "bedStructure", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0.5, 1.05, -1)
     this._bedStructure.push(this.craft("bedStructureH2", "bedStructure", this._bedShape))
@@ -396,21 +396,6 @@ class RoomHospital {
     child = new THREE.Mesh(trueGeometry, trueMaterial)
     parent.add(child)
     return child
-  }
-
-  // Return a material with a random color
-  randomColorMaterial ({
-    saturation = 100,
-    lightness = 50,
-    metalness = 0.1,
-    roughness = 0.7
-  } = {}) {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
-      flatShading: true,
-      metalness: metalness,
-      roughness: roughness
-    })
   }
 
   remove () {

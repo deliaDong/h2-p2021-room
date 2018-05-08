@@ -10,7 +10,7 @@ class RoomSquat {
 
     this.initGeometry()
     this.initMaterial()
-    
+
     this.createLight()
     this.createRoomShape()
 
@@ -20,11 +20,11 @@ class RoomSquat {
     // Placing camera
     this._ctx._camera.set("pos", {x: -0.5, y: 0, z: 2.2}, true)
   }
-  
+
   // Init all needed geometry
   initGeometry() {
     this._g = {}
-    
+
     // Room
     this._g.room = new THREE.PlaneGeometry(5, 5, 1, 1)
     this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
@@ -38,7 +38,7 @@ class RoomSquat {
     this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
 
   }
-  
+
   // Init all needed material
   initMaterial () {
     this._m = {}
@@ -57,7 +57,7 @@ class RoomSquat {
     this._m.roofLight = new THREE.MeshStandardMaterial({color: 0xf7f1e5, metalness: 0, roughness: 1, opacity: 0.8, transparent: true})
     this._m.door1 = new THREE.MeshStandardMaterial({color: 0x8f352c, flatShading: true, metalness: 0.1, roughness: 1})
     this._m.door2 = new THREE.MeshStandardMaterial({color: 0x341b16, flatShading: true, metalness: 0.1, roughness: 0.7})
-    
+
   }
 
   // Create global room shape
@@ -83,7 +83,7 @@ class RoomSquat {
     this._roofLight.position.y = 3
 
     this._roomShape.add(this._roofLightHolder)
-    
+
     // Building walls
     this._wall = []
     this._wall.push(this.craft("wall", "wall", this._roomShape))
@@ -94,7 +94,7 @@ class RoomSquat {
     this._wall[this._wall.length - 1].rotation.y = - Math.PI / 2
     this._wall.push(this.craft("wall", "wall", this._roomShape))
     this._wall[this._wall.length - 1].position.set(0, 1.5, 2.6)
-    
+
     // Building window
     this._window = new THREE.Object3D()
     this._wall.push(this.craft("wallB", "wall", this._window))
@@ -157,7 +157,7 @@ class RoomSquat {
     this._ambient = new THREE.AmbientLight(0x111111)
     this._lights.add(this._ambient)
 
-    this._point = new THREE.PointLight(0xd9c726, 0.5, 10)
+    this._point = new THREE.PointLight(0xd9c726, 0.7, 10)
     this._point.position.y = 2.5
     this._lights.add(this._point)
 
@@ -174,25 +174,10 @@ class RoomSquat {
     return child
   }
 
-  // Return a material with a random color
-  randomColorMaterial ({
-    saturation = 100,
-    lightness = 50,
-    metalness = 0.1,
-    roughness = 0.7
-  } = {}) {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
-      flatShading: true,
-      metalness: metalness,
-      roughness: roughness
-    })
-  }
-
   loop () {
     if (!this._kill) { window.requestAnimationFrame(this.loop.bind(this)) }
-    const flash = Math.random() < 0.9 ? 1 : 0.5
-    const intensity = 0.5 * flash
+    const flash = Math.random() < 0.95 ? 1 : 0.5
+    const intensity = 0.7 * flash
     this._point.intensity = intensity
   }
 

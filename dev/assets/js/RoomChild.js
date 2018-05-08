@@ -3,7 +3,7 @@ class RoomChild {
     this._ctx = ctx
 
     this._meshHolder = new THREE.Object3D()
-    
+
     // Window var
     this._angle = Math.PI / 4
     this._zOffset = Math.sin(this._angle) * 3 / 2
@@ -12,7 +12,7 @@ class RoomChild {
 
     this.initGeometry()
     this.initMaterial()
-    
+
     this.createLight()
     this.createRoomShape()
     this.createBedShape()
@@ -26,11 +26,11 @@ class RoomChild {
     // Placing camera
     this._ctx._camera.set("pos", {x: -2, y: 0, z: 1.5}, true)
   }
-  
+
   // Init all needed geometry
   initGeometry() {
     this._g = {}
-    
+
     // Room
     this._g.room = new THREE.PlaneGeometry(5, 7, 1, 1)
     this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
@@ -42,7 +42,7 @@ class RoomChild {
     this._g.roofLight = new THREE.BoxGeometry(0.6, 0.05, 0.6)
     this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
     this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
-    
+
     // Bed
     this._g.bedF = new THREE.BoxGeometry(1.4, 0.7, 0.1)
     this._g.bedR = new THREE.BoxGeometry(1.4, 0.9, 0.1)
@@ -50,12 +50,12 @@ class RoomChild {
     this._g.bedM1 = new THREE.BoxGeometry(1.2, 0.2, 2.2)
     this._g.bedM2 = new THREE.BoxGeometry(1.3, 0.25, 1.9)
     this._g.bedP = new THREE.BoxGeometry(0.8, 0.2, 0.5)
-    
+
     // Nightstand
     this._g.nightstandS = new THREE.BoxGeometry(0.8, 0.7, 0.7)
     this._g.nightstandD = new THREE.BoxGeometry(0.7, 0.25, 0.6)
     this._g.nightstandH = new THREE.BoxGeometry(0.2, 0.05, 0.1)
-    
+
     // Desk
     this._g.deskT = new THREE.BoxGeometry(0.8, 0.1, 1.8)
     this._g.deskL = new THREE.BoxGeometry(0.8, 0.9, 0.1)
@@ -63,19 +63,19 @@ class RoomChild {
     this._g.book2 = new THREE.BoxGeometry(0.15, 0.25, 0.1)
     this._g.book3 = new THREE.BoxGeometry(0.2, 0.3, 0.1)
     this._g.paper = new THREE.PlaneGeometry(0.297, 0.21, 1, 1)
-    
+
     // Chair
     this._g.chairB = new THREE.BoxGeometry(0.6, 0.05, 0.6)
     this._g.chairL1 = new THREE.BoxGeometry(0.05, 0.5, 0.05)
     this._g.chairL2 = new THREE.BoxGeometry(0.05, 1.1, 0.05)
     this._g.chairT = new THREE.BoxGeometry(0.05, 0.05, 0.5)
-    
+
     // Wardrobe
     this._g.wardrobeS = new THREE.BoxGeometry(0.6, 2.1, 1.6)
     this._g.wardrobeL = new THREE.BoxGeometry(0.6, 0.1, 0.1)
     this._g.wardrobeD = new THREE.BoxGeometry(0.1, 1.8, 0.7)
     this._g.wardrobeH = new THREE.BoxGeometry(0.1, 0.2, 0.05)
-    
+
     // Toys
     this._g.carpet = new THREE.PlaneGeometry(3, 3, 1, 1)
     this._g.boxB = new THREE.BoxGeometry(1.2, 0.1, 0.7)
@@ -98,11 +98,11 @@ class RoomChild {
     this._g.canvasD2 = new THREE.PlaneGeometry(0.1, 0.2, 1, 1)
     this._g.canvasD3 = new THREE.PlaneGeometry(0.1, 0.3, 1, 1)
   }
-  
+
   // Init all needed material
   initMaterial () {
     this._m = {}
-    
+
     // Color
     this._m.white = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0, roughness: 0.5})
 
@@ -114,28 +114,28 @@ class RoomChild {
     this._m.roofLight = new THREE.MeshStandardMaterial({color: 0xedce59, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.door1 = new THREE.MeshStandardMaterial({color: 0x906947, flatShading: true, metalness: 0.1, roughness: 1})
     this._m.door2 = new THREE.MeshStandardMaterial({color: 0xa07957, flatShading: true, metalness: 0.4, roughness: 0})
-    
+
     // Bed
     this._m.bed = new THREE.MeshStandardMaterial({color: 0xb2572d, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.bedM1 = new THREE.MeshStandardMaterial({color: 0xf8f1e9, flatShading: true, metalness: 0, roughness: 0.7})
     this._m.bedM2 = new THREE.MeshStandardMaterial({color: 0xd88178, flatShading: true, metalness: 0, roughness: 0.7})
     this._m.bedP = new THREE.MeshStandardMaterial({color: 0xffcccc, flatShading: true, metalness: 0, roughness: 0.7})
-    
+
     // Nightstand
     this._m.nightstandS = new THREE.MeshStandardMaterial({color: 0xffe2c3, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.nightstandD = new THREE.MeshStandardMaterial({color: 0xe2874e, flatShading: true, metalness: 0.1, roughness: 0.5})
-    
+
     // Desk
     this._m.desk = new THREE.MeshStandardMaterial({color: 0xffb177, flatShading: true, metalness: 0.1, roughness: 0.5})
-    
+
     // Chair
     this._m.chair = new THREE.MeshStandardMaterial({color: 0xa14c00, flatShading: true, metalness: 0.1, roughness: 0.5})
-    
+
     // Wardrobe
     this._m.wardrobe = new THREE.MeshStandardMaterial({color: 0xa64e38, flatShading: true, metalness: 0, roughness: 0.7})
     this._m.wardrobeD = new THREE.MeshStandardMaterial({color: 0xd96649, flatShading: true, metalness: 0, roughness: 0.7})
     this._m.wardrobeH = new THREE.MeshStandardMaterial({color: 0xffe2c3, flatShading: true, metalness: 0, roughness: 0.7})
-    
+
     // Toys
     this._m.carpet = new THREE.MeshStandardMaterial({color: 0xcc9923, flatShading: true, metalness: 0, roughness: 0.8})
     this._m.box = new THREE.MeshStandardMaterial({color: 0xe4ac72, flatShading: true, metalness: 0.1, roughness: 0.6})
@@ -144,7 +144,7 @@ class RoomChild {
 
     // Frame
     this._m.canvas = new THREE.MeshStandardMaterial({color: 0x8f4b17, flatShading: true, metalness: 0.1, roughness: 0.8})
-    
+
   }
 
   // Create global room shape
@@ -196,7 +196,7 @@ class RoomChild {
     this._wall[this._wall.length - 1].position.set(0, 1.5, 2.6)
     this._wall.push(this.craft("wallT", "wall", this._roomShape))
     this._wall[this._wall.length - 1].position.set(0, 0.5, -2.6 - this._zOffset)
-    
+
     // Building window
     this._window = new THREE.Object3D()
     this._wall.push(this.craft("wallB", "wall", this._window))
@@ -276,7 +276,7 @@ class RoomChild {
     this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.525, 0.1)
     this._nightstandStructure.push(this.craft("nightstandH", "nightstandS", this._nightstandShape))
     this._nightstandStructure[this._nightstandStructure.length - 1].position.set(0, 0.6, 0.375)
-    this._nightstandStructure.push(this.craft("book3", this.randomColorMaterial(), this._nightstandShape))
+    this._nightstandStructure.push(this.craft("book3", Utils3.randomColorMaterial(), this._nightstandShape))
     this._nightstandStructure[this._nightstandStructure.length - 1].position.set(Math.random() * 0.2 - 0.1, 0.75, Math.random() * 0.2 - 0.1)
     this._nightstandStructure[this._nightstandStructure.length - 1].rotation.set(Math.PI / 2, 0, Math.PI / 16)
 
@@ -302,13 +302,13 @@ class RoomChild {
     this._deskStructure[this._deskStructure.length - 1].position.set(0, 0.45, -0.85)
 
     // Stuff
-    this._deskStructure.push(this.craft("book1", this.randomColorMaterial(), this._deskShape))
+    this._deskStructure.push(this.craft("book1", Utils3.randomColorMaterial(), this._deskShape))
     this._deskStructure[this._deskStructure.length - 1].position.set(0.3, 1.1, 0.25)
-    this._deskStructure.push(this.craft("book2", this.randomColorMaterial(), this._deskShape))
+    this._deskStructure.push(this.craft("book2", Utils3.randomColorMaterial(), this._deskShape))
     this._deskStructure[this._deskStructure.length - 1].position.set(0.3, 1.125, 0.45)
-    this._deskStructure.push(this.craft("book3", this.randomColorMaterial(), this._deskShape))
+    this._deskStructure.push(this.craft("book3", Utils3.randomColorMaterial(), this._deskShape))
     this._deskStructure[this._deskStructure.length - 1].position.set(0.3, 1.15, 0.35)
-    this._deskStructure.push(this.craft("book2", this.randomColorMaterial(), this._deskShape))
+    this._deskStructure.push(this.craft("book2", Utils3.randomColorMaterial(), this._deskShape))
     this._deskStructure[this._deskStructure.length - 1].position.set(0.3, 1.125, -0.25)
 
     this._deskStructure.push(this.craft("paper", "white", this._deskShape))
@@ -410,7 +410,7 @@ class RoomChild {
       const toyPos = pos.splice(Math.floor(Math.random() * pos.length), 1)[0]
       const x = toyPos.x + (Math.random() * 0.2 - 0.1)
       const z = toyPos.z + (Math.random() * 0.2 - 0.1)
-      this._toysStructure.push(this.craft(shape, this.randomColorMaterial({lightness: 60}), this._toysShape))
+      this._toysStructure.push(this.craft(shape, Utils3.randomColorMaterial({lightness: 60}), this._toysShape))
       this._toysStructure[this._toysStructure.length - 1].position.set(x, 0.05, z)
       this._toysStructure[this._toysStructure.length - 1].rotation.x = Math.PI / 2
     }
@@ -439,16 +439,16 @@ class RoomChild {
     this._canvasStructure = []
     this._canvasStructure.push(this.craft("canvas", "canvas", this._canvasShape))
     this._canvasStructure[this._canvasStructure.length - 1].position.set(0, 0.5, 0)
-    this._canvasStructure.push(this.craft("canvasI", this.randomColorMaterial({lightness: 80}), this._canvasShape))
+    this._canvasStructure.push(this.craft("canvasI", Utils3.randomColorMaterial({lightness: 80}), this._canvasShape))
     this._canvasStructure[this._canvasStructure.length - 1].position.set(0, 0.5, -0.0501)
     this._canvasStructure[this._canvasStructure.length - 1].rotation.y = Math.PI
-    this._canvasStructure.push(this.craft("canvasD1", this.randomColorMaterial(), this._canvasShape))
+    this._canvasStructure.push(this.craft("canvasD1", Utils3.randomColorMaterial(), this._canvasShape))
     this._canvasStructure[this._canvasStructure.length - 1].position.set(0.3, 0.4, -0.0502)
     this._canvasStructure[this._canvasStructure.length - 1].rotation.y = Math.PI
-    this._canvasStructure.push(this.craft("canvasD2", this.randomColorMaterial(), this._canvasShape))
+    this._canvasStructure.push(this.craft("canvasD2", Utils3.randomColorMaterial(), this._canvasShape))
     this._canvasStructure[this._canvasStructure.length - 1].position.set(0, 0.3, -0.0502)
     this._canvasStructure[this._canvasStructure.length - 1].rotation.y = Math.PI
-    this._canvasStructure.push(this.craft("canvasD3", this.randomColorMaterial(), this._canvasShape))
+    this._canvasStructure.push(this.craft("canvasD3", Utils3.randomColorMaterial(), this._canvasShape))
     this._canvasStructure[this._canvasStructure.length - 1].position.set(-0.3, 0.35, -0.0502)
     this._canvasStructure[this._canvasStructure.length - 1].rotation.y = Math.PI
 
@@ -495,21 +495,6 @@ class RoomChild {
     child = new THREE.Mesh(trueGeometry, trueMaterial)
     parent.add(child)
     return child
-  }
-
-  // Return a material with a random color
-  randomColorMaterial ({
-    saturation = 100,
-    lightness = 50,
-    metalness = 0.1,
-    roughness = 0.7
-  } = {}) {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
-      flatShading: true,
-      metalness: metalness,
-      roughness: roughness
-    })
   }
 
   remove () {

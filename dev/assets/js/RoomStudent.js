@@ -3,7 +3,7 @@ class RoomStudent {
     this._ctx = ctx
 
     this._meshHolder = new THREE.Object3D()
-    
+
     // Window var
     this._angle = Math.PI / 4
     this._zOffset = Math.sin(this._angle) * 3 / 2
@@ -12,7 +12,7 @@ class RoomStudent {
 
     this.initGeometry()
     this.initMaterial()
-    
+
     this.createLight()
     this.createRoomShape()
     this.createBedShape()
@@ -26,11 +26,11 @@ class RoomStudent {
     // Placing camera
     this._ctx._camera.set("pos", {x: -2, y: 0, z: 1.5}, true)
   }
-  
+
   // Init all needed geometry
   initGeometry() {
     this._g = {}
-    
+
     // Room
     this._g.room = new THREE.PlaneGeometry(5, 7, 1, 1)
     this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
@@ -42,7 +42,7 @@ class RoomStudent {
     this._g.roofLight = new THREE.BoxGeometry(0.6, 0.3, 0.05)
     this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
     this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
-    
+
     // Bed
     this._g.bedB = new THREE.BoxGeometry(1.9, 0.25, 2.3)
     this._g.bedT = new THREE.BoxGeometry(2, 0.1, 2.4)
@@ -57,7 +57,7 @@ class RoomStudent {
     this._g.picture = new THREE.BoxGeometry(0.2, 0.25, 0.05)
     this._g.pictureH = new THREE.BoxGeometry(0.05, 0.15, 0.05)
     this._g.pictureF = new THREE.PlaneGeometry(0.15, 0.2, 1, 1)
-    
+
     // Wardrobe
     this._g.wardrobeL = new THREE.BoxGeometry(0.6, 1.1, 1.5)
     this._g.wardrobeLD = new THREE.BoxGeometry(0.1, 0.45, 1.4)
@@ -70,7 +70,7 @@ class RoomStudent {
     this._g.wardrobeRC2 = new THREE.BoxGeometry(0.4, 0.8, 0.05)
     this._g.wardrobeRC3 = new THREE.BoxGeometry(0.5, 0.6, 0.05)
     this._g.torusKnot = new THREE.TorusKnotGeometry(0.075, 0.02, 32, 12)
-    
+
     // Desk
     this._g.deskL = new THREE.CylinderGeometry(0.05, 0.05, 0.9, 5)
     this._g.deskT = new THREE.BoxGeometry(2, 0.05, 0.8)
@@ -83,7 +83,7 @@ class RoomStudent {
     this._g.keyboardK2 = new THREE.BoxGeometry(0.15, 0.05, 0.15)
     this._g.mouse = new THREE.BoxGeometry(0.075, 0.05, 0.1)
     this._g.case = new THREE.BoxGeometry(0.3, 0.6, 0.7)
-    
+
     // Chair
     this._g.chairL = new THREE.BoxGeometry(0.7, 0.05, 0.05)
     this._g.chairW = new THREE.CylinderGeometry(0.05, 0.05, 0.05, 7)
@@ -91,16 +91,16 @@ class RoomStudent {
     this._g.chairB = new THREE.BoxGeometry(0.5, 0.15, 0.5)
     this._g.chairBAlt = new THREE.BoxGeometry(0.5, 0.15, 0.3)
     this._g.chairF = new THREE.BoxGeometry(0.5, 0.1, 0.1)
-    
+
     // Canvas
     this._g.canvas = new THREE.BoxGeometry(0.05, 1, 1.8)
 
   }
-  
+
   // Init all needed material
   initMaterial () {
     this._m = {}
-    
+
     // Common
     this._m.white = new THREE.MeshStandardMaterial({color: 0xdedede, flatShading: true, metalness: 0, roughness: 0.5})
     this._m.black = new THREE.MeshStandardMaterial({color: 0x393939, flatShading: true, metalness: 0, roughness: 0.5})
@@ -114,21 +114,21 @@ class RoomStudent {
     this._m.roofLight = new THREE.MeshStandardMaterial({color: 0x8fede9, metalness: 0.1, roughness: 0.5, opacity: 0.2, transparent: true})
     this._m.door1 = new THREE.MeshStandardMaterial({color: 0xbebebe, flatShading: true, metalness: 0.1, roughness: 1})
     this._m.door2 = new THREE.MeshStandardMaterial({color: 0x9e9e9e, flatShading: true, metalness: 0.4, roughness: 0.5})
-    
+
     // Bed
     this._m.bed = new THREE.MeshStandardMaterial({color: 0xfd8250, flatShading: true, metalness: 0, roughness: 0.5})
     this._m.bedAlt = new THREE.MeshStandardMaterial({color: 0xed7240, flatShading: true, metalness: 0, roughness: 0.5})
-    this._m.matress = this.randomColorMaterial({lightness: 70})
+    this._m.matress = Utils3.randomColorMaterial({lightness: 70})
 
     // Nightstand
     this._m.nightstandS = new THREE.MeshStandardMaterial({color: 0xffe2c3, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.nightstandD = new THREE.MeshStandardMaterial({color: 0xe2874e, flatShading: true, metalness: 0.1, roughness: 0.5})
-    
+
     // Wardrobe
     this._m.wardrobe = new THREE.MeshStandardMaterial({color: 0xba8340, flatShading: true, metalness: 0.1, roughness: 0.7})
     this._m.wardrobeD = new THREE.MeshStandardMaterial({color: 0xf7ae55, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.torusKnot = new THREE.MeshStandardMaterial({color: 0xed0707, flatShading: true, metalness: 0.1, roughness: 0.7})
-    
+
     // Desk
     this._m.deskT = new THREE.MeshStandardMaterial({color: 0xa7473b, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.screen = new THREE.MeshStandardMaterial({color: 0x494949, flatShading: true, metalness: 0.5, roughness: 0.5})
@@ -186,7 +186,7 @@ class RoomStudent {
     this._wall[this._wall.length - 1].position.set(0, 1.5, 2.6)
     this._wall.push(this.craft("wallT", "wall", this._roomShape))
     this._wall[this._wall.length - 1].position.set(0, 0.5, -2.6 - this._zOffset)
-    
+
     // Building window
     this._window = new THREE.Object3D()
     this._wall.push(this.craft("wallB", "wall", this._window))
@@ -277,7 +277,7 @@ class RoomStudent {
     this._nightstandStructure.push(this.craft("pictureH", "bedAlt", this._picture))
     this._nightstandStructure[this._nightstandStructure.length - 1].position.set(x, 0.775, z - 0.05)
     this._nightstandStructure[this._nightstandStructure.length - 1].rotation.x = Math.PI / 8
-    this._nightstandStructure.push(this.craft("pictureF", this.randomColorMaterial(), this._picture))
+    this._nightstandStructure.push(this.craft("pictureF", Utils3.randomColorMaterial(), this._picture))
     this._nightstandStructure[this._nightstandStructure.length - 1].position.set(x, 0.825, z + 0.026)
     this._nightstandStructure[this._nightstandStructure.length - 1].rotation.set(-Math.PI / 16, 0, 0)
 
@@ -335,7 +335,7 @@ class RoomStudent {
     const clothesNumber = Math.floor(Math.random() * 5) + 2
     for (let i = 0; i < clothesNumber; i++) {
       const offset = Math.floor(Math.random() * 3) + 1
-      this._wardrobeStructure.push(this.craft(`wardrobeRC${offset}`, this.randomColorMaterial({lightness: 70}), this._wardrobeShape))
+      this._wardrobeStructure.push(this.craft(`wardrobeRC${offset}`, Utils3.randomColorMaterial({lightness: 70}), this._wardrobeShape))
       this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.65 + offset * 0.1, 0.35 + 0.15 * i + Math.random() * 0.1)
     }
 
@@ -376,7 +376,7 @@ class RoomStudent {
     this._deskStructure[this._deskStructure.length - 1].rotation.x = Math.PI / 12
     this._deskStructure.push(this.craft("deskT", "deskT", this._deskShape))
     this._deskStructure[this._deskStructure.length - 1].position.set(0, 0.9, 0)
-    
+
     // Screen 1
     this._deskStructure.push(this.craft("screenB", "screen", this._deskShape))
     this._deskStructure[this._deskStructure.length - 1].position.set(0.575, 0.95, 0.1)
@@ -482,7 +482,7 @@ class RoomStudent {
     this._chairStructure.push(this.craft("chairBAlt", "black", this._chairShape))
     this._chairStructure[this._chairStructure.length - 1].position.set(0, 1.2, -0.3)
     this._chairStructure[this._chairStructure.length - 1].rotation.x = Math.PI / 2
-    
+
     this._chairShape.position.set(-0.2, 0, 1.2)
     this._chairShape.rotation.y = -Math.PI / 8
 
@@ -501,7 +501,7 @@ class RoomStudent {
 
     for (let i = 0; i < 50; i++) {
       const geometry = new THREE.PlaneGeometry(0.1 + Math.random() * 0.1, 0.2 + Math.random() * 0.4, 1, 1)
-      const material = this.randomColorMaterial({saturation: 0, lightness: 25 + Math.floor(Math.random() * 50)})
+      const material = Utils3.randomColorMaterial({saturation: 0, lightness: 25 + Math.floor(Math.random() * 50)})
       this._canvasStructure.push(this.craft(geometry, material, this._canvasShape))
       this._canvasStructure[this._canvasStructure.length - 1].position.set(-2.42 + 0.00001 * i, 1.3 + Math.random() * 0.3, -0.5 + 1.6 * Math.random() - 0.8)
       this._canvasStructure[this._canvasStructure.length - 1].rotation.y = Math.PI / 2
@@ -550,21 +550,6 @@ class RoomStudent {
     child = new THREE.Mesh(trueGeometry, trueMaterial)
     parent.add(child)
     return child
-  }
-
-  // Return a material with a random color
-  randomColorMaterial ({
-    saturation = 100,
-    lightness = 50,
-    metalness = 0.1,
-    roughness = 0.7
-  } = {}) {
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
-      flatShading: true,
-      metalness: metalness,
-      roughness: roughness
-    })
   }
 
   remove () {

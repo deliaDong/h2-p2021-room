@@ -134,16 +134,16 @@ const Utils3 = (function () {
     updateSize (width, height) {
       this._renderer.setSize (width, height)
     }
-    
+
     render () {
       this._renderer.render(this._scene, this._camera)
     }
-    
+
     get () {
       return this._renderer
     }
   }
-  
+
   /**
    * Composer class
    */
@@ -161,11 +161,11 @@ const Utils3 = (function () {
       outline = false
     } = {}) {
       this._composer = () => console.info("Not init with this.updatePass()")
-      
+
       this._renderer = renderer.get()
       this._scene = scene
       this._camera = camera.get()
-      
+
       this._config = {
         bloom: bloom,
         blur: blur,
@@ -175,7 +175,7 @@ const Utils3 = (function () {
         vignette: vignette,
         outline: outline
       }
-      
+
       // Basic render
       this._renderPass = new THREE.RenderPass(this._scene, this._camera)
 
@@ -186,7 +186,7 @@ const Utils3 = (function () {
 
       // Bleach effect
       this._bleachPass = new THREE.ShaderPass(THREE.BleachBypassShader)
-      
+
       // Vignette effect
       this._vignettePass = new THREE.ShaderPass(THREE.VignetteShader)
       this._vignettePass.uniforms["offset"].value = 0.8
@@ -215,7 +215,7 @@ const Utils3 = (function () {
 
       this.updatePass()
     }
-    
+
     // Update pass according to options
     updatePass ({
       bloom,
@@ -271,6 +271,27 @@ const Utils3 = (function () {
     render () {
       this._composer.render()
     }
+  }
+
+  /**
+   * Craft
+   */
+
+  /**
+   * Random color material
+   */
+  u.randomColorMaterial = ({
+    saturation = 100,
+    lightness = 50,
+    metalness = 0.1,
+    roughness = 0.7
+  } = {}) => {
+    return new THREE.MeshStandardMaterial({
+      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
+      flatShading: true,
+      metalness: metalness,
+      roughness: roughness
+    })
   }
 
   return u
