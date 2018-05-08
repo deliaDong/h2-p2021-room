@@ -388,7 +388,7 @@ class RoomStudent {
     this._deskStructure[this._deskStructure.length - 1].position.set(0.6, 1.275, 0.12)
     this._deskStructure[this._deskStructure.length - 1].rotation.set(Math.PI, -Math.PI / 8, 0)
 
-    // Message
+    // Vico's tree part 1
     this._messageHolder = new THREE.Object3D()
     this._messageHolder.textKey = "sMessage"
     this._messageHolder.text = "There is a message from Vico that reminds me that if I have a problem I can count on him, Vico is really a cool guy."

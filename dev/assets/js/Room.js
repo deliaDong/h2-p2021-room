@@ -1,5 +1,5 @@
 class Room {
-  constructor (output) {    
+  constructor (output) {
     // Try to get output element
     this._$output = document.querySelector(output)
     if (!this._$output) { // Handle error
@@ -33,7 +33,7 @@ class Room {
 
     // Events listener
     this.initListener()
-    
+
     // Init skybox
     this.initSky()
 
@@ -131,7 +131,7 @@ class Room {
     this._getMonths = () => this._months[Math.floor(Math.random() * 12)]
     this._getDay = () => Math.floor(Math.random() * 28) + 1
     this._birthYear = Math.floor(Math.random() * 15) + 1985
-    
+
     // ENV
     this._speed = 0.05
     this._dayDuration = 120000
@@ -142,7 +142,7 @@ class Room {
     this._roomDepth = 5
 
     // ROOM GESTION
-    this._nextRoom = 0
+    this._nextRoom = 3
     this._currentRoom = false
     this._rooms = [
       {
@@ -239,7 +239,7 @@ class Room {
     this._sky.material.uniforms.mieCoefficient.value = 0.002 // 0.003
     this._sky.material.uniforms.mieDirectionalG.value = 0.8 // 0.665
     this._sky.material.uniforms.luminance.value = 1.1 // 1.1
-    
+
     this.updateSky(0)
 
     this._scene.add(this._sky)
@@ -285,7 +285,7 @@ class Room {
       }
     ])
   }
-  
+
   // Load next room
   getNextRoom () {
     if (this._currentRoom) {
@@ -294,11 +294,11 @@ class Room {
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    this._$next.addEventListener("mouseup", () => {
+    //this._$next.addEventListener("mouseup", () => {
       this._currentRoom = nextRoom.scene()
       this._nextRoom = nextRoom.nextRoomIndex
       this.updateText()
-    }, {once: true})
+    //}, {once: true})
   }
 
   // Object mouse selector to check intersection
@@ -340,7 +340,7 @@ class Room {
           this._$textOutput.innerText = this._currentText
           this._$textOutput.classList.remove("active")
           this._$HUD.classList.add("active")
-          
+
           if (action == "choice") {
             this._$choice.classList.add("active")
             this._$HUD.classList.add("dark")
@@ -351,11 +351,11 @@ class Room {
           this._actionText = action
           this._$textOutput.classList.add("active")
           this._$date.innerText = this._currentText
-          
+
           this._$choice.classList.remove("active")
           this._$HUD.classList.add("darker")
           this._$desc.innerText = subText
-          
+
           this._$date.classList.remove("active")
           this._$desc.classList.add("active")
           this._$next.classList.add("active")
@@ -371,17 +371,17 @@ class Room {
       this._$date.classList.add("active")
     }
   }
-  
+
   // Handle resize
   updateSize () {
     this._w = this._$output.offsetWidth
     this._h = this._$output.offsetHeight
-    
+
     this._camera.updateSize(this._w, this._h)
     this._renderer.updateSize(this._w, this._h)
     this._composer.updateSize(this._w, this._h)
   }
-  
+
   // Main loop
   loop () {
     window.requestAnimationFrame(this.loop.bind(this))
@@ -390,10 +390,10 @@ class Room {
     this._composer.render()
     this._stats.update() // Stats
   }
-  
+
   // Update camera according to context and user input
   updateCamera () {
-    
+
     // When mouse have moved
     if (this._mouseUpdate) {
       // Camera first person view
@@ -405,7 +405,7 @@ class Room {
           z: 0
         }
       )
-      
+
       this.objectSelector()
 
       this._mouseUpdate = false
@@ -420,34 +420,34 @@ class Room {
       },
       true
     )
-    
+
     if (this._mouse.x > 0.45) {
       this._cameraYOffset -= Math.PI / 90
     }
-    
+
     if (this._mouse.x < -0.45) {
       this._cameraYOffset += Math.PI / 90
     }
-    
+
     // Movement
     let x = 0
     let z = 0
-    if (this._input[this._keyboard[this._keyBoardType][1]]) { // if left
+    if (this._input[this._keyboard[this._keyBoardType][1]] || this._input["ArrowLeft"]) { // if left
       x -= Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
       z -= Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
-    
-    if (this._input[this._keyboard[this._keyBoardType][3]]) { // if right
+
+    if (this._input[this._keyboard[this._keyBoardType][3]] || this._input["ArrowRight"]) { // if right
       x += Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
       z += Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
-    
-    if (this._input[this._keyboard[this._keyBoardType][0]]) { // if up
+
+    if (this._input[this._keyboard[this._keyBoardType][0]] || this._input["ArrowUp"]) { // if up
       x -= Math.sin(this._camera.get("angle", true).y) * this._speed
       z -= Math.cos(this._camera.get("angle", true).y) * this._speed
     }
-    
-    if (this._input[this._keyboard[this._keyBoardType][2]]) { // if down
+
+    if (this._input[this._keyboard[this._keyBoardType][2]] || this._input["ArrowDown"]) { // if down
       x += Math.sin(this._camera.get("angle", true).y) * this._speed
       z += Math.cos(this._camera.get("angle", true).y) * this._speed
     }
