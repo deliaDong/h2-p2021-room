@@ -21,9 +21,16 @@ class Room {
         attack: 5
       }
     }, () => {
-      this._theme.play()
+      // Deal with chrome autoplay policy
+      if (!this._theme.play()) {
+        document.addEventListener("mouseup", () => {
+          Pizzicato.context.resume().then(() => {
+            this._theme.play()
+          })
+        }, {once: true})
+      }
+      this.init() // Dont wait if outside sound
     })
-    this.init() // Dont wait if outside sound
   }
 
   // Init everything
@@ -63,6 +70,7 @@ class Room {
     this._$date = this._$HUD.querySelector(".date")
     this._$positive = this._$choice.querySelector(".yes")
     this._$negative = this._$choice.querySelector(".no")
+    this._$mute = this._$output.querySelector(".mute")
 
     // GLOBAL
     this._w = this._$output.offsetWidth
@@ -142,32 +150,36 @@ class Room {
     this._roomDepth = 5
 
     // ROOM GESTION
-    this._nextRoom = 3
+    this._nextRoom = 0
     this._currentRoom = false
     this._rooms = [
       {
         scene: () => new RoomHospital(this),
         intro: `Birth - ${this._getMonths()} ${this._getDay()}, ${this._birthYear}`,
         desc: "It was here that I was born in a small suburban hospital. My parents were neither too rich nor too poor. My future seemed safe.",
-        nextRoomIndex: 1
+        cameraOffset: 0,
+        getNextRoom: () => 1
       },
       {
         scene: () => new RoomChild(this),
         intro: `Childhood - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 8}`,
         desc: "I was enjoying my childhood. My parents were loving me and spent a lot of time with me doing activities of all kinds.",
-        nextRoomIndex: 2
+        cameraOffset: -Math.PI / 2,
+        getNextRoom: () => 2
       },
       {
         scene: () => new RoomStudent(this),
         intro: `Studies - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 19}`,
         desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
-        nextRoomIndex: 3
+        cameraOffset: -Math.PI / 2,
+        getNextRoom: () => 3
       },
       {
         scene: () => new RoomSquat(this),
         intro: `Squating - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 24}`,
         desc: "My father had ended his life and I had not passed my studies. I lived by sharing a room in the flat of Milan. It was not great but life went on anyway.",
-        nextRoomIndex: 0
+        cameraOffset: 0,
+        getNextRoom: () => 0
       }
     ]
 
@@ -186,18 +198,19 @@ class Room {
 
   // Init events listener
   initListener () {
+    // Resize handling
     window.addEventListener("resize", this.updateSize.bind(this))
-    // Update mouse
+
+    // Player control
     this._$output.addEventListener("mousemove", (e) => {
       this._mouse.x = Math.round((e.clientX / this._w - 0.5) * 100) / 100
       this._mouse.y = Math.round((e.clientY / this._h - 0.5) * 100) / -100
       this._mouseUpdate = true
     })
-    // Update keyboard
     document.addEventListener("keydown", (e) => { this._input[e.key] = true })
     document.addEventListener("keyup", (e) => { this._input[e.key] = false })
 
-    // Mouse
+    // Mouse events
     this._$output.addEventListener("mousedown", () => {
       this._mouse.clicked = true
       this._mouseUpdate = true
@@ -214,6 +227,7 @@ class Room {
       })
     })
 
+    // Button
     this._$positive.addEventListener("mouseup", () => {
       if (this._canAnswer) {
         this._canAnswer = false
@@ -224,6 +238,15 @@ class Room {
       if (this._canAnswer) {
         this._canAnswer = false
         this.updateText()
+      }
+    })
+    this._$mute.addEventListener("mouseup", () => {
+      if (this._$mute.classList.contains("muted")) {
+        this._$mute.classList.remove("muted")
+        this._theme.volume = 1
+      } else {
+        this._$mute.classList.add("muted")
+        this._theme.volume = 0
       }
     })
   }
@@ -289,16 +312,17 @@ class Room {
   // Load next room
   getNextRoom () {
     if (this._currentRoom) {
+      this._nextRoom = this._rooms[this._nextRoom].getNextRoom()
       this._currentRoom.remove()
       this._currentRoom = null
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    //this._$next.addEventListener("mouseup", () => {
+    this._$next.addEventListener("mouseup", () => {
+      this._cameraYOffset = nextRoom.cameraOffset
       this._currentRoom = nextRoom.scene()
-      this._nextRoom = nextRoom.nextRoomIndex
       this.updateText()
-    //}, {once: true})
+    }, {once: true})
   }
 
   // Object mouse selector to check intersection

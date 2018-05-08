@@ -60,65 +60,121 @@ div.roomApp
     &.dark .bg
       opacity .8
       transition opacity .5s ease
-    
+
     &.darker .bg
       opacity 1
       transition opacity .5s ease
 
-  .wrapper
-    width 600px
-    max-width 90vw
-    position relative
+    .wrapper
+      width 600px
+      max-width 90vw
+      position relative
 
-  .module
-    width 100%
-    position absolute
-    top 100%
-    left 0
+    .module
+      width 100%
+      position absolute
+      top -10vh
+      left 0
 
-  .textOutput, .date
-    font-size font-big
-    line-height font-bigger
-    text-align center
-    opacity 1
-    transition opacity .3s ease
-    will-change opacity
-
-    &.active
-      opacity 0
-
-  .date
-    transition opacity .3s ease 1s
-    &.active
-      transition opacity .3s ease
-  
-  .desc, .next, .choice
-    opacity 0
-    transition opacity .5s ease
-    will-change opacity
-    padding-top 3rem
-
-    &.active
+    .textOutput, .date
+      font-size font-big
+      line-height font-bigger
+      text-align center
       opacity 1
-      transition opacity .5s ease .3s
-      pointer-events auto
+      transition opacity .3s ease
+      will-change opacity
 
-  .choice
-    display flex
-    flex-flow row nowrap
-    align-items center
-    justify-content space-around
+      &.active
+        opacity 0
 
-  .desc
-    line-height font-medium
-    letter-spacing .05rem
+    .date
+      transition opacity .3s ease 1s
+      &.active
+        transition opacity .3s ease
 
-  .desc.active
-    transition opacity .5s ease 1.3s
+    .desc, .next, .choice
+      opacity 0
+      transition opacity .5s ease
+      will-change opacity
+      padding-top 3rem
 
-  .next
-    text-align center
-    &.active
-      transition opacity .5s ease 1.6s, color .5s ease, transform .5s ease
-      &.hover
-        transition opacity .5s ease 1.6s, color .3s ease, transform .3s ease
+      &.active
+        opacity 1
+        transition opacity .5s ease .3s
+        pointer-events auto
+
+    .choice
+      display flex
+      flex-flow row nowrap
+      align-items center
+      justify-content space-around
+
+    .desc
+      line-height font-medium
+      letter-spacing .05rem
+
+    .desc.active
+      transition opacity .5s ease 1.3s
+
+    .next
+      text-align center
+      &.active
+        transition opacity .5s ease 1.6s, color .5s ease, transform .5s ease
+        &.hover
+          transition opacity .5s ease 1.6s, color .3s ease, transform .3s ease
+
+  .mute
+    position absolute
+    bottom 20px
+    right 70px
+    width 30px
+    height 30px
+    z-index 100
+
+    .wave
+      background color-white
+      width 5px
+      height 30px
+      position absolute
+      bottom 0
+      transform-origin 50% 100%
+      //transform scaleY(0.1)
+      opacity .5
+      transition transform .5s ease, opacity .5s ease
+      will-change transform, opacity
+
+    &.muted:hover .wave1, .wave1
+      left 0px
+      animation pulse 1s ease infinite
+    &.muted:hover .wave2, .wave2
+      left 6px
+      animation pulse 1.2s ease infinite .3s
+    &.muted:hover .wave3, .wave3
+      left 12px
+      animation pulse 1.3s ease infinite .2s
+    &.muted:hover .wave4, .wave4
+      left 18px
+      animation pulse 0.9s ease infinite .1s
+    &.muted:hover .wave5, .wave5
+      left 24px
+      animation pulse 1.4s ease infinite .4s
+
+    &:hover .wave
+      animation pause .5s ease both
+      opacity 1
+
+    &.muted .wave
+      animation pause .5s ease both
+
+    &.muted:hover .wave
+      opacity 1
+
+@keyframes pulse {
+  0%   { transform: scaleY(0.1); }
+  80% { transform: scaleY(1); }
+  100% { transform: scaleY(0.1); }
+}
+
+@keyframes pause {
+  100% { transform: scaleY(0.1); }
+}

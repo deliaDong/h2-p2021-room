@@ -5,8 +5,8 @@ class RoomSquat {
     this._meshHolder = new THREE.Object3D()
 
     // Room var
-    this._ctx._roomLenght = 10
-    this._ctx._roomDepth = 10
+    this._ctx._roomLenght = 5
+    this._ctx._roomDepth = 5
 
     this.initGeometry()
     this.initMaterial()
