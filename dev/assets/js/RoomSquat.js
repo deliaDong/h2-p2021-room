@@ -17,8 +17,9 @@ class RoomSquat {
     this.createTableShape()
     this.createTVShape()
     this.createKitchenShape()
+    this.createWardrobeShape()
 
-    //this.loop()
+    this.loop()
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
@@ -78,6 +79,9 @@ class RoomSquat {
     this._g.microwaveG = new THREE.BoxGeometry(0.4, 0.25, 0.05)
     this._g.microwaveC = new THREE.CylinderGeometry(0.05, 0.05, 0.1, 7)
 
+    // Wardrobe
+    this._g.wardrobe = new THREE.BoxGeometry(0.4, 0.05, 1.5)
+    this._g.wardrobeH = new THREE.BoxGeometry(0.05, 0.3, 0.05)
 
   }
 
@@ -114,6 +118,9 @@ class RoomSquat {
     this._m.kitchenAlt = new THREE.MeshStandardMaterial({color: 0xbd4c12, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.kitchenS = new THREE.MeshStandardMaterial({color: 0xa17842, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.microwave = Utils3.randomColorMaterial({lightness: 40, saturation: 50})
+
+    // Wardrobe
+    this._m.wardrobe = new THREE.MeshStandardMaterial({color: 0x543926, flatShading: true, metalness: 0, roughness: 0.7})
 
   }
 
@@ -156,6 +163,21 @@ class RoomSquat {
     this._wall[this._wall.length - 1].rotation.y = - Math.PI / 2
     this._wall.push(this.craft("wall", "wall", this._roomShape))
     this._wall[this._wall.length - 1].position.set(0, 1.5, 2.6)
+
+    // Moisted left wall
+    this._moistureHolder = new THREE.Object3D()
+    this._moistureHolder.textKey = "sqMoisture"
+    this._moistureHolder.text = "This wall was full of mold, that can be considered as art at this point..."
+    this._moistureHolder.textAction = "bubble"
+    for (let i = 0; i < 50; i++) {
+      const geometry = new THREE.PlaneGeometry(0.1 + Math.random() * 0.4, 0.1 + Math.random() * 0.4, 1, 1)
+      const material = Utils3.randomColorMaterial({hue: 10, saturation: 50, lightness: 25 + Math.floor(Math.random() * 25)})
+      this._wall.push(this.craft(geometry, material, this._moistureHolder))
+      this._wall[this._wall.length - 1].position.set(0.00001 * i, Math.random() * 3, Math.random() * 5 - 2.5)
+      this._wall[this._wall.length - 1].rotation.y = Math.PI / 2
+    }
+    this._moistureHolder.position.set(-2.49, 0, 0)
+    this._roomShape.add(this._moistureHolder)
 
     // Building window
     this._window = new THREE.Object3D()
@@ -377,6 +399,71 @@ class RoomSquat {
     this._kitchenShape.position.set(2, 0, -1.6)
 
     this._meshHolder.add(this._kitchenShape)
+  }
+
+  createWardrobeShape () {
+    this._wardrobeShape = new THREE.Object3D()
+    this._wardrobeShape.textKey = "sqWardrobe"
+    if (this._ctx._textMemory["sWardrobe"]) {
+      this._wardrobeShape.text = "Being a wardrobe magician wasn't that fun now."
+    } else {
+      this._wardrobeShape.text = "Some planks and here you go, a wardrobe!"
+    }
+    this._wardrobeShape.textAction = "bubble"
+
+    this._wardrobeStructure = []
+    for (let i = 0; i < 3; i++) {
+      const yOffset = 1 + i * 0.5
+      this._wardrobeStructure.push(this.craft("wardrobe", "wardrobe", this._wardrobeShape))
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, yOffset, 0)
+      this._wardrobeStructure.push(this.craft("wardrobeH", "rod", this._wardrobeShape))
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0.1, yOffset - 0.1, 0.7)
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].rotation.z = Math.PI / 4
+      this._wardrobeStructure.push(this.craft("wardrobeH", "rod", this._wardrobeShape))
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0.1, yOffset - 0.1, -0.7)
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].rotation.z = Math.PI / 4
+
+      const clothesSlots = [
+        Math.floor(Math.random() * 2),
+        Math.floor(Math.random() * 2),
+        Math.floor(Math.random() * 2),
+        Math.floor(Math.random() * 2)
+      ]
+      for (let i = 0; i < clothesSlots.length; i++) {
+        if (clothesSlots[i]) {
+          const zOffset = i * 0.4 + Math.floor(Math.random()) * 0.1
+          const height = Math.floor(Math.random() * 3 + 1) * 0.05
+          const geometry = new THREE.BoxGeometry(
+            Math.floor(Math.random() * 3) * 0.05 + 0.2,
+            height,
+            Math.floor(Math.random() * 3) * 0.05 + 0.2
+          )
+          const material = Utils3.randomColorMaterial({lightness: 40, saturation: 30})
+          this._wardrobeStructure.push(this.craft(geometry, material, this._wardrobeShape))
+          this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, yOffset + 0.025 + height / 2, -0.6 + zOffset)
+        }
+      }
+    }
+
+    this._wardrobeShape.position.set(2.3, 0, 1)
+
+    this._meshHolder.add(this._wardrobeShape)
+  }
+
+  // Shape template
+  createShapeShape () {
+    this._shapeShape = new THREE.Object3D()
+    this._shapeShape.textKey = "sqShape"
+    this._shapeShape.text = "Go further?"
+    this._shapeShape.textAction = "bubble"
+
+    this._shapeStructure = []
+    this._shapeStructure.push(this.craft("shapeStructureB", "shapeStructure", this._shapeShape))
+    this._shapeStructure[this._shapeStructure.length - 1].position.set(0, 0, 0)
+
+    this._shapeShape.position.set(0, 0, 0)
+
+    this._meshHolder.add(this._shapeShape)
   }
 
   // Shape template

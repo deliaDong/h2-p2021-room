@@ -66,3 +66,4 @@ Without NPM :
 ![Hospital](dev/assets/img/hospital.png)
 ![Child](dev/assets/img/child.png)
 ![Student](dev/assets/img/student.png)
+![Student](dev/assets/img/squat.png)

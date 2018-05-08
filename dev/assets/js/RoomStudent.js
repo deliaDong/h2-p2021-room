@@ -334,9 +334,9 @@ class RoomStudent {
     // Clothes
     const clothesNumber = Math.floor(Math.random() * 5) + 2
     for (let i = 0; i < clothesNumber; i++) {
-      const offset = Math.floor(Math.random() * 3) + 1
-      this._wardrobeStructure.push(this.craft(`wardrobeRC${offset}`, Utils3.randomColorMaterial({lightness: 70}), this._wardrobeShape))
-      this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.65 + offset * 0.1, 0.35 + 0.15 * i + Math.random() * 0.1)
+      const zOffset = Math.floor(Math.random() * 3) + 1
+      this._wardrobeStructure.push(this.craft(`wardrobeRC${zOffset}`, Utils3.randomColorMaterial({lightness: 70}), this._wardrobeShape))
+      this._wardrobeStructure[this._wardrobeStructure.length - 1].position.set(0, 0.65 + zOffset * 0.1, 0.35 + 0.15 * i + Math.random() * 0.1)
     }
 
     // Torus knot one

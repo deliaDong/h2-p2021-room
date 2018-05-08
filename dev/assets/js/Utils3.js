@@ -281,13 +281,14 @@ const Utils3 = (function () {
    * Random color material
    */
   u.randomColorMaterial = ({
+    hue = Math.floor(Math.random() * 360),
     saturation = 100,
     lightness = 50,
     metalness = 0.1,
-    roughness = 0.7
+    roughness = 0.7,
   } = {}) => {
     return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(`hsl(${Math.floor(Math.random() * 360)}, ${saturation}%, ${lightness}%)`),
+      color: new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`),
       flatShading: true,
       metalness: metalness,
       roughness: roughness
