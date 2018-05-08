@@ -43,7 +43,7 @@ class RoomSquat {
     this._g.roofLightH = new THREE.BoxGeometry(0.05, 0.4, 0.05)
     this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
     this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
-    this._g.paper = new THREE.PlaneGeometry(0.297, 0.21, 1, 1)
+    this._g.paper = new THREE.PlaneGeometry(0.15, 0.15, 1, 1)
 
     // Bed
     this._g.bedL = new THREE.BoxGeometry(0.05, 0.1, 0.75)
@@ -218,7 +218,7 @@ class RoomSquat {
       this._messageHolder.textKey = "sqMessage"
       this._messageHolder.text = "Vico asked me to meet him tonight! He can probably help me to get back on rail."
       this._messageHolder.textAction = "bubble"
-      this._doorPart.push(this.craft("paper", "white", this._messageHolder))
+      this._doorPart.push(this.craft("paper", Utils3.randomColorMaterial({lightness: 70}), this._messageHolder))
       this._doorPart[this._doorPart.length - 1].position.set(0, 1.5, -0.051)
       this._doorPart[this._doorPart.length - 1].rotation.set(Math.PI, 0, Math.random() * 0.5 - 0.25 + Math.PI / 2)
       this._door.add(this._messageHolder)
@@ -448,22 +448,6 @@ class RoomSquat {
     this._wardrobeShape.position.set(2.3, 0, 1)
 
     this._meshHolder.add(this._wardrobeShape)
-  }
-
-  // Shape template
-  createShapeShape () {
-    this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "sqShape"
-    this._shapeShape.text = "Go further?"
-    this._shapeShape.textAction = "bubble"
-
-    this._shapeStructure = []
-    this._shapeStructure.push(this.craft("shapeStructureB", "shapeStructure", this._shapeShape))
-    this._shapeStructure[this._shapeStructure.length - 1].position.set(0, 0, 0)
-
-    this._shapeShape.position.set(0, 0, 0)
-
-    this._meshHolder.add(this._shapeShape)
   }
 
   // Shape template

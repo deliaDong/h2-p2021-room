@@ -179,6 +179,20 @@ class Room {
         intro: `Squating - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 24}`,
         desc: "My father had ended his life and I had not passed my studies. I lived by sharing a room in the flat of Milan. It was not great but life went on anyway.",
         cameraOffset: 0,
+        getNextRoom: () => this._textMemory["sqMessage"] ? 4 : 5
+      },
+      {
+        scene: () => new RoomJail(this),
+        intro: `Incarceration - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 28}`,
+        desc: "Vico's plan was to rob a liquor store. Everything went well but the police ended up to find both of us back.",
+        cameraOffset: 0,
+        getNextRoom: () => 0
+      },
+      {
+        scene: () => new RoomBridge(this),
+        intro: `Homeless - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 28}`,
+        desc: "I didn't managed to get back on rail, find a job, etc. I ran out of money and was obliged to live on the street.",
+        cameraOffset: 0,
         getNextRoom: () => 0
       }
     ]
