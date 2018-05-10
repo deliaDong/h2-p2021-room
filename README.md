@@ -5,6 +5,9 @@ A THREE.js solo school project made within 2 weeks.
 
 **[Live version here](https://room.edhbr.fr/)**
 
+## Note (important)
+It was a fun project to make, performances should be ok.
+
 ## Install
 With NPM :
 - Run `npm i`
@@ -15,11 +18,12 @@ Without NPM :
 
 ## Features
 
-- First person view
+- 7 uniques room with some randomness in generation
 - Discover memory about furnitures and object
-- Random room generation (at some level)
+- Next room according to what you have discovered
+- First person view
 - Day / Night cycle
-- Multi-ending according to the memory you discovered while exploring (coming soon!)
+- Multi-ending according to the memory you discovered while exploring
 - Keyboard binding choice (coming soon!)
 
 ## Tech
@@ -61,9 +65,8 @@ Without NPM :
   - MBP15 2015 with **AMD RADEON R9370X** & 16Go RAM:
     - Chrome: ~60fps, constant
 
-## Gallery
+## Gallery (first few rooms)
 ![Hospital](dev/assets/img/hospital.png)
 ![Child](dev/assets/img/child.png)
 ![Student](dev/assets/img/student.png)
-![Student](dev/assets/img/squat.png)
 And three more rooms to find... (no spoil)
