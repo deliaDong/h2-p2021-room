@@ -7,6 +7,7 @@ class RoomLight {
     // Room var
     this._ctx._roomLenght = 50
     this._ctx._roomDepth = 50
+    this._ctx._fixedTime = 1
 
     this.initGeometry()
     this.initMaterial()
@@ -18,7 +19,7 @@ class RoomLight {
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
-    this._ctx._camera.set("pos", {x: 1, y: 0, z: 2.2}, true)
+    this._ctx._camera.set("pos", {x: 0, y: 0, z: -2.2}, true)
   }
 
   // Init all needed geometry
@@ -118,7 +119,7 @@ class RoomLight {
     this._ambient = new THREE.AmbientLight(0x111111)
     this._lights.add(this._ambient)
 
-    this._point = new THREE.PointLight(0xd9c726, 0.7, 10)
+    this._point = new THREE.PointLight(0xd9c726, 0.9, 10)
     this._point.position.y = 2.4
     this._lights.add(this._point)
 
@@ -138,7 +139,7 @@ class RoomLight {
   loop () {
     if (!this._kill) { window.requestAnimationFrame(this.loop.bind(this)) }
     const flash = Math.random() < 0.95 ? 1 : 0.8
-    const intensity = 0.7 * flash - Math.sin(Date.now() / 500) * 0.025
+    const intensity = 0.9 * flash - Math.sin(Date.now() / 500) * 0.025
     this._point.intensity = intensity
   }
 

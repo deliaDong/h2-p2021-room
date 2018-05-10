@@ -4,11 +4,13 @@ class RoomStudent {
 
     this._meshHolder = new THREE.Object3D()
 
+    // Room var
+    this._ctx._fixedTime = false
+    this._ctx._roomLenght = 5
+    this._ctx._roomDepth = 5
     // Window var
     this._angle = Math.PI / 4
     this._zOffset = Math.sin(this._angle) * 3 / 2
-    this._ctx._roomLenght = 5
-    this._ctx._roomDepth = 5
 
     this.initGeometry()
     this.initMaterial()

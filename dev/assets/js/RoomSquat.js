@@ -7,6 +7,7 @@ class RoomSquat {
     // Room var
     this._ctx._roomLenght = 5
     this._ctx._roomDepth = 5
+    this._ctx._fixedTime = false
 
     this.initGeometry()
     this.initMaterial()

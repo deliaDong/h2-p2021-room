@@ -44,9 +44,6 @@ class Room {
     // Init skybox
     this.initSky()
 
-    // Init curosr
-    this.initCursor()
-
     // Go to the first room
     this.getNextRoom()
 
@@ -136,47 +133,43 @@ class Room {
       "November",
       "December"
     ]
-    this._getMonths = () => this._months[Math.floor(Math.random() * 12)]
-    this._getDay = () => Math.floor(Math.random() * 28) + 1
     this._birthYear = Math.floor(Math.random() * 15) + 1985
 
     // ENV
     this._speed = 0.05
     this._dayDuration = 120000
-    this._currentTime = () => {
-      return (Math.sin(Date.now() % this._dayDuration / this._dayDuration * Math.PI - Math.PI / 2) + 1) / 2
-    }
+    this._fixedTime = false
     this._roomLenght = 5
     this._roomDepth = 5
 
     // ROOM GESTION
-    this._nextRoom = 6
+    this._nextRoom = 5
     this._currentRoom = false
     this._rooms = [
       {
         scene: () => new RoomHospital(this),
-        intro: `Birth - ${this._getMonths()} ${this._getDay()}, ${this._birthYear}`,
+        intro: `Birth - ${this.getMonth()} ${this.getDay()}, ${this._birthYear}`,
         desc: "It was here that I was born in a small suburban hospital. My parents were neither too rich nor too poor. My future seemed safe.",
         cameraOffset: 0,
         getNextRoom: () => 1
       },
       {
         scene: () => new RoomChild(this),
-        intro: `Childhood - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 8}`,
+        intro: `Childhood - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 8}`,
         desc: "I was enjoying my childhood. My parents were loving me and spent a lot of time with me doing activities of all kinds.",
         cameraOffset: -Math.PI / 2,
         getNextRoom: () => 2
       },
       {
         scene: () => new RoomStudent(this),
-        intro: `Studies - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 19}`,
+        intro: `Studies - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 19}`,
         desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
         cameraOffset: -Math.PI / 2,
         getNextRoom: () => 3
       },
       {
         scene: () => new RoomSquat(this),
-        intro: `Squating - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 24}`,
+        intro: `Squating - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 24}`,
         desc: "My father had ended his life and I had not passed my studies. I lived by sharing a room in the flat of Milan. It was not great but life went on anyway.",
         cameraOffset: 0,
         getNextRoom: () => {
@@ -194,14 +187,14 @@ class Room {
       },
       {
         scene: () => new RoomJail(this),
-        intro: `Incarceration - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 28}`,
+        intro: `Incarceration - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 28}`,
         desc: "Vico's plan was to rob a liquor store. Everything went well but the police ended up to find both of us back.",
         cameraOffset: 0,
         getNextRoom: () => 0
       },
       {
         scene: () => new RoomBridge(this),
-        intro: `Homeless - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 28}`,
+        intro: `Homeless - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 28}`,
         desc: "I didn't managed to get back on rail, find a job, etc. I ran out of money and was obliged to live on the street.",
         cameraOffset: 0,
         getNextRoom: () => 0
@@ -210,7 +203,7 @@ class Room {
         scene: () => new RoomLight(this),
         intro: `Light - ${Date.now()}`,
         desc: "I did not want explore interesting things, so i ended up being in this room.",
-        cameraOffset: 0,
+        cameraOffset: Math.PI,
         getNextRoom: () => 0
       }
     ]
@@ -299,47 +292,6 @@ class Room {
     this.updateSky(0)
 
     this._scene.add(this._sky)
-  }
-
-  // Init cursor using Cursor.js
-  initCursor () {
-    new Cursor ([
-      {
-        el : "div",
-        css : `
-          width: 8px;
-          height: 8px;
-          margin-left: -4px;
-          margin-top: -4px;
-          border-radius: 50%;
-          background: #dedede;
-          transition: background .9s ease;
-        `,
-        activeCSS : `
-          background: #ce4444;
-          transition: background .3s ease;
-        `,
-        easing : 1
-      },
-      {
-        el : "div",
-        css : `
-          width: 16px;
-          height: 16px;
-          margin-left: -8px;
-          margin-top: -8px;
-          border-radius: 50%;
-          border: 1px solid #dedede;
-          opacity: .6;
-          transition: opacity .9s ease;
-        `,
-        activeCSS : `
-          opacity: .2;
-          transition: opacity .3s ease;
-        `,
-        easing : 0.8
-      }
-    ])
   }
 
   // Load next room
@@ -443,7 +395,7 @@ class Room {
   loop () {
     window.requestAnimationFrame(this.loop.bind(this))
     this.updateCamera()
-    this.updateSky(this._currentTime())
+    this.updateSky()
     this._composer.render()
     this._stats.update() // Stats
   }
@@ -527,12 +479,26 @@ class Room {
     }
   }
 
-  updateSky (time = 0) {
+  // Update skybox according to a specified time or currentgame time
+  updateSky (time = this.currentTime()) {
     const angle = 2 * Math.PI * time - 0.5
     const horizon = this._skyDistance * Math.cos(angle)
     const altitude = this._skyDistance * Math.sin(angle)
-    /* const horizon = time * this._skyDistance * 2 - this._skyDistance
-    const altitude = Math.sqrt(this._skyDistance ** 2 - horizon ** 2) */
     this._sky.material.uniforms.sunPosition.value = {x: horizon, y: altitude, z: -500}
+  }
+
+  // Return a random month
+  getMonth () {
+    return this._months[Math.floor(Math.random() * 12)]
+  }
+
+  // Return a random day
+  getDay () {
+    return Math.floor(Math.random() * 28) + 1
+  }
+
+  // Return current game time based on timestamp
+  currentTime () {
+    return this._fixedTime ? this._fixedTime : Math.round((Math.sin(Date.now() % this._dayDuration / this._dayDuration * Math.PI - Math.PI / 2) + 1) / 2 * 1000) / 1000
   }
 }

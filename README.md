@@ -30,7 +30,7 @@ Without NPM :
 - Libraries:
   - [THREE.js](https://threejs.org/) (webGL)
   - [Pizzicato.js](https://alemangui.github.io/pizzicato/) (audio)
-  - [Cursor.js](https://github.com/edhbr/bin-brary) (cursor), a personnal library
+  - [Mordernizr.js](https://modernizr.com/) (compatibility)
 - Development:
   - Gulp
 
@@ -66,3 +66,4 @@ Without NPM :
 ![Child](dev/assets/img/child.png)
 ![Student](dev/assets/img/student.png)
 ![Student](dev/assets/img/squat.png)
+And three more rooms to find... (no spoil)

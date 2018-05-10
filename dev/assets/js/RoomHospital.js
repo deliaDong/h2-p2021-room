@@ -7,6 +7,7 @@ class RoomHospital {
     // Room var
     this._ctx._roomLenght = 5
     this._ctx._roomDepth = 5
+    this._ctx._fixedTime = false
 
     this.initGeometry()
     this.initMaterial()
@@ -70,7 +71,7 @@ class RoomHospital {
 
     // Tree
     this._g.treeP = new THREE.CylinderGeometry(0.25, 0.3, 0.5, 6)
-    this._g.treeB = new THREE.BoxGeometry(0.1, 1, 0.1)
+    this._g.treeB = new THREE.CylinderGeometry(0.05, 0.05, 1, 9)
     this._g.treeL1 = new THREE.SphereGeometry(0.3, 12, 12)
     this._g.treeL2 = new THREE.SphereGeometry(0.2, 8, 8)
 

@@ -7,6 +7,7 @@ class RoomJail {
     // Room var
     this._ctx._roomLenght = 2.8
     this._ctx._roomDepth = 5
+    this._ctx._fixedTime = false
 
     this.initGeometry()
     this.initMaterial()
