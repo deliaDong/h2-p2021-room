@@ -28,13 +28,6 @@ class RoomLight {
 
     // Room
     this._g.room = new THREE.CircleGeometry(50, 100)
-    this._g.carpet = new THREE.BoxGeometry(3, 0.05, 2)
-    this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
-    this._g.wallB = new THREE.BoxGeometry(5, 1.2, 0.2)
-    this._g.wallS = new THREE.BoxGeometry(1.5, 1.8, 0.2)
-    this._g.wallT = new THREE.BoxGeometry(2, 0.2, 0.2)
-    this._g.glass = new THREE.BoxGeometry(2, 1, 0.1)
-    this._g.glassB = new THREE.BoxGeometry(2, 0.1, 0.15)
     this._g.roofLight = new THREE.CylinderGeometry(0.075, 0.075, 0.15, 7)
     this._g.roofLightH = new THREE.BoxGeometry(0.05, 0.4, 0.05)
     this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
@@ -94,22 +87,6 @@ class RoomLight {
     this._roomShape.add(this._door)
 
     this._meshHolder.add(this._roomShape)
-  }
-
-  // Shape template
-  createShapeShape () {
-    this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "lShape"
-    this._shapeShape.text = "Go further?"
-    this._shapeShape.textAction = "bubble"
-
-    this._shapeStructure = []
-    this._shapeStructure.push(this.craft("shapeStructureB", "shapeStructure", this._shapeShape))
-    this._shapeStructure[this._shapeStructure.length - 1].position.set(0, 0, 0)
-
-    this._shapeShape.position.set(0, 0, 0)
-
-    this._meshHolder.add(this._shapeShape)
   }
 
   // Create lighting

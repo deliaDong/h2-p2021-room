@@ -98,7 +98,8 @@ class Room {
       bloom: this._shader,
       film: this._shader,
       bleach: this._shader,
-      vignette: this._shader
+      vignette: this._shader,
+      outline: this._shader
     })
     this._raycaster = new THREE.Raycaster(
       THREE.Vector3(0, 0, 0),
@@ -243,14 +244,14 @@ class Room {
     })
     this._$output.addEventListener("mouseup", () => {
       this._mouse.clicked = false
-      //this._shader ? this._shader = false : this._shader = true
+      /* this._shader ? this._shader = false : this._shader = true
       this._composer.updatePass({
         bloom: this._shader,
         film: this._shader,
         bleach: this._shader,
         vignette: this._shader,
         outline: this._shader
-      })
+      }) */
     })
 
     // Button

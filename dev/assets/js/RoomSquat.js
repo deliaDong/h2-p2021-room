@@ -451,22 +451,6 @@ class RoomSquat {
     this._meshHolder.add(this._wardrobeShape)
   }
 
-  // Shape template
-  createShapeShape () {
-    this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "sqShape"
-    this._shapeShape.text = "Go further?"
-    this._shapeShape.textAction = "bubble"
-
-    this._shapeStructure = []
-    this._shapeStructure.push(this.craft("shapeStructureB", "shapeStructure", this._shapeShape))
-    this._shapeStructure[this._shapeStructure.length - 1].position.set(0, 0, 0)
-
-    this._shapeShape.position.set(0, 0, 0)
-
-    this._meshHolder.add(this._shapeShape)
-  }
-
   // Create lighting
   createLight () {
     this._lights = new THREE.Object3D()

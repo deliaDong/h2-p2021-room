@@ -189,7 +189,7 @@ const Utils3 = (function () {
 
       // Vignette effect
       this._vignettePass = new THREE.ShaderPass(THREE.VignetteShader)
-      this._vignettePass.uniforms["offset"].value = 0.8
+      this._vignettePass.uniforms["offset"].value = 0.6
       this._vignettePass.uniforms["darkness"].value = 2
 
       // Blur effect
@@ -286,12 +286,21 @@ const Utils3 = (function () {
     lightness = 50,
     metalness = 0.1,
     roughness = 0.7,
+    opacity = 1
   } = {}) => {
+
+    let transparent = false
+    if (opacity < 1) {
+      transparent = true
+    }
+
     return new THREE.MeshStandardMaterial({
       color: new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`),
       flatShading: true,
       metalness: metalness,
-      roughness: roughness
+      roughness: roughness,
+      opacity: opacity,
+      transparent: transparent
     })
   }
 

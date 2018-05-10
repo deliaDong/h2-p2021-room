@@ -52,7 +52,7 @@ class RoomJail {
     this._g.bedL = new THREE.BoxGeometry(0.05, 0.7, 0.05)
     this._g.bedT = new THREE.BoxGeometry(1.1, 0.05, 0.05)
     this._g.bedB = new THREE.BoxGeometry(1.15, 0.05, 2.15)
-    this._g.matress = new THREE.BoxGeometry(1.1, 0.2, 2.1)
+    this._g.mattress = new THREE.BoxGeometry(1.1, 0.2, 2.1)
 
     // Wardrobe
     this._g.wardrobe = new THREE.BoxGeometry(0.3, 0.05, 1)
@@ -93,7 +93,7 @@ class RoomJail {
     this._m.roofLight = new THREE.MeshStandardMaterial({color: 0xf7f188, metalness: 0, roughness: 1, opacity: 0.5, transparent: true})
 
     // Bed
-    this._m.matress = new THREE.MeshStandardMaterial({color: 0x9a8b67, flatShading: true, metalness: 0, roughness: 0.5})
+    this._m.mattress = new THREE.MeshStandardMaterial({color: 0x9a8b67, flatShading: true, metalness: 0, roughness: 0.5})
 
     // Wardrobe
     this._m.wardrobe = new THREE.MeshStandardMaterial({color: 0x545142, flatShading: true, metalness: 0, roughness: 0.7})
@@ -233,7 +233,7 @@ class RoomJail {
   createBedShape () {
     this._bedShape = new THREE.Object3D()
     this._bedShape.textKey = "jBed"
-    this._bedShape.text = "A matress on a metal frame, they call that a bed. At least it's more like a bed than Milan's sofa."
+    this._bedShape.text = "A mattress on a metal frame, they call that a bed. At least it's more like a bed than Milan's sofa."
     this._bedShape.textAction = "bubble"
 
     this._bedStructure = []
@@ -251,7 +251,7 @@ class RoomJail {
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.675, 1.075)
     this._bedStructure.push(this.craft("bedB", "rod", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.35, 0)
-    this._bedStructure.push(this.craft("matress", "matress", this._bedShape))
+    this._bedStructure.push(this.craft("mattress", "mattress", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.45, 0)
 
     this._bedShape.position.set(0.8, 0, -1.3)
@@ -355,22 +355,6 @@ class RoomJail {
     this._sinkShape.position.set(1.5, 1, 1.8)
 
     this._meshHolder.add(this._sinkShape)
-  }
-
-  // Shape template
-  createShapeShape () {
-    this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "jShape"
-    this._shapeShape.text = "Go further?"
-    this._shapeShape.textAction = "bubble"
-
-    this._shapeStructure = []
-    this._shapeStructure.push(this.craft("shapeStructureB", "shapeStructure", this._shapeShape))
-    this._shapeStructure[this._shapeStructure.length - 1].position.set(0, 0, 0)
-
-    this._shapeShape.position.set(0, 0, 0)
-
-    this._meshHolder.add(this._shapeShape)
   }
 
   // Create lighting

@@ -120,7 +120,7 @@ class RoomStudent {
     // Bed
     this._m.bed = new THREE.MeshStandardMaterial({color: 0xfd8250, flatShading: true, metalness: 0, roughness: 0.5})
     this._m.bedAlt = new THREE.MeshStandardMaterial({color: 0xed7240, flatShading: true, metalness: 0, roughness: 0.5})
-    this._m.matress = Utils3.randomColorMaterial({lightness: 70})
+    this._m.mattress = Utils3.randomColorMaterial({lightness: 70})
 
     // Nightstand
     this._m.nightstandS = new THREE.MeshStandardMaterial({color: 0xffe2c3, flatShading: true, metalness: 0.1, roughness: 0.5})
@@ -136,6 +136,9 @@ class RoomStudent {
     this._m.screen = new THREE.MeshStandardMaterial({color: 0x494949, flatShading: true, metalness: 0.5, roughness: 0.5})
     this._m.keyboard = new THREE.MeshStandardMaterial({color: 0x898989, flatShading: true, metalness: 0.1, roughness: 0.5})
     this._m.case = new THREE.MeshStandardMaterial({color: 0xd60606, flatShading: true, metalness: 0.1, roughness: 0.7})
+
+    // Chair
+
   }
 
   // Create global room shape
@@ -238,7 +241,7 @@ class RoomStudent {
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.3, 0)
     this._bedStructure.push(this.craft("bedM1", "white", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.45, 0)
-    this._bedStructure.push(this.craft("bedM2", "matress", this._bedShape))
+    this._bedStructure.push(this.craft("bedM2", "mattress", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.475, 0.25)
     this._bedStructure.push(this.craft("bedP", "white", this._bedShape))
     this._bedStructure[this._bedStructure.length - 1].position.set(0, 0.525, -0.8)
@@ -512,22 +515,6 @@ class RoomStudent {
     this._canvasShape.position.set(0, 0, 0)
 
     this._meshHolder.add(this._canvasShape)
-  }
-
-  // Shape template
-  createShapeShape () {
-    this._shapeShape = new THREE.Object3D()
-    this._shapeShape.textKey = "sShape"
-    this._shapeShape.text = "Go further?"
-    this._shapeShape.textAction = "bubble"
-
-    this._shapeStructure = []
-    this._shapeStructure.push(this.craft("shapeStructureB", "shapeStructure", this._shapeShape))
-    this._shapeStructure[this._shapeStructure.length - 1].position.set(0, 0, 0)
-
-    this._shapeShape.position.set(0, 0, 0)
-
-    this._meshHolder.add(this._shapeShape)
   }
 
   // Create lighting
