@@ -6,7 +6,7 @@ class RoomStudent {
 
     // Room var
     this._ctx._fixedTime = false
-    this._ctx._roomLenght = 5
+    this._ctx._roomLength = 5
     this._ctx._roomDepth = 5
     // Window var
     this._angle = Math.PI / 4

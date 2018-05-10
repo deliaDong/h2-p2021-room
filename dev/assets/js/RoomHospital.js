@@ -5,7 +5,7 @@ class RoomHospital {
     this._meshHolder = new THREE.Object3D()
 
     // Room var
-    this._ctx._roomLenght = 5
+    this._ctx._roomLength = 5
     this._ctx._roomDepth = 5
     this._ctx._fixedTime = false
 

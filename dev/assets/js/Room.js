@@ -139,7 +139,7 @@ class Room {
     this._speed = 0.05
     this._dayDuration = 120000
     this._fixedTime = false
-    this._roomLenght = 5
+    this._roomLength = 5
     this._roomDepth = 5
 
     // ROOM GESTION
@@ -195,7 +195,7 @@ class Room {
       {
         scene: () => new RoomBridge(this),
         intro: `Homeless - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 28}`,
-        desc: "I didn't managed to get back on rail, find a job, etc. I ran out of money and was obliged to live on the street.",
+        desc: "I didn't managed to get back on rail, find a job, etc. I ran out of money and was obliged to live on the street, so i found a place under a bridge where i was able to hide myself from wind and survive in this harsh world.",
         cameraOffset: 0,
         getNextRoom: () => 0
       },
@@ -213,6 +213,7 @@ class Room {
     this._currentText = false
     this._actionText = false
     this._textMemory = {}
+    // Light line
     this._lightMessage = [
       "You're seriously thinking that there's something meaningful to say about this light? Just get to the next room.",
       "Again nothing here... what did you expect?",
@@ -463,8 +464,8 @@ class Room {
 
     if (x != 0 || z != 0) {
       const pos = this._camera.get("pos", true)
-      if (pos.x + x > this._roomLenght / 2 * 0.9) { x = this._roomLenght / 2 * 0.9 - pos.x }
-      if (pos.x + x < -this._roomLenght / 2 * 0.9) { x = - this._roomLenght / 2 * 0.9 - pos.x }
+      if (pos.x + x > this._roomLength / 2 * 0.9) { x = this._roomLength / 2 * 0.9 - pos.x }
+      if (pos.x + x < -this._roomLength / 2 * 0.9) { x = - this._roomLength / 2 * 0.9 - pos.x }
       if (pos.z + z > this._roomDepth / 2 * 0.9) { z = this._roomDepth / 2 * 0.9 - pos.z }
       if (pos.z + z < -this._roomDepth / 2 * 0.9) { z = - this._roomDepth / 2 * 0.9 - pos.z }
       this._camera.add(

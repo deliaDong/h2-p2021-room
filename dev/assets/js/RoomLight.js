@@ -5,7 +5,7 @@ class RoomLight {
     this._meshHolder = new THREE.Object3D()
 
     // Room var
-    this._ctx._roomLenght = 50
+    this._ctx._roomLength = 50
     this._ctx._roomDepth = 50
     this._ctx._fixedTime = 1
 
