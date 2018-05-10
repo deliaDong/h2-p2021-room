@@ -29,8 +29,8 @@ class Room {
           })
         }, {once: true})
       }
-      this.init() // Dont wait if outside sound
     })
+    this.init() // Dont wait if outside sound
   }
 
   // Init everything
@@ -150,7 +150,7 @@ class Room {
     this._roomDepth = 5
 
     // ROOM GESTION
-    this._nextRoom = 0
+    this._nextRoom = 6
     this._currentRoom = false
     this._rooms = [
       {
@@ -179,7 +179,18 @@ class Room {
         intro: `Squating - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 24}`,
         desc: "My father had ended his life and I had not passed my studies. I lived by sharing a room in the flat of Milan. It was not great but life went on anyway.",
         cameraOffset: 0,
-        getNextRoom: () => this._textMemory["sqMessage"] ? 4 : 5
+        getNextRoom: () => {
+          if (
+            this._textMemory["hLight"] &&
+            this._textMemory["cLight"] &&
+            this._textMemory["sLight"] &&
+            this._textMemory["sqLight"]
+          ) {
+            return 6
+          } else {
+            return this._textMemory["sqMessage"] ? 4 : 5
+          }
+        }
       },
       {
         scene: () => new RoomJail(this),
@@ -192,6 +203,13 @@ class Room {
         scene: () => new RoomBridge(this),
         intro: `Homeless - ${this._getMonths()} ${this._getDay()}, ${this._birthYear + 28}`,
         desc: "I didn't managed to get back on rail, find a job, etc. I ran out of money and was obliged to live on the street.",
+        cameraOffset: 0,
+        getNextRoom: () => 0
+      },
+      {
+        scene: () => new RoomLight(this),
+        intro: `Light - ${Date.now()}`,
+        desc: "I did not want explore interesting things, so i ended up being in this room.",
         cameraOffset: 0,
         getNextRoom: () => 0
       }
@@ -254,7 +272,8 @@ class Room {
         this.updateText()
       }
     })
-    this._$mute.addEventListener("mouseup", () => {
+    this._$mute.addEventListener("mousedown", (e) => {
+      e.stopPropagation()
       if (this._$mute.classList.contains("muted")) {
         this._$mute.classList.remove("muted")
         this._theme.volume = 1
@@ -332,11 +351,11 @@ class Room {
     }
     const nextRoom = this._rooms[this._nextRoom]
     this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    this._$next.addEventListener("mouseup", () => {
+    //this._$next.addEventListener("mouseup", () => {
       this._cameraYOffset = nextRoom.cameraOffset
       this._currentRoom = nextRoom.scene()
       this.updateText()
-    }, {once: true})
+    //}, {once: true})
   }
 
   // Object mouse selector to check intersection
