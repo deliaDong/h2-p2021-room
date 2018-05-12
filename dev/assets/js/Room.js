@@ -365,7 +365,8 @@ class Room {
     })
 
     // Options
-    this._$mute.addEventListener("mousedown", (e) => {
+    this._$mute.addEventListener("mousedown", (e) => { e.stopPropagation() })
+    this._$mute.addEventListener("mouseup", (e) => {
       e.stopPropagation()
       if (this._$mute.classList.contains("muted")) {
         this._$mute.classList.remove("muted")
@@ -375,7 +376,9 @@ class Room {
         this._theme.volume = 0
       }
     })
+    this._$fps.addEventListener("mousedown", (e) => { e.stopPropagation() })
     this._$fps.addEventListener("mouseup", (e) => {
+      e.stopPropagation()
       if (this._$fps.classList.contains("active")) {
         this._$fps.classList.remove("active")
         this._shader = true
