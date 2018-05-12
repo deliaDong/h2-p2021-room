@@ -12,6 +12,7 @@ class Room {
 
   // Load ressources before game start
   load () {
+    this.init() // Dont wait if outside sound
     // Load sound
     this._theme = new Pizzicato.Sound({
       source: "file",
@@ -21,16 +22,22 @@ class Room {
         attack: 5
       }
     }, () => {
-      // Deal with chrome autoplay policy
-      if (!this._theme.play()) {
-        document.addEventListener("mouseup", () => {
-          Pizzicato.context.resume().then(() => {
-            this._theme.play()
-          })
-        }, {once: true})
-      }
+        this._$screen["start"].classList.remove("loading")
+        this._$buttons["start"].innerText = "Start"
+        this._$buttons["start"].addEventListener("mouseup", () => {
+        this._nextRoom = 0
+        this._textMemory = {}
+        this.updateText("intro", this._rooms[this._nextRoom])
+        // Deal with chrome autoplay policy
+        if (!this._theme.play()) {
+          document.addEventListener("mouseup", () => {
+            Pizzicato.context.resume().then(() => {
+              this._theme.play()
+            })
+          }, {once: true})
+        }
+      })
     })
-    this.init() // Dont wait if outside sound
   }
 
   // Init everything
@@ -47,8 +54,9 @@ class Room {
     // Go to the first room
     this.getNextRoom()
 
-    this._stats = new Stats()
-    this._$output.appendChild(this._stats.dom)
+    // Fps meter
+    /* this._stats = new Stats()
+    this._$output.appendChild(this._stats.dom) */
 
     // Loop
     this.loop()
@@ -291,11 +299,6 @@ class Room {
     })
 
     // Buttons
-    this._$buttons["start"].addEventListener("mouseup", () => {
-      this._nextRoom = 0
-      this._textMemory = {}
-      this.updateText("intro", this._rooms[this._nextRoom])
-    })
     this._$buttons["choiceS"].addEventListener("mouseup", () => {
       this.updateText()
     })
@@ -324,6 +327,7 @@ class Room {
       this.updateText()
     })
     this._$buttons["end"].addEventListener("mouseup", () => {
+      this._theme.stop()
       this.updateText("start")
     })
 
@@ -521,7 +525,7 @@ class Room {
     this.updateCamera()
     this.updateSky()
     this._composer.render()
-    this._stats.update() // Stats
+    //this._stats.update() // Stats
   }
 
   // Update camera according to context and user input
