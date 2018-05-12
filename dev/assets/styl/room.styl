@@ -1,3 +1,4 @@
+// Everything related to roomApp
 div.roomApp
   position fixed
   top 0
@@ -7,26 +8,41 @@ div.roomApp
   background #000000
   cursor crosshair !important
 
+  // General clickable class for roomApp
   .clickable
-    transition color .5s ease, transform .5s ease
-    will-change transform
     padding 20px
+    opacity .7
+    transition opacity .5s ease, transform .5s ease
+    will-change transform opacity
 
     &:hover
-      color color-red
+      opacity 1
       transform scale(1.2, 1.2)
-      transition color .3s ease, transform .3s ease
+      transition opacity .3s ease, transform .3s ease
 
+  a
+    opacity .8
+    text-decoration none
+    transition opacity .5s ease
+    will-change opacity
+    color color-red-lighter
+
+    &:hover
+      opacity 1
+      transition opacity .3s ease
+
+  // Output webgl canvas
   canvas
-    width 100vw
-    height 100vh
+    width 100%
+    height 100%
     position absolute
     top 0
     left 0
 
+  // HUD container + black screen
   .HUDContainer
-    width 100vw
-    height 100vh
+    width 100%
+    height 100%
     position absolute
     top 0
     left 0
@@ -54,9 +70,8 @@ div.roomApp
       z-index -10
       background radial-gradient(#191919, #000000)
       opacity .6
-      transition opacity .5s ease .5s
+      transition opacity .5s ease 1s
       will-change opacity
-
 
     &.dark .bg
       opacity .8
@@ -66,64 +81,124 @@ div.roomApp
       opacity 1
       transition opacity .5s ease
 
-    .wrapper
-      width 600px
-      max-width 90vw
-      position relative
+  // Screen holder
+  .wrapper
+    width 600px
+    max-width 90vw
+    position relative
 
-    .module
-      width 100%
-      position absolute
-      top -10vh
-      left 0
+  // Each screen
+  .screen
+    width 100%
+    position absolute
+    top -10vh
+    left 0
+    text-align center
+    opacity 0
+    transition opacity .5s ease .5s
+    will-change opacity
+    line-height font-big
 
-    .textOutput, .date
-      font-size font-big
-      line-height font-bigger
+
+    h1, h2
+      font-size font-giant
       text-align center
-      opacity 1
-      transition opacity .3s ease
+      margin-bottom 60px
+
+    h2
+      font-size font-bigger
+
+    .desc
+      margin-bottom 30px
+
+    // Active case
+    h1, h2
+      opacity 0
+      transition opacity .5s ease .5s
       will-change opacity
 
-      &.active
-        opacity 0
-
-    .date
-      transition opacity .3s ease 1s
-      &.active
-        transition opacity .3s ease
-
-    .desc, .next, .choice
+    &>div, .late
       opacity 0
       transition opacity .5s ease
       will-change opacity
-      padding-top 3rem
 
-      &.active
+    &.active
+      opacity 1
+      transition opacity .5s ease
+
+      h1, h2
         opacity 1
-        transition opacity .5s ease .3s
-        pointer-events auto
+        transition opacity .5s ease 1s
 
-    .choice
+      &>div
+        opacity 1
+        transition opacity .5s ease 1.5s
+
+      .late
+        opacity 1
+        transition opacity .5s ease 2s
+
+    &.fast
+      transition opacity .5s ease
+
+      h1, h2
+        opacity 1
+        transition opacity .5s ease .5s
+
+      &>div
+        opacity 1
+        transition opacity .5s ease 1s
+
+      .late
+        opacity 1
+        transition opacity .5s ease 1.5s
+
+  // Start screen
+  .start
+    .startButton
+      will-change opacity
+      font-size font-bigger
+
+    .credit
+      width 100%
+      font-size font-smaller
+      position fixed
+      bottom 20px
+      left 0
+      span
+        opacity .7
+      a
+        pointer-events auto
+        user-select auto
+
+    &.active.loading .startButton
+      animation loading 1s ease infinite
+
+  // Choice screen
+  .choice
+    div
       display flex
       flex-flow row nowrap
       align-items center
       justify-content space-around
 
-    .desc
-      line-height font-medium
-      letter-spacing .05rem
+  // Bubble screen
+  .bubble
+    padding-top 10vh
+    font-size font-big
 
-    .desc.active
-      transition opacity .5s ease 1.3s
+  // Intro screen (no additional css)
+  //.intro
 
-    .next
-      text-align center
-      &.active
-        transition opacity .5s ease 1.6s, color .5s ease, transform .5s ease
-        &.hover
-          transition opacity .5s ease 1.6s, color .3s ease, transform .3s ease
+  // End screen (no additional css)
+  //.end
 
+  // If selectable
+  .select
+    pointer-events auto
+    user-select auto
+
+  // Sound button
   .mute
     position absolute
     bottom 20px
@@ -139,7 +214,6 @@ div.roomApp
       position absolute
       bottom 0
       transform-origin 50% 100%
-      //transform scaleY(0.1)
       opacity .5
       transition transform .5s ease, opacity .5s ease
       will-change transform, opacity
@@ -169,6 +243,11 @@ div.roomApp
 
     &.muted:hover .wave
       opacity 1
+
+// Animations
+@keyframes loading {
+  50% { opacity: 0.3; }
+}
 
 @keyframes pulse {
   0%   { transform: scaleY(0.1); }

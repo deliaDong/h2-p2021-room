@@ -56,17 +56,41 @@ class Room {
 
   // Create default context
   initContext () {
-    // DOM
+    // General DOM
     this._$output = this._$output
     this._$canvas = this._$output.querySelector("canvas")
     this._$HUD = this._$output.querySelector(".HUDContainer")
-    this._$textOutput = this._$HUD.querySelector(".textOutput")
-    this._$choice = this._$HUD.querySelector(".choice")
-    this._$desc = this._$HUD.querySelector(".desc")
-    this._$next = this._$HUD.querySelector(".next")
-    this._$date = this._$HUD.querySelector(".date")
-    this._$positive = this._$choice.querySelector(".yes")
-    this._$negative = this._$choice.querySelector(".no")
+
+    // Screen DOM
+    this._$screen = {
+      all: this._$HUD.querySelectorAll(".screen"),
+      start: this._$HUD.querySelector(".screen.start"),
+      choice: this._$HUD.querySelector(".screen.choice"),
+      bubble: this._$HUD.querySelector(".screen.bubble"),
+      intro: this._$HUD.querySelector(".screen.intro"),
+      end: this._$HUD.querySelector(".screen.end")
+    }
+
+    // Text output DOM
+    this._$text = {
+      choiceH: this._$screen["choice"].querySelector("h2"),
+      bubble: this._$screen["bubble"],
+      introH: this._$screen["intro"].querySelector("h2"),
+      introD: this._$screen["intro"].querySelector(".desc"),
+      endH: this._$screen["end"].querySelector("h2"),
+      endD: this._$screen["end"].querySelector(".desc"),
+    }
+
+    // Buttons DOM
+    this._$buttons = {
+      start: this._$screen["start"].querySelector(".startButton"),
+      choiceS: this._$screen["choice"].querySelector(".stayButton"),
+      choiceN: this._$screen["choice"].querySelector(".nextButton"),
+      intro: this._$screen["intro"].querySelector(".nextButton"),
+      end: this._$screen["end"].querySelector(".menuButton")
+    }
+
+    // Options DOM
     this._$mute = this._$output.querySelector(".mute")
 
     // GLOBAL
@@ -156,25 +180,29 @@ class Room {
       },
       {
         scene: () => new RoomChild(this),
-        intro: `Childhood - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 8}`,
+        intro: `Childhood - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 6 + Math.floor(Math.random() * 4)}`,
         desc: "I was enjoying my childhood. My parents were loving me and spent a lot of time with me doing activities of all kinds.",
         cameraOffset: -Math.PI / 2,
         getNextRoom: () => 2
       },
       {
         scene: () => new RoomStudent(this),
-        intro: `Studies - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 19}`,
+        intro: `Studies - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 17 + Math.floor(Math.random() * 4)}`,
         desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
         cameraOffset: -Math.PI / 2,
         getNextRoom: () => 3
       },
       {
         scene: () => new RoomSquat(this),
-        intro: `Squating - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 24}`,
+        intro: `Squating - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 22 + Math.floor(Math.random() * 4)}`,
         desc: "My father had ended his life and I had not passed my studies. I lived by sharing a room in the flat of Milan. It was not great but life went on anyway.",
         cameraOffset: 0,
         getNextRoom: () => {
+          let interact = 0
+          for (const text in this._textMemory) { interact += this._textMemory[text] }
+          console.log(interact)
           if (
+            interact <= 16 &&
             this._textMemory["hLight"] &&
             this._textMemory["cLight"] &&
             this._textMemory["sLight"] &&
@@ -188,24 +216,24 @@ class Room {
       },
       {
         scene: () => new RoomJail(this),
-        intro: `Incarceration - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 28}`,
+        intro: `Incarceration - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 26 + Math.floor(Math.random() * 4)}`,
         desc: "Vico's plan was to rob a liquor store. Everything went well but the police ended up to find both of us back.",
         cameraOffset: 0,
-        getNextRoom: () => 0
+        getNextRoom: () => -1
       },
       {
         scene: () => new RoomBridge(this),
-        intro: `Homeless - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 28}`,
+        intro: `Homeless - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 26 + Math.floor(Math.random() * 4)}`,
         desc: "I didn't managed to get back on rail, find a job, etc. I ran out of money and was obliged to live on the street, so i found a place under a bridge where i was able to hide myself from wind and survive in this harsh world.",
         cameraOffset: 0,
-        getNextRoom: () => 0
+        getNextRoom: () => -1
       },
       {
         scene: () => new RoomLight(this),
         intro: `Light - ${Date.now()}`,
         desc: "I did not want explore interesting things, so i ended up being in this room.",
         cameraOffset: Math.PI,
-        getNextRoom: () => 0
+        getNextRoom: () => -1
       }
     ]
 
@@ -221,6 +249,21 @@ class Room {
       "Come on, that's the third time you try to check the light, everything is right, no worries. But maybe the next one will contains something more interesting, who knows?",
       "Disappointed?"
     ]
+    // End message
+    this._endMessage = {
+      bridge : {
+        intro: `End - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 32 + Math.floor(Math.random() * 4)}`,
+        desc: "To survive in the street I had to wander in places little and not very well attended around the city. On day I had a bad encounter with wild dogs, I escaped but I was injured. The days passed, gradually I felt my energy leaving my body, hope with it. I died as a result of an infection."
+      },
+      jail : {
+        intro: `End - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 32 + Math.floor(Math.random() * 4)}`,
+        desc: "Even if thieves were not the worst, I did not really have any friends in prison. But one day, a guy decided to push me to the end, talking about my parents. I could not hold myself and went to fight with him, the other inmates taking advantage to join the party. I then received an improvised knife in the chest, leaving me lifeless on the floor of the yard."
+      },
+      light : {
+        intro: `End - ${Date.now() * Math.PI}`,
+        desc: "·−··−· ···· −−− ·−−  −− ·− −· −·−−  −− · −·  ··−· ·−·· −−− −·−· −·−  − −−−  − ···· ·  ·−·· ·· −−· ···· −  −· −−− −  − −−−  ··· · ·  −··· · − − · ·−· −−··−−  −··· ··− −  − −−−  ··· ···· ·· −· ·  −··· · − − · ·−· ·−·−·− ·−··−·  −····−  ··−· ·−· ·· · −·· ·−· ·· −·−· ····  −· ·· · − −−·· ··· −·−· ···· ·"
+      }
+    }
   }
 
   // Init events listener
@@ -254,19 +297,44 @@ class Room {
       }) */
     })
 
-    // Button
-    this._$positive.addEventListener("mouseup", () => {
-      if (this._canAnswer) {
-        this._canAnswer = false
-        this.getNextRoom()
+    // Buttons
+    this._$buttons["start"].addEventListener("mouseup", () => {
+      this._nextRoom = 0
+      this._textMemory = {}
+      this.updateText("intro", this._rooms[this._nextRoom])
+    })
+    this._$buttons["choiceS"].addEventListener("mouseup", () => {
+      this.updateText()
+    })
+    this._$buttons["choiceN"].addEventListener("mouseup", () => {
+      this.getNextRoom()
+      console.log(this._nextRoom)
+      if (this._nextRoom == -1) {
+        let endMessage = {
+          intro: "Error",
+          desc: "Error"
+        }
+        if (this._textMemory["bDoor"]) {
+          endMessage = this._endMessage["bridge"]
+        } else if (this._textMemory["jDoor"]) {
+          endMessage = this._endMessage["jail"]
+        } else if (this._textMemory["lDoor"]) {
+          endMessage = this._endMessage["light"]
+        }
+        this.updateText("end", endMessage)
+      } else {
+        this.updateText("intro", this._rooms[this._nextRoom])
       }
     })
-    this._$negative.addEventListener("mouseup", () => {
-      if (this._canAnswer) {
-        this._canAnswer = false
-        this.updateText()
-      }
+    this._$buttons["intro"].addEventListener("mouseup", () => {
+      this._cameraYOffset = this._rooms[this._nextRoom].cameraOffset
+      this._currentRoom = this._rooms[this._nextRoom].scene()
+      this.updateText()
     })
+    this._$buttons["end"].addEventListener("mouseup", () => {
+      this.updateText("start")
+    })
+
     this._$mute.addEventListener("mousedown", (e) => {
       e.stopPropagation()
       if (this._$mute.classList.contains("muted")) {
@@ -302,14 +370,9 @@ class Room {
       this._nextRoom = this._rooms[this._nextRoom].getNextRoom()
       this._currentRoom.remove()
       this._currentRoom = null
+    } else {
+      this._nextRoom = 0
     }
-    const nextRoom = this._rooms[this._nextRoom]
-    this.updateText("intro", nextRoom.intro, nextRoom.desc)
-    this._$next.addEventListener("mouseup", () => {
-      this._cameraYOffset = nextRoom.cameraOffset
-      this._currentRoom = nextRoom.scene()
-      this.updateText()
-    }, {once: true})
   }
 
   // Object mouse selector to check intersection
@@ -321,6 +384,7 @@ class Room {
 
     const intersections = this._raycaster.intersectObjects([this._scene], true)
 
+    // If object3D is allowed to display something
     if (
       intersections.length > 0 &&
       intersections[0].object.parent &&
@@ -328,13 +392,13 @@ class Room {
     ) {
       const action = intersections[0].object.parent.textAction
       const text = intersections[0].object.parent.text
-      if (this._mouse.clicked) {
+      if (this._mouse.clicked && (!this._actionText || this._actionText == "bubble")) {
         this._textMemory[intersections[0].object.parent.textKey] = true
         this.updateText(action, text)
       }
       this._composer.outlineSelect([intersections[0].object.parent])
     } else {
-      if (this._actionText != "choice" && this._actionText != "intro" && this._actionText) {
+      if (this._actionText == "bubble") {
         this.updateText()
       }
       this._composer.outlineSelect()
@@ -342,44 +406,93 @@ class Room {
   }
 
   // Update text
-  updateText (action = false, text = "", subText = "") {
+  updateText (action = false, text = "") {
+    console.log(action)
+    // Remove everything
+    for (let i = 0; i < this._$screen["all"].length; i++) {
+      this._$screen["all"][i].classList.remove("active", "select")
+    }
+    this._$HUD.classList.remove("active", "dark", "darker")
+
     if (action) {
-      if (this._currentText != text) {
-        if (this._actionText != "choice" && action != "intro") {
-          this._currentText = text
+      if (this._actionText != action || action != "bubble") {
+        if (this._actionText == "choice") {
+          setTimeout(() => {
+            this._actionText = action
+          }, 500)
+        } else {
           this._actionText = action
-          this._$textOutput.innerText = this._currentText
-          this._$textOutput.classList.remove("active")
-          this._$HUD.classList.add("active")
-
-          if (action == "choice") {
-            this._$choice.classList.add("active")
-            this._$HUD.classList.add("dark")
-            setTimeout(() => { this._canAnswer = true }, 450);
-          }
-        } else if (action == "intro") {
-          this._currentText = text
-          this._actionText = action
-          this._$textOutput.classList.add("active")
-          this._$date.innerText = this._currentText
-
-          this._$choice.classList.remove("active")
-          this._$HUD.classList.add("darker")
-          this._$desc.innerText = subText
-
-          this._$date.classList.remove("active")
-          this._$desc.classList.add("active")
-          this._$next.classList.add("active")
         }
+
+        this._$screen[action].classList.add("active")
+        setTimeout(() => {
+          this._$screen[action].classList.add("select")
+        }, this._$screen[action].classList.contains("fast") ? 500 : 1000)
+
+        // Start case
+        if (action == "start") {
+          this._$HUD.classList.add("active", "darker")
+        }
+
+        // Choice case
+        if (action == "choice") {
+          this._$text["choiceH"].innerText = text
+          this._$HUD.classList.add("active", "dark")
+        }
+
+        // Intro case
+        if (action == "bubble") {
+          this._$text["bubble"].innerText = text
+          this._$HUD.classList.add("active")
+        }
+
+        // Intro case
+        if (action == "intro") {
+          this._$text["introH"].innerText = text.intro
+          this._$text["introD"].innerText = text.desc
+          this._$HUD.classList.add("active", "darker")
+        }
+
+        // End case
+        if (action == "end") {
+          this._$text["endH"].innerText = text.intro
+          this._$text["endD"].innerText = text.desc
+          this._$HUD.classList.add("active", "darker")
+        }
+
+        /* if (this._currentText != text) {
+          if (this._actionText != "choice" && action != "intro") {
+            this._currentText = text
+            this._actionText = action
+            this._$textOutput.innerText = this._currentText
+            this._$textOutput.classList.remove("active")
+            this._$HUD.classList.add("active")
+
+            if (action == "choice") {
+              this._$choice.classList.add("active")
+              this._$HUD.classList.add("dark")
+              setTimeout(() => { this._canAnswer = true }, 450);
+            }
+          } else if (action == "intro") {
+            this._currentText = text
+            this._actionText = action
+            this._$textOutput.classList.add("active")
+            this._$date.innerText = this._currentText
+
+            this._$choice.classList.remove("active")
+            this._$HUD.classList.add("darker")
+            this._$desc.innerText = subText
+
+            this._$date.classList.remove("active")
+            this._$desc.classList.add("active")
+            this._$next.classList.add("active")
+          }
+        } */
+      } else {
+        this._actionText = false
       }
-    } else if (this._currentText) {
-      this._currentText = false
+    } else {
       this._actionText = false
-      this._$HUD.classList.remove("active", "dark", "darker")
-      this._$choice.classList.remove("active")
-      this._$desc.classList.remove("active")
-      this._$next.classList.remove("active")
-      this._$date.classList.add("active")
     }
   }
 

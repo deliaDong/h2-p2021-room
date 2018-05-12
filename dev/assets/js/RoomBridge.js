@@ -23,7 +23,7 @@ class RoomBridge {
     this._ctx._scene.add(this._meshHolder)
 
     // Placing camera
-    this._ctx._camera.set("pos", {x: 1, y: 0, z: 2.2}, true)
+    this._ctx._camera.set("pos", {x: -1, y: 0, z: 2.2}, true)
   }
 
   // Init all needed geometry
