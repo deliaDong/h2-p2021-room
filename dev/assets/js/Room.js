@@ -91,7 +91,9 @@ class Room {
     }
 
     // Options DOM
-    this._$mute = this._$output.querySelector(".mute")
+    this._$options = this._$output.querySelector(".options")
+    this._$fps = this._$options.querySelector(".fps")
+    this._$mute = this._$options.querySelector(".mute")
 
     // GLOBAL
     this._w = this._$output.offsetWidth
@@ -200,7 +202,6 @@ class Room {
         getNextRoom: () => {
           let interact = 0
           for (const text in this._textMemory) { interact += this._textMemory[text] }
-          console.log(interact)
           if (
             interact <= 16 &&
             this._textMemory["hLight"] &&
@@ -287,14 +288,6 @@ class Room {
     })
     this._$output.addEventListener("mouseup", () => {
       this._mouse.clicked = false
-      /* this._shader ? this._shader = false : this._shader = true
-      this._composer.updatePass({
-        bloom: this._shader,
-        film: this._shader,
-        bleach: this._shader,
-        vignette: this._shader,
-        outline: this._shader
-      }) */
     })
 
     // Buttons
@@ -308,7 +301,6 @@ class Room {
     })
     this._$buttons["choiceN"].addEventListener("mouseup", () => {
       this.getNextRoom()
-      console.log(this._nextRoom)
       if (this._nextRoom == -1) {
         let endMessage = {
           intro: "Error",
@@ -335,6 +327,7 @@ class Room {
       this.updateText("start")
     })
 
+    // Options
     this._$mute.addEventListener("mousedown", (e) => {
       e.stopPropagation()
       if (this._$mute.classList.contains("muted")) {
@@ -344,6 +337,20 @@ class Room {
         this._$mute.classList.add("muted")
         this._theme.volume = 0
       }
+    })
+    this._$fps.addEventListener("mouseup", (e) => {
+      if (this._$fps.classList.contains("active")) {
+        this._$fps.classList.remove("active")
+        this._shader = true
+      } else {
+        this._$fps.classList.add("active")
+        this._shader = false
+      }
+      this._composer.updatePass({
+        bloom: this._shader,
+        film: this._shader,
+        bleach: this._shader
+      })
     })
   }
 
@@ -407,7 +414,6 @@ class Room {
 
   // Update text
   updateText (action = false, text = "") {
-    console.log(action)
     // Remove everything
     for (let i = 0; i < this._$screen["all"].length; i++) {
       this._$screen["all"][i].classList.remove("active", "select")
@@ -432,6 +438,9 @@ class Room {
         // Start case
         if (action == "start") {
           this._$HUD.classList.add("active", "darker")
+          this._$options.classList.remove("active")
+        } else {
+          this._$options.classList.add("active")
         }
 
         // Choice case
