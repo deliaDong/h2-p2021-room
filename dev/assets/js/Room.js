@@ -14,7 +14,7 @@ class Room {
   load () {
     this.init() // Dont wait if outside sound
     // Load sound
-    let timeout = 3000
+    let timeout = 10000
     let loaded = false
     this._theme = new Pizzicato.Sound({
       source: "file",
