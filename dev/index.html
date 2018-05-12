@@ -19,16 +19,17 @@
   <!--endbuild-->
 </head>
 <body>
-  <div class="roomApp">
+  <div class="roomApp preload">
     <canvas>Your browser doesn't support canvas D:</canvas>
     <div class="HUDContainer darker active">
       <div class="wrapper">
         <div class="screen start loading active select">
           <h1>Room</h1>
           <div class="buttonWrapper">
-            <div class="startButton clickable">Loading</div>
+            <div class="startButton clickable noMobile">Loading</div>
+            <div class="mobile">Sorry, Room is a game meant to be played on a computer with keyboard and mouse/trackpad.</div>
           </div>
-          <div class="credit"><span>A webGL game by</span> <a href="https://edhbr.fr/" target="_blank" rel="noopener">Edouard HABERER</a><span>, music by</span> <a href="http://syntheticorchestra.com/" target="_blank" rel="noopener">The Blake Robinson Synthetic Orchestra</a><span>.</span></div>
+          <div class="credit"><span>A webGL game by</span> <a href="https://edhbr.fr/" target="_blank" rel="noopener" class="noPreload">Edouard HABERER</a><span>, music by</span> <a href="http://syntheticorchestra.com/" target="_blank" rel="noopener" class="noPreload">The Blake Robinson Synthetic Orchestra</a><span>.</span></div>
         </div>
         <div class="screen choice fast">
           <h2>Choice loading...</h2>

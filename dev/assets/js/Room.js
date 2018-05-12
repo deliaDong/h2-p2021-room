@@ -14,6 +14,8 @@ class Room {
   load () {
     this.init() // Dont wait if outside sound
     // Load sound
+    let timeout = 3000
+    let loaded = false
     this._theme = new Pizzicato.Sound({
       source: "file",
       options: {
@@ -21,23 +23,51 @@ class Room {
         loop: true,
         attack: 5
       }
-    }, () => {
+    }, () => { // Once ready
+      loaded = true
+      if (timeout) {
+        timeout = false
+        this._$output.classList.remove("preload")
         this._$screen["start"].classList.remove("loading")
         this._$buttons["start"].innerText = "Start"
         this._$buttons["start"].addEventListener("mouseup", () => {
-        this._nextRoom = 0
-        this._textMemory = {}
-        this.updateText("intro", this._rooms[this._nextRoom])
-        // Deal with chrome autoplay policy
-        if (!this._theme.play()) {
-          document.addEventListener("mouseup", () => {
-            Pizzicato.context.resume().then(() => {
-              this._theme.play()
-            })
-          }, {once: true})
-        }
-      })
+          this._playing = true
+          this._nextRoom = 0
+          this._textMemory = {}
+          this.updateText("intro", this._rooms[this._nextRoom])
+          this.tryPlaySound() // Play sounds if loaded fast enough
+        })
+      } else if (this._playing) { // Play sounds once ready if timeout and player already playing
+        this.tryPlaySound()
+      }
     })
+    setTimeout(() => {
+      if (timeout) {
+        timeout = false
+        console.info("Loader timeout, sounds will be played once ready.")
+        this._$output.classList.remove("preload")
+        this._$screen["start"].classList.remove("loading")
+        this._$buttons["start"].innerText = "Start"
+        this._$buttons["start"].addEventListener("mouseup", () => {
+          this._playing = true
+          this._nextRoom = 0
+          this._textMemory = {}
+          this.updateText("intro", this._rooms[this._nextRoom])
+          if (loaded) { this.tryPlaySound() } // Playsound once ready if timeout and player not already playing
+        })
+      }
+    }, timeout)
+  }
+
+  tryPlaySound () {
+    // Deal with chrome autoplay policy
+    if (!this._theme.play()) {
+      document.addEventListener("mouseup", () => {
+        Pizzicato.context.resume().then(() => {
+          this._theme.play()
+        })
+      }, {once: true})
+    }
   }
 
   // Init everything
@@ -64,6 +94,9 @@ class Room {
 
   // Create default context
   initContext () {
+
+    this._playing = false
+
     // General DOM
     this._$output = this._$output
     this._$canvas = this._$output.querySelector("canvas")
