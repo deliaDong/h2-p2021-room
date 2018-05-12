@@ -21,6 +21,7 @@ Without NPM :
 - 7 uniques room with some randomness in generation
 - Discover memory about furnitures and object
 - Next room according to what you have discovered
+- Random date generation
 - First person view
 - Day / Night cycle
 - Multi-ending according to the memory you discovered while exploring
@@ -33,7 +34,7 @@ Without NPM :
   - JS
 - Libraries:
   - [THREE.js](https://threejs.org/) (webGL)
-  - [Pizzicato.js](https://alemangui.github.io/pizzicato/) (audio)
+  - [Pizzicato.js](https://alemangui.github.io/pizzicato/) (audio), overkill right now but planned to add sounds according to current room.
   - [Mordernizr.js](https://modernizr.com/) (compatibility)
 - Development:
   - Gulp
@@ -69,4 +70,5 @@ Without NPM :
 ![Hospital](dev/assets/img/hospital.png)
 ![Child](dev/assets/img/child.png)
 ![Student](dev/assets/img/student.png)
+
 And three more rooms to find... (no spoil)
