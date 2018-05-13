@@ -34,71 +34,71 @@ class RoomChild {
     this._g = {}
 
     // Room
-    this._g.room = new THREE.PlaneGeometry(5, 7, 1, 1)
-    this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
-    this._g.bWall = new THREE.BoxGeometry(6, 9, 0.2)
-    this._g.wallB = new THREE.BoxGeometry(5, 0.6, 0.2)
-    this._g.wallS = new THREE.BoxGeometry(1, 1.8, 0.2)
-    this._g.wallT = new THREE.BoxGeometry(5, 1, 0.2)
-    this._g.glass = new THREE.BoxGeometry(3, 1.8, 0.1)
-    this._g.roofLight = new THREE.BoxGeometry(0.6, 0.05, 0.6)
-    this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
-    this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
+    this._g.room = new THREE.PlaneBufferGeometry(5, 7, 1, 1)
+    this._g.wall = new THREE.BoxBufferGeometry(5, 3, 0.2)
+    this._g.bWall = new THREE.BoxBufferGeometry(6, 9, 0.2)
+    this._g.wallB = new THREE.BoxBufferGeometry(5, 0.6, 0.2)
+    this._g.wallS = new THREE.BoxBufferGeometry(1, 1.8, 0.2)
+    this._g.wallT = new THREE.BoxBufferGeometry(5, 1, 0.2)
+    this._g.glass = new THREE.BoxBufferGeometry(3, 1.8, 0.1)
+    this._g.roofLight = new THREE.BoxBufferGeometry(0.6, 0.05, 0.6)
+    this._g.door = new THREE.BoxBufferGeometry(1.2, 2.2, 0.1)
+    this._g.doorH = new THREE.BoxBufferGeometry(0.2, 0.1, 0.05)
 
     // Bed
-    this._g.bedF = new THREE.BoxGeometry(1.4, 0.7, 0.1)
-    this._g.bedR = new THREE.BoxGeometry(1.4, 0.9, 0.1)
-    this._g.bedB = new THREE.BoxGeometry(1.4, 0.1, 2.2)
-    this._g.bedM1 = new THREE.BoxGeometry(1.2, 0.2, 2.2)
-    this._g.bedM2 = new THREE.BoxGeometry(1.3, 0.25, 1.9)
-    this._g.bedP = new THREE.BoxGeometry(0.8, 0.2, 0.5)
+    this._g.bedF = new THREE.BoxBufferGeometry(1.4, 0.7, 0.1)
+    this._g.bedR = new THREE.BoxBufferGeometry(1.4, 0.9, 0.1)
+    this._g.bedB = new THREE.BoxBufferGeometry(1.4, 0.1, 2.2)
+    this._g.bedM1 = new THREE.BoxBufferGeometry(1.2, 0.2, 2.2)
+    this._g.bedM2 = new THREE.BoxBufferGeometry(1.3, 0.25, 1.9)
+    this._g.bedP = new THREE.BoxBufferGeometry(0.8, 0.2, 0.5)
 
     // Nightstand
-    this._g.nightstandS = new THREE.BoxGeometry(0.8, 0.7, 0.7)
-    this._g.nightstandD = new THREE.BoxGeometry(0.7, 0.25, 0.6)
-    this._g.nightstandH = new THREE.BoxGeometry(0.2, 0.05, 0.1)
+    this._g.nightstandS = new THREE.BoxBufferGeometry(0.8, 0.7, 0.7)
+    this._g.nightstandD = new THREE.BoxBufferGeometry(0.7, 0.25, 0.6)
+    this._g.nightstandH = new THREE.BoxBufferGeometry(0.2, 0.05, 0.1)
 
     // Desk
-    this._g.deskT = new THREE.BoxGeometry(0.8, 0.1, 1.8)
-    this._g.deskL = new THREE.BoxGeometry(0.8, 0.9, 0.1)
-    this._g.book1 = new THREE.BoxGeometry(0.125, 0.2, 0.1)
-    this._g.book2 = new THREE.BoxGeometry(0.15, 0.25, 0.1)
-    this._g.book3 = new THREE.BoxGeometry(0.2, 0.3, 0.1)
-    this._g.paper = new THREE.PlaneGeometry(0.297, 0.21, 1, 1)
+    this._g.deskT = new THREE.BoxBufferGeometry(0.8, 0.1, 1.8)
+    this._g.deskL = new THREE.BoxBufferGeometry(0.8, 0.9, 0.1)
+    this._g.book1 = new THREE.BoxBufferGeometry(0.125, 0.2, 0.1)
+    this._g.book2 = new THREE.BoxBufferGeometry(0.15, 0.25, 0.1)
+    this._g.book3 = new THREE.BoxBufferGeometry(0.2, 0.3, 0.1)
+    this._g.paper = new THREE.PlaneBufferGeometry(0.297, 0.21, 1, 1)
 
     // Chair
-    this._g.chairB = new THREE.BoxGeometry(0.6, 0.05, 0.6)
-    this._g.chairL1 = new THREE.BoxGeometry(0.05, 0.5, 0.05)
-    this._g.chairL2 = new THREE.BoxGeometry(0.05, 1.1, 0.05)
-    this._g.chairT = new THREE.BoxGeometry(0.05, 0.05, 0.5)
+    this._g.chairB = new THREE.BoxBufferGeometry(0.6, 0.05, 0.6)
+    this._g.chairL1 = new THREE.BoxBufferGeometry(0.05, 0.5, 0.05)
+    this._g.chairL2 = new THREE.BoxBufferGeometry(0.05, 1.1, 0.05)
+    this._g.chairT = new THREE.BoxBufferGeometry(0.05, 0.05, 0.5)
 
     // Wardrobe
-    this._g.wardrobeS = new THREE.BoxGeometry(0.6, 2.1, 1.6)
-    this._g.wardrobeL = new THREE.BoxGeometry(0.6, 0.1, 0.1)
-    this._g.wardrobeD = new THREE.BoxGeometry(0.1, 1.8, 0.7)
-    this._g.wardrobeH = new THREE.BoxGeometry(0.1, 0.2, 0.05)
+    this._g.wardrobeS = new THREE.BoxBufferGeometry(0.6, 2.1, 1.6)
+    this._g.wardrobeL = new THREE.BoxBufferGeometry(0.6, 0.1, 0.1)
+    this._g.wardrobeD = new THREE.BoxBufferGeometry(0.1, 1.8, 0.7)
+    this._g.wardrobeH = new THREE.BoxBufferGeometry(0.1, 0.2, 0.05)
 
     // Toys
-    this._g.carpet = new THREE.PlaneGeometry(3, 3, 1, 1)
-    this._g.boxB = new THREE.BoxGeometry(1.2, 0.1, 0.7)
-    this._g.boxT = new THREE.BoxGeometry(1.2, 0.05, 0.7)
-    this._g.boxS = new THREE.BoxGeometry(0.1, 0.5, 0.7)
-    this._g.boxI = new THREE.BoxGeometry(1, 0.5, 0.6)
+    this._g.carpet = new THREE.PlaneBufferGeometry(3, 3, 1, 1)
+    this._g.boxB = new THREE.BoxBufferGeometry(1.2, 0.1, 0.7)
+    this._g.boxT = new THREE.BoxBufferGeometry(1.2, 0.05, 0.7)
+    this._g.boxS = new THREE.BoxBufferGeometry(0.1, 0.5, 0.7)
+    this._g.boxI = new THREE.BoxBufferGeometry(1, 0.5, 0.6)
 
-    this._g.torus1 = new THREE.TorusGeometry(0.075, 0.025, 6, 12)
-    this._g.torus2 = new THREE.TorusGeometry(0.1, 0.03, 6, 12)
-    this._g.torus3 = new THREE.TorusGeometry(0.075, 0.03, 6, 12)
-    this._g.torus4 = new THREE.TorusGeometry(0.1, 0.04, 6, 12)
-    this._g.cube = new THREE.BoxGeometry(0.1, 0.1, 0.1)
-    this._g.sphere = new THREE.SphereGeometry(0.1, 5, 5)
-    this._g.torusKnot = new THREE.TorusKnotGeometry(0.075, 0.02, 32, 12)
+    this._g.torus1 = new THREE.TorusBufferGeometry(0.075, 0.025, 6, 12)
+    this._g.torus2 = new THREE.TorusBufferGeometry(0.1, 0.03, 6, 12)
+    this._g.torus3 = new THREE.TorusBufferGeometry(0.075, 0.03, 6, 12)
+    this._g.torus4 = new THREE.TorusBufferGeometry(0.1, 0.04, 6, 12)
+    this._g.cube = new THREE.BoxBufferGeometry(0.1, 0.1, 0.1)
+    this._g.sphere = new THREE.SphereBufferGeometry(0.1, 5, 5)
+    this._g.torusKnot = new THREE.TorusKnotBufferGeometry(0.075, 0.02, 32, 12)
 
     // Canvas
-    this._g.canvas = new THREE.BoxGeometry(1.4, 1, 0.1)
-    this._g.canvasI = new THREE.PlaneGeometry(1.3, 0.9, 1, 1)
-    this._g.canvasD1 = new THREE.PlaneGeometry(0.1, 0.4, 1, 1)
-    this._g.canvasD2 = new THREE.PlaneGeometry(0.1, 0.2, 1, 1)
-    this._g.canvasD3 = new THREE.PlaneGeometry(0.1, 0.3, 1, 1)
+    this._g.canvas = new THREE.BoxBufferGeometry(1.4, 1, 0.1)
+    this._g.canvasI = new THREE.PlaneBufferGeometry(1.3, 0.9, 1, 1)
+    this._g.canvasD1 = new THREE.PlaneBufferGeometry(0.1, 0.4, 1, 1)
+    this._g.canvasD2 = new THREE.PlaneBufferGeometry(0.1, 0.2, 1, 1)
+    this._g.canvasD3 = new THREE.PlaneBufferGeometry(0.1, 0.3, 1, 1)
   }
 
   // Init all needed material
@@ -463,7 +463,7 @@ class RoomChild {
   createLight () {
     this._lights = new THREE.Object3D()
 
-    this._ambient = new THREE.AmbientLight(0x111111)
+    this._ambient = new THREE.AmbientLight(0xffffff, this._ctx._gamma)
     this._lights.add(this._ambient)
 
     this._point = new THREE.PointLight(0xa9c1af, 0.5, 10)

@@ -31,59 +31,59 @@ class RoomBridge {
     this._g = {}
 
     // Room
-    this._g.room = new THREE.PlaneGeometry(50, 5, 1, 1)
-    this._g.water = new THREE.CircleGeometry(30, 100)
-    this._g.wall = new THREE.BoxGeometry(50, 3, 0.2)
-    this._g.roofLight = new THREE.SphereGeometry(0.2, 8, 8)
-    this._g.roofLightH = new THREE.CylinderGeometry(0.225, 0.225, 0.05, 13)
-    this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
-    this._g.doorF = new THREE.BoxGeometry(1.4, 2.3, 0.05)
-    this._g.doorH = new THREE.BoxGeometry(0.05, 0.3, 0.05)
-    this._g.bridgeP = new THREE.BoxGeometry(1.5, 10, 3)
-    this._g.bridgePAlt = new THREE.BoxGeometry(1, 1, 50)
-    this._g.bridgeL1 = new THREE.BoxGeometry(1, 1, 5)
-    this._g.bridgeL2 = new THREE.BoxGeometry(0.75, 5, 0.75)
-    this._g.bridgeL3 = new THREE.BoxGeometry(8, 0.2, 0.5)
-    this._g.road = new THREE.PlaneGeometry(8, 100, 1, 1)
+    this._g.room = new THREE.PlaneBufferGeometry(50, 5, 1, 1)
+    this._g.water = new THREE.CircleBufferGeometry(30, 100)
+    this._g.wall = new THREE.BoxBufferGeometry(50, 3, 0.2)
+    this._g.roofLight = new THREE.SphereBufferGeometry(0.2, 8, 8)
+    this._g.roofLightH = new THREE.CylinderBufferGeometry(0.225, 0.225, 0.05, 13)
+    this._g.door = new THREE.BoxBufferGeometry(1.2, 2.2, 0.1)
+    this._g.doorF = new THREE.BoxBufferGeometry(1.4, 2.3, 0.05)
+    this._g.doorH = new THREE.BoxBufferGeometry(0.05, 0.3, 0.05)
+    this._g.bridgeP = new THREE.BoxBufferGeometry(1.5, 10, 3)
+    this._g.bridgePAlt = new THREE.BoxBufferGeometry(1, 1, 50)
+    this._g.bridgeL1 = new THREE.BoxBufferGeometry(1, 1, 5)
+    this._g.bridgeL2 = new THREE.BoxBufferGeometry(0.75, 5, 0.75)
+    this._g.bridgeL3 = new THREE.BoxBufferGeometry(8, 0.2, 0.5)
+    this._g.road = new THREE.PlaneBufferGeometry(8, 100, 1, 1)
 
     // Bed
-    this._g.mattress = new THREE.BoxGeometry(1.2, 0.2, 0.425)
+    this._g.mattress = new THREE.BoxBufferGeometry(1.2, 0.2, 0.425)
 
     // Nightstand
-    this._g.nightstand = new THREE.BoxGeometry(0.5, 0.025, 0.5)
-    this._g.nightstandH = new THREE.BoxGeometry(0.5, 0.25, 0.025)
-    this._g.beerB = new THREE.CylinderGeometry(0.05, 0.05, 0.2, 9)
-    this._g.beerT = new THREE.CylinderGeometry(0.02, 0.025, 0.1, 8)
-    this._g.torusKnot = new THREE.TorusKnotGeometry(0.075, 0.02, 32, 12)
+    this._g.nightstand = new THREE.BoxBufferGeometry(0.5, 0.025, 0.5)
+    this._g.nightstandH = new THREE.BoxBufferGeometry(0.5, 0.25, 0.025)
+    this._g.beerB = new THREE.CylinderBufferGeometry(0.05, 0.05, 0.2, 9)
+    this._g.beerT = new THREE.CylinderBufferGeometry(0.02, 0.025, 0.1, 8)
+    this._g.torusKnot = new THREE.TorusKnotBufferGeometry(0.075, 0.02, 32, 12)
 
     // Bin
-    this._g.bin = new THREE.BoxGeometry(1, 0.9, 1.6)
-    this._g.binAlt = new THREE.BoxGeometry(1.2, 0.4, 1.6)
-    this._g.binL = new THREE.BoxGeometry(1, 0.1, 0.1)
-    this._g.binF = new THREE.BoxGeometry(0.05, 0.9, 0.05)
-    this._g.binT = new THREE.BoxGeometry(1.2, 0.05, 0.85)
-    this._g.binTAlt = new THREE.BoxGeometry(1.2, 0.05, 0.05)
+    this._g.bin = new THREE.BoxBufferGeometry(1, 0.9, 1.6)
+    this._g.binAlt = new THREE.BoxBufferGeometry(1.2, 0.4, 1.6)
+    this._g.binL = new THREE.BoxBufferGeometry(1, 0.1, 0.1)
+    this._g.binF = new THREE.BoxBufferGeometry(0.05, 0.9, 0.05)
+    this._g.binT = new THREE.BoxBufferGeometry(1.2, 0.05, 0.85)
+    this._g.binTAlt = new THREE.BoxBufferGeometry(1.2, 0.05, 0.05)
 
     // Trolley
-    this._g.trolleyS1= new THREE.BoxGeometry(0.9, 0.05, 0.05)
-    this._g.trolleyS2= new THREE.BoxGeometry(0.05, 0.3, 0.05)
-    this._g.trolleyS3= new THREE.BoxGeometry(0.05, 0.425, 0.05)
-    this._g.trolleyS4= new THREE.BoxGeometry(0.05, 0.25, 0.05)
-    this._g.trolleyS5= new THREE.BoxGeometry(1, 0.05, 0.05)
-    this._g.trolleyS6= new THREE.BoxGeometry(0.2, 0.05, 0.05)
+    this._g.trolleyS1= new THREE.BoxBufferGeometry(0.9, 0.05, 0.05)
+    this._g.trolleyS2= new THREE.BoxBufferGeometry(0.05, 0.3, 0.05)
+    this._g.trolleyS3= new THREE.BoxBufferGeometry(0.05, 0.425, 0.05)
+    this._g.trolleyS4= new THREE.BoxBufferGeometry(0.05, 0.25, 0.05)
+    this._g.trolleyS5= new THREE.BoxBufferGeometry(1, 0.05, 0.05)
+    this._g.trolleyS6= new THREE.BoxBufferGeometry(0.2, 0.05, 0.05)
 
-    this._g.trolleyF1= new THREE.BoxGeometry(0.05, 0.05, 0.4)
+    this._g.trolleyF1= new THREE.BoxBufferGeometry(0.05, 0.05, 0.4)
 
-    this._g.trolleyB1= new THREE.BoxGeometry(0.05, 0.05, 0.5)
-    this._g.trolleyB2= new THREE.BoxGeometry(0.05, 0.05, 0.61)
+    this._g.trolleyB1= new THREE.BoxBufferGeometry(0.05, 0.05, 0.5)
+    this._g.trolleyB2= new THREE.BoxBufferGeometry(0.05, 0.05, 0.61)
 
-    this._g.trolleyG1= new THREE.PlaneGeometry(0.9, 0.5, 1, 1)
-    this._g.trolleyG2= new THREE.PlaneGeometry(0.4, 0.25, 1, 1)
-    this._g.trolleyG3= new THREE.PlaneGeometry(0.5, 0.4, 1, 1)
-    this._g.trolleyG4= new THREE.PlaneGeometry(0.875, 0.275, 1, 1)
-    this._g.trolleyG5= new THREE.PlaneGeometry(0.925, 0.1, 1, 1)
+    this._g.trolleyG1= new THREE.PlaneBufferGeometry(0.9, 0.5, 1, 1)
+    this._g.trolleyG2= new THREE.PlaneBufferGeometry(0.4, 0.25, 1, 1)
+    this._g.trolleyG3= new THREE.PlaneBufferGeometry(0.5, 0.4, 1, 1)
+    this._g.trolleyG4= new THREE.PlaneBufferGeometry(0.875, 0.275, 1, 1)
+    this._g.trolleyG5= new THREE.PlaneBufferGeometry(0.925, 0.1, 1, 1)
 
-    this._g.trolleyW = new THREE.CylinderGeometry(0.05, 0.05, 0.05, 7)
+    this._g.trolleyW = new THREE.CylinderBufferGeometry(0.05, 0.05, 0.05, 7)
   }
 
   // Init all needed material
@@ -172,9 +172,9 @@ class RoomBridge {
     for (let i = 0; i < 25; i++) {
       let geometry
       if (Math.floor(Math.random() * 2)) {
-        geometry = new THREE.PlaneGeometry(0.1 + Math.random() * 0.5, 0.1 + Math.random() * 0.5, 1, 1)
+        geometry = new THREE.PlaneBufferGeometry(0.1 + Math.random() * 0.5, 0.1 + Math.random() * 0.5, 1, 1)
       } else {
-        geometry = new THREE.CircleGeometry(0.1 + Math.random() * 0.2, Math.floor(Math.random() * 4) + 5)
+        geometry = new THREE.CircleBufferGeometry(0.1 + Math.random() * 0.2, Math.floor(Math.random() * 4) + 5)
       }
       const material = Utils3.randomColorMaterial({saturation: 50, lightness: 25 + Math.floor(Math.random() * 25)})
       this._wall.push(this.craft(geometry, material, this._graffitiHolder))
@@ -518,7 +518,7 @@ class RoomBridge {
   createLight () {
     this._lights = new THREE.Object3D()
 
-    this._ambient = new THREE.AmbientLight(0x111111)
+    this._ambient = new THREE.AmbientLight(0xffffff, this._ctx._gamma)
     this._lights.add(this._ambient)
 
     this._point = new THREE.PointLight(0xd9c726, 0.7, 20)

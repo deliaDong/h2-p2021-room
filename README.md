@@ -18,14 +18,20 @@ Without NPM :
 
 ## Features
 
-- 7 uniques room with some randomness in generation
-- Discover memory about furnitures and object
-- Next room according to what you have discovered
-- Random date generation
-- First person view
-- Day / Night cycle
-- Multi-ending according to the memory you discovered while exploring
-- Keyboard binding choice (coming soon!)
+- 7 uniques rooms
+
+- Environment:
+  - Random date generation
+  - Next room according to what you have discovered
+  - Some randomness in each room generation
+  - Day / Night cycle
+- Gemaplay:
+  - Discover memory about furnitures and object by clicking on it when they are outlined
+  - Multi-ending according to the memory you discovered while exploring
+  - First person view
+  - WASD, ZQSD and keyboard arrow controls
+  - Sounds output control button
+  - Toggle shaders button to improve performances
 
 ## Tech
 - Front:

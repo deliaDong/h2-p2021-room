@@ -8,6 +8,7 @@ div.roomApp
   background #000000
   cursor crosshair !important
 
+  // Do not apply transition when page isn't loaded
   &.preload *:not(.noPreload)
     transition none !important
 
@@ -16,7 +17,7 @@ div.roomApp
     padding 20px
     opacity .7
     transition opacity .5s ease, transform .5s ease
-    will-change transform opacity
+    will-change transform, opacity
 
     &:hover
       opacity 1
@@ -64,6 +65,7 @@ div.roomApp
       opacity 1
       transition opacity .5s ease
 
+    // Container background variation
     .bg
       width 100vw
       height 100vh
@@ -100,26 +102,25 @@ div.roomApp
     opacity 0
     transition opacity .5s ease .5s
     will-change opacity
-    line-height font-big
+    line-height font-biggest
 
-
+    // Not active case
     h1, h2
       font-size font-giant
       text-align center
       margin-bottom 60px
+      opacity 0
+      transition opacity .5s ease .5s
+      will-change opacity
 
     h2
       font-size font-bigger
 
     .desc
       margin-bottom 30px
+      line-height font-bigger
 
     // Active case
-    h1, h2
-      opacity 0
-      transition opacity .5s ease .5s
-      will-change opacity
-
     &>div, .late
       opacity 0
       transition opacity .5s ease
@@ -141,6 +142,7 @@ div.roomApp
         opacity 1
         transition opacity .5s ease 2s
 
+    // For faster element
     &.fast
       transition opacity .5s ease
 
@@ -162,12 +164,29 @@ div.roomApp
       will-change opacity
       font-size font-bigger
 
-    .credit
+
+    .more
       width 100%
-      font-size font-smaller
       position fixed
       bottom 20px
       left 0
+
+    .howToPlay
+      font-size font-small
+      opacity .8
+      margin-bottom 30px
+
+      svg
+        display inline-block
+        fill color-white
+        stroke color-white
+        height 50px
+        width 50px
+        vertical-align middle
+
+    .credit
+      font-size font-smaller
+
       span
         opacity .7
       a
@@ -175,7 +194,10 @@ div.roomApp
         user-select auto
 
     &.active.loading .startButton
-      animation loading 1s ease infinite
+      animation breathing 1s ease infinite
+
+      &:hover
+        transform none
 
   // Choice screen
   .choice
@@ -201,7 +223,7 @@ div.roomApp
     pointer-events auto
     user-select auto
 
-  // Options
+  // Options css
   .options
     position absolute
     bottom 20px
@@ -220,6 +242,7 @@ div.roomApp
     div
       margin 0 10px
 
+  // Toggle shaders button
   .fps
     opacity .5
     transition opacity .5s ease
@@ -229,6 +252,7 @@ div.roomApp
       width 30px
       height 30px
       fill color-white
+      stroke color-white
 
     &:hover, &.active
       opacity 1
@@ -236,6 +260,7 @@ div.roomApp
     &.active:hover
       opacity .5
 
+  // Toggle sounds button
   .mute
     position relative
     width 30px
@@ -252,6 +277,7 @@ div.roomApp
       transition transform .5s ease, opacity .5s ease
       will-change transform, opacity
 
+    // Waves animations
     &.muted:hover .wave1, .wave1
       left 0px
       animation pulse 1s ease infinite
@@ -269,26 +295,30 @@ div.roomApp
       animation pulse 1.4s ease infinite .4s
 
     &:hover .wave
-      animation pause .5s ease both
+      animation mute .5s ease both
       opacity 1
 
     &.muted .wave
-      animation pause .5s ease both
+      animation mute .5s ease both
 
     &.muted:hover .wave
       opacity 1
 
 // Animations
-@keyframes loading {
+
+// Loading breathing
+@keyframes breathing {
   50% { opacity: 0.3; }
 }
 
+// Wave pulsing
 @keyframes pulse {
   0%   { transform: scaleY(0.1); }
   80% { transform: scaleY(1); }
   100% { transform: scaleY(0.1); }
 }
 
-@keyframes pause {
+// Wave mute
+@keyframes mute {
   100% { transform: scaleY(0.1); }
 }

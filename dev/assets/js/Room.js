@@ -85,8 +85,8 @@ class Room {
     this.getNextRoom()
 
     // Fps meter
-    /* this._stats = new Stats()
-    this._$output.appendChild(this._stats.dom) */
+    this._stats = new Stats()
+    this._$output.appendChild(this._stats.dom)
 
     // Loop
     this.loop()
@@ -184,9 +184,8 @@ class Room {
       qwerty: "wasd",
       azerty: "zqsd"
     }
-    this._keyBoardType = "azerty"
 
-    // EXP VAR
+    // STATIC VAR
     this._months = [
       "January",
       "February",
@@ -207,6 +206,7 @@ class Room {
     this._speed = 0.05
     this._dayDuration = 120000
     this._fixedTime = false
+    this._gamma = 0.075
     this._roomLength = 5
     this._roomDepth = 5
 
@@ -230,8 +230,8 @@ class Room {
       },
       {
         scene: () => new RoomStudent(this),
-        intro: `Studies - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 17 + Math.floor(Math.random() * 4)}`,
-        desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 18 years old.",
+        intro: `Studies - ${this.getMonth()} ${this.getDay()}, ${this._birthYear + 18 + Math.floor(Math.random() * 4)}`,
+        desc: "The studies were difficult but necessary. I did my best to secure my future adult life and helped my father a lot since my mother died of a rare disease when I was 17 years old.",
         cameraOffset: -Math.PI / 2,
         getNextRoom: () => 3
       },
@@ -382,15 +382,20 @@ class Room {
       if (this._$fps.classList.contains("active")) {
         this._$fps.classList.remove("active")
         this._shader = true
+        this._gamma = 0.075
       } else {
         this._$fps.classList.add("active")
         this._shader = false
+        this._gamma = 0.2
       }
       this._composer.updatePass({
         bloom: this._shader,
         film: this._shader,
         bleach: this._shader
       })
+      if (this._currentRoom) {
+        this._currentRoom._ambient.intensity = this._gamma
+      }
     })
   }
 
@@ -561,7 +566,7 @@ class Room {
     this.updateCamera()
     this.updateSky()
     this._composer.render()
-    //this._stats.update() // Stats
+    this._stats.update() // Stats
   }
 
   // Update camera according to context and user input
@@ -605,22 +610,22 @@ class Room {
     // Movement
     let x = 0
     let z = 0
-    if (this._input[this._keyboard[this._keyBoardType][1]] || this._input["ArrowLeft"]) { // if left
+    if (this._input[this._keyboard["qwerty"][1]] || this._input[this._keyboard["azerty"][1]] || this._input["ArrowLeft"]) { // if left
       x -= Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
       z -= Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
 
-    if (this._input[this._keyboard[this._keyBoardType][3]] || this._input["ArrowRight"]) { // if right
+    if (this._input[this._keyboard["qwerty"][3]] || this._input[this._keyboard["azerty"][3]] || this._input["ArrowRight"]) { // if right
       x += Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
       z += Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
 
-    if (this._input[this._keyboard[this._keyBoardType][0]] || this._input["ArrowUp"]) { // if up
+    if (this._input[this._keyboard["qwerty"][0]] || this._input[this._keyboard["azerty"][0]] || this._input["ArrowUp"]) { // if up
       x -= Math.sin(this._camera.get("angle", true).y) * this._speed
       z -= Math.cos(this._camera.get("angle", true).y) * this._speed
     }
 
-    if (this._input[this._keyboard[this._keyBoardType][2]] || this._input["ArrowDown"]) { // if down
+    if (this._input[this._keyboard["qwerty"][2]] || this._input[this._keyboard["azerty"][2]] || this._input["ArrowDown"]) { // if down
       x += Math.sin(this._camera.get("angle", true).y) * this._speed
       z += Math.cos(this._camera.get("angle", true).y) * this._speed
     }

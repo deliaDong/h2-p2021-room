@@ -27,11 +27,11 @@ class RoomLight {
     this._g = {}
 
     // Room
-    this._g.room = new THREE.CircleGeometry(50, 100)
-    this._g.roofLight = new THREE.CylinderGeometry(0.075, 0.075, 0.15, 7)
-    this._g.roofLightH = new THREE.BoxGeometry(0.05, 0.4, 0.05)
-    this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
-    this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
+    this._g.room = new THREE.CircleBufferGeometry(50, 100)
+    this._g.roofLight = new THREE.CylinderBufferGeometry(0.075, 0.075, 0.15, 7)
+    this._g.roofLightH = new THREE.BoxBufferGeometry(0.05, 0.4, 0.05)
+    this._g.door = new THREE.BoxBufferGeometry(1.2, 2.2, 0.1)
+    this._g.doorH = new THREE.BoxBufferGeometry(0.2, 0.1, 0.05)
 
   }
 
@@ -93,7 +93,7 @@ class RoomLight {
   createLight () {
     this._lights = new THREE.Object3D()
 
-    this._ambient = new THREE.AmbientLight(0x111111)
+    this._ambient = new THREE.AmbientLight(0xffffff, this._ctx._gamma)
     this._lights.add(this._ambient)
 
     this._point = new THREE.PointLight(0xd9c726, 0.9, 10)

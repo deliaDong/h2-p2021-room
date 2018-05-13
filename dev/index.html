@@ -25,11 +25,22 @@
       <div class="wrapper">
         <div class="screen start loading active select">
           <h1>Room</h1>
+          <div class="mobile">Sorry, Room is a game meant to be played on a computer with keyboard and mouse/trackpad.</div>
+          <div class="desc noMobile">Explore life of a person through it's rooms which are evolving according to the memories you discover about his objects and furnitures.</div>
           <div class="buttonWrapper">
             <div class="startButton clickable noMobile">Loading</div>
-            <div class="mobile">Sorry, Room is a game meant to be played on a computer with keyboard and mouse/trackpad.</div>
           </div>
-          <div class="credit"><span>A webGL game by</span> <a href="https://edhbr.fr/" target="_blank" rel="noopener" class="noPreload">Edouard HABERER</a><span>, music by</span> <a href="http://syntheticorchestra.com/" target="_blank" rel="noopener" class="noPreload">The Blake Robinson Synthetic Orchestra</a><span>.</span></div>
+          <div class="more">
+            <div class="howToPlay noMobile">
+              Play with :
+              <svg><use xlink:href="assets/img/icons.svg#mouseTPad"></use></svg> +
+              <svg><use xlink:href="assets/img/icons.svg#wasd"></use></svg> or
+              <svg><use xlink:href="assets/img/icons.svg#zqsd"></use></svg> or
+              <svg><use xlink:href="assets/img/icons.svg#arrows"></use></svg>
+            </div>
+            <div class="credit">
+              <span>A webGL game by</span> <a href="https://edhbr.fr/" target="_blank" rel="noopener" class="noPreload">Edouard HABERER</a><span>, music by</span> <a href="http://syntheticorchestra.com/" target="_blank" rel="noopener" class="noPreload">The Blake Robinson Synthetic Orchestra</a><span>.</span></div>
+            </div>
         </div>
         <div class="screen choice fast">
           <h2>Choice loading...</h2>
@@ -57,10 +68,10 @@
       <div class="bg"></div>
     </div>
     <div class="options">
-      <div class="fps">
+      <div class="fps" title="Toggle shaders">
         <svg><use xlink:href="assets/img/icons.svg#fps"></use></svg>
       </div>
-      <div class="mute">
+      <div class="mute" title="Mute / unmute">
         <div class="wave wave1"></div>
         <div class="wave wave2"></div>
         <div class="wave wave3"></div>
@@ -69,6 +80,7 @@
       </div>
     </div>
   </div>
+  <!-- /.roomApp.preload -->
   <!--build:js assets/js/global.js -->
   <script type="text/javascript" src="assets/js/vendor/modernizr.js"></script>
   <script type="text/javascript" src="assets/js/vendor/pizzicato.min.js"></script>

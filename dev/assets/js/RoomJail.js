@@ -30,49 +30,49 @@ class RoomJail {
     this._g = {}
 
     // Room
-    this._g.room = new THREE.PlaneGeometry(3, 5, 1, 1)
-    this._g.roomAlt = new THREE.PlaneGeometry(3, 10, 1, 1)
-    this._g.carpet = new THREE.BoxGeometry(3, 0.05, 2)
-    this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
-    this._g.wallAlt = new THREE.BoxGeometry(10, 3, 0.2)
-    this._g.wallB = new THREE.BoxGeometry(3, 1.2, 0.2)
-    this._g.wallS = new THREE.BoxGeometry(1, 1.8, 0.2)
-    this._g.wallT = new THREE.BoxGeometry(1, 0.2, 0.2)
-    this._g.windowRod = new THREE.BoxGeometry(0.05, 1.6, 0.05)
-    this._g.roofLight = new THREE.SphereGeometry(0.2, 8, 8)
-    this._g.wallDS = new THREE.BoxGeometry(0.9, 2.2, 0.2)
-    this._g.wallDT = new THREE.BoxGeometry(3, 0.8, 0.2)
-    this._g.doorRod = new THREE.BoxGeometry(0.05, 2.2, 0.05)
-    this._g.doorRodAlt = new THREE.BoxGeometry(0.05, 1, 0.05)
-    this._g.doorVRod = new THREE.BoxGeometry(1.2, 0.05, 0.05)
-    this._g.doorP = new THREE.BoxGeometry(0.5, 0.05, 0.2)
-    this._g.doorL = new THREE.BoxGeometry(0.2, 0.2, 0.1)
+    this._g.room = new THREE.PlaneBufferGeometry(3, 5, 1, 1)
+    this._g.roomAlt = new THREE.PlaneBufferGeometry(3, 10, 1, 1)
+    this._g.carpet = new THREE.BoxBufferGeometry(3, 0.05, 2)
+    this._g.wall = new THREE.BoxBufferGeometry(5, 3, 0.2)
+    this._g.wallAlt = new THREE.BoxBufferGeometry(10, 3, 0.2)
+    this._g.wallB = new THREE.BoxBufferGeometry(3, 1.2, 0.2)
+    this._g.wallS = new THREE.BoxBufferGeometry(1, 1.8, 0.2)
+    this._g.wallT = new THREE.BoxBufferGeometry(1, 0.2, 0.2)
+    this._g.windowRod = new THREE.BoxBufferGeometry(0.05, 1.6, 0.05)
+    this._g.roofLight = new THREE.SphereBufferGeometry(0.2, 8, 8)
+    this._g.wallDS = new THREE.BoxBufferGeometry(0.9, 2.2, 0.2)
+    this._g.wallDT = new THREE.BoxBufferGeometry(3, 0.8, 0.2)
+    this._g.doorRod = new THREE.BoxBufferGeometry(0.05, 2.2, 0.05)
+    this._g.doorRodAlt = new THREE.BoxBufferGeometry(0.05, 1, 0.05)
+    this._g.doorVRod = new THREE.BoxBufferGeometry(1.2, 0.05, 0.05)
+    this._g.doorP = new THREE.BoxBufferGeometry(0.5, 0.05, 0.2)
+    this._g.doorL = new THREE.BoxBufferGeometry(0.2, 0.2, 0.1)
 
     // Bed
-    this._g.bedL = new THREE.BoxGeometry(0.05, 0.7, 0.05)
-    this._g.bedT = new THREE.BoxGeometry(1.1, 0.05, 0.05)
-    this._g.bedB = new THREE.BoxGeometry(1.15, 0.05, 2.15)
-    this._g.mattress = new THREE.BoxGeometry(1.1, 0.2, 2.1)
+    this._g.bedL = new THREE.BoxBufferGeometry(0.05, 0.7, 0.05)
+    this._g.bedT = new THREE.BoxBufferGeometry(1.1, 0.05, 0.05)
+    this._g.bedB = new THREE.BoxBufferGeometry(1.15, 0.05, 2.15)
+    this._g.mattress = new THREE.BoxBufferGeometry(1.1, 0.2, 2.1)
 
     // Wardrobe
-    this._g.wardrobe = new THREE.BoxGeometry(0.3, 0.05, 1)
-    this._g.wardrobeH = new THREE.BoxGeometry(0.05, 0.3, 0.05)
+    this._g.wardrobe = new THREE.BoxBufferGeometry(0.3, 0.05, 1)
+    this._g.wardrobeH = new THREE.BoxBufferGeometry(0.05, 0.3, 0.05)
 
     // Toilet
-    this._g.toiletB = new THREE.BoxGeometry(0.2, 0.25, 0.5)
-    this._g.toiletS = new THREE.BoxGeometry(0.3, 0.25, 0.05)
-    this._g.toiletSAlt = new THREE.BoxGeometry(0.2, 0.25, 0.05)
-    this._g.toiletR = new THREE.CylinderGeometry(0.025, 0.025, 0.05, 7)
-    this._g.toiletD1 = new THREE.PlaneGeometry(0.4, 0.4, 1, 1)
-    this._g.toiletD2 = new THREE.PlaneGeometry(0.175, 0.325, 1, 1)
-    this._g.toiletH = new THREE.CircleGeometry(0.05, 8)
+    this._g.toiletB = new THREE.BoxBufferGeometry(0.2, 0.25, 0.5)
+    this._g.toiletS = new THREE.BoxBufferGeometry(0.3, 0.25, 0.05)
+    this._g.toiletSAlt = new THREE.BoxBufferGeometry(0.2, 0.25, 0.05)
+    this._g.toiletR = new THREE.CylinderBufferGeometry(0.025, 0.025, 0.05, 7)
+    this._g.toiletD1 = new THREE.PlaneBufferGeometry(0.4, 0.4, 1, 1)
+    this._g.toiletD2 = new THREE.PlaneBufferGeometry(0.175, 0.325, 1, 1)
+    this._g.toiletH = new THREE.CircleBufferGeometry(0.05, 8)
 
     // Sink
-    this._g.sinkB = new THREE.BoxGeometry(0.05, 0.2, 0.4)
-    this._g.sinkS = new THREE.BoxGeometry(0.05, 0.15, 0.3)
-    this._g.sinkD = new THREE.PlaneGeometry(0.3, 0.3, 1, 1)
-    this._g.sinkH = new THREE.CircleGeometry(0.03, 8)
-    this._g.sinkT = new THREE.BoxGeometry(0.15, 0.025, 0.05)
+    this._g.sinkB = new THREE.BoxBufferGeometry(0.05, 0.2, 0.4)
+    this._g.sinkS = new THREE.BoxBufferGeometry(0.05, 0.15, 0.3)
+    this._g.sinkD = new THREE.PlaneBufferGeometry(0.3, 0.3, 1, 1)
+    this._g.sinkH = new THREE.CircleBufferGeometry(0.03, 8)
+    this._g.sinkT = new THREE.BoxBufferGeometry(0.15, 0.025, 0.05)
 
   }
 
@@ -361,7 +361,7 @@ class RoomJail {
   createLight () {
     this._lights = new THREE.Object3D()
 
-    this._ambient = new THREE.AmbientLight(0x111111)
+    this._ambient = new THREE.AmbientLight(0xffffff, this._ctx._gamma)
     this._lights.add(this._ambient)
 
     this._point = new THREE.PointLight(0xffffff, 0.5, 10)

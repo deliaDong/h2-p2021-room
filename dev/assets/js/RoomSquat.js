@@ -32,57 +32,57 @@ class RoomSquat {
     this._g = {}
 
     // Room
-    this._g.room = new THREE.PlaneGeometry(5, 5, 1, 1)
-    this._g.carpet = new THREE.BoxGeometry(3, 0.05, 2)
-    this._g.wall = new THREE.BoxGeometry(5, 3, 0.2)
-    this._g.wallB = new THREE.BoxGeometry(5, 1.2, 0.2)
-    this._g.wallS = new THREE.BoxGeometry(1.5, 1.8, 0.2)
-    this._g.wallT = new THREE.BoxGeometry(2, 0.2, 0.2)
-    this._g.glass = new THREE.BoxGeometry(2, 1, 0.1)
-    this._g.glassB = new THREE.BoxGeometry(2, 0.1, 0.15)
-    this._g.roofLight = new THREE.CylinderGeometry(0.075, 0.075, 0.15, 7)
-    this._g.roofLightH = new THREE.BoxGeometry(0.05, 0.4, 0.05)
-    this._g.door = new THREE.BoxGeometry(1.2, 2.2, 0.1)
-    this._g.doorH = new THREE.BoxGeometry(0.2, 0.1, 0.05)
-    this._g.paper = new THREE.PlaneGeometry(0.15, 0.15, 1, 1)
+    this._g.room = new THREE.PlaneBufferGeometry(5, 5, 1, 1)
+    this._g.carpet = new THREE.BoxBufferGeometry(3, 0.05, 2)
+    this._g.wall = new THREE.BoxBufferGeometry(5, 3, 0.2)
+    this._g.wallB = new THREE.BoxBufferGeometry(5, 1.2, 0.2)
+    this._g.wallS = new THREE.BoxBufferGeometry(1.5, 1.8, 0.2)
+    this._g.wallT = new THREE.BoxBufferGeometry(2, 0.2, 0.2)
+    this._g.glass = new THREE.BoxBufferGeometry(2, 1, 0.1)
+    this._g.glassB = new THREE.BoxBufferGeometry(2, 0.1, 0.15)
+    this._g.roofLight = new THREE.CylinderBufferGeometry(0.075, 0.075, 0.15, 7)
+    this._g.roofLightH = new THREE.BoxBufferGeometry(0.05, 0.4, 0.05)
+    this._g.door = new THREE.BoxBufferGeometry(1.2, 2.2, 0.1)
+    this._g.doorH = new THREE.BoxBufferGeometry(0.2, 0.1, 0.05)
+    this._g.paper = new THREE.PlaneBufferGeometry(0.15, 0.15, 1, 1)
 
     // Bed
-    this._g.bedL = new THREE.BoxGeometry(0.05, 0.1, 0.75)
-    this._g.bedS = new THREE.BoxGeometry(0.15, 0.6, 0.8)
-    this._g.bedB = new THREE.BoxGeometry(1.7, 0.2, 0.8)
-    this._g.bedR = new THREE.BoxGeometry(1.7, 0.6, 0.1)
-    this._g.bedM = new THREE.BoxGeometry(0.825, 0.2, 0.6)
+    this._g.bedL = new THREE.BoxBufferGeometry(0.05, 0.1, 0.75)
+    this._g.bedS = new THREE.BoxBufferGeometry(0.15, 0.6, 0.8)
+    this._g.bedB = new THREE.BoxBufferGeometry(1.7, 0.2, 0.8)
+    this._g.bedR = new THREE.BoxBufferGeometry(1.7, 0.6, 0.1)
+    this._g.bedM = new THREE.BoxBufferGeometry(0.825, 0.2, 0.6)
 
     // Table
-    this._g.tableL = new THREE.BoxGeometry(0.05, 0.5, 0.05)
-    this._g.tableT = new THREE.BoxGeometry(1.5, 0.05, 0.75)
-    this._g.remote = new THREE.BoxGeometry(0.1, 0.05, 0.25)
-    this._g.can1 = new THREE.CylinderGeometry(0.06, 0.06, 0.15, 6)
-    this._g.can2 = new THREE.CylinderGeometry(0.04, 0.04, 0.2, 6)
-    this._g.halfPaper = new THREE.PlaneGeometry(0.1485, 0.21, 1, 1)
+    this._g.tableL = new THREE.BoxBufferGeometry(0.05, 0.5, 0.05)
+    this._g.tableT = new THREE.BoxBufferGeometry(1.5, 0.05, 0.75)
+    this._g.remote = new THREE.BoxBufferGeometry(0.1, 0.05, 0.25)
+    this._g.can1 = new THREE.CylinderBufferGeometry(0.06, 0.06, 0.15, 6)
+    this._g.can2 = new THREE.CylinderBufferGeometry(0.04, 0.04, 0.2, 6)
+    this._g.halfPaper = new THREE.PlaneBufferGeometry(0.1485, 0.21, 1, 1)
 
     // TV
-    this._g.TVF = new THREE.BoxGeometry(1.8, 1, 0.05)
-    this._g.TVB = new THREE.BoxGeometry(1.6, 0.8, 0.1)
-    this._g.TVS = new THREE.PlaneGeometry(1.7, 0.9, 1, 1)
+    this._g.TVF = new THREE.BoxBufferGeometry(1.8, 1, 0.05)
+    this._g.TVB = new THREE.BoxBufferGeometry(1.6, 0.8, 0.1)
+    this._g.TVS = new THREE.PlaneBufferGeometry(1.7, 0.9, 1, 1)
 
     // Kitchen
-    this._g.kitchen = new THREE.BoxGeometry(1.65, 0.7, 0.85)
-    this._g.kitchenD = new THREE.BoxGeometry(0.7, 0.6, 0.1)
-    this._g.kitchenH = new THREE.BoxGeometry(0.05, 0.2, 0.1)
-    this._g.kitchenT = new THREE.BoxGeometry(0.8, 0.3, 0.8)
-    this._g.kitchenS = new THREE.BoxGeometry(0.8, 0.3, 0.1)
-    this._g.kitchenSAlt = new THREE.BoxGeometry(0.1, 0.3, 0.6)
-    this._g.kitchenSB = new THREE.PlaneGeometry(0.6, 0.6, 1, 1)
-    this._g.kitchenST = new THREE.BoxGeometry(0.05, 0.025, 0.5)
-    this._g.kitchenSH = new THREE.BoxGeometry(0.05, 0.025, 0.15)
-    this._g.microwave = new THREE.BoxGeometry(0.6, 0.3, 0.4)
-    this._g.microwaveG = new THREE.BoxGeometry(0.4, 0.25, 0.05)
-    this._g.microwaveC = new THREE.CylinderGeometry(0.05, 0.05, 0.1, 7)
+    this._g.kitchen = new THREE.BoxBufferGeometry(1.65, 0.7, 0.85)
+    this._g.kitchenD = new THREE.BoxBufferGeometry(0.7, 0.6, 0.1)
+    this._g.kitchenH = new THREE.BoxBufferGeometry(0.05, 0.2, 0.1)
+    this._g.kitchenT = new THREE.BoxBufferGeometry(0.8, 0.3, 0.8)
+    this._g.kitchenS = new THREE.BoxBufferGeometry(0.8, 0.3, 0.1)
+    this._g.kitchenSAlt = new THREE.BoxBufferGeometry(0.1, 0.3, 0.6)
+    this._g.kitchenSB = new THREE.PlaneBufferGeometry(0.6, 0.6, 1, 1)
+    this._g.kitchenST = new THREE.BoxBufferGeometry(0.05, 0.025, 0.5)
+    this._g.kitchenSH = new THREE.BoxBufferGeometry(0.05, 0.025, 0.15)
+    this._g.microwave = new THREE.BoxBufferGeometry(0.6, 0.3, 0.4)
+    this._g.microwaveG = new THREE.BoxBufferGeometry(0.4, 0.25, 0.05)
+    this._g.microwaveC = new THREE.CylinderBufferGeometry(0.05, 0.05, 0.1, 7)
 
     // Wardrobe
-    this._g.wardrobe = new THREE.BoxGeometry(0.4, 0.05, 1.5)
-    this._g.wardrobeH = new THREE.BoxGeometry(0.05, 0.3, 0.05)
+    this._g.wardrobe = new THREE.BoxBufferGeometry(0.4, 0.05, 1.5)
+    this._g.wardrobeH = new THREE.BoxBufferGeometry(0.05, 0.3, 0.05)
 
   }
 
@@ -171,7 +171,7 @@ class RoomSquat {
     this._moistureHolder.text = "This wall was full of mold, that can be considered as art at this point..."
     this._moistureHolder.textAction = "bubble"
     for (let i = 0; i < 50; i++) {
-      const geometry = new THREE.PlaneGeometry(0.1 + Math.random() * 0.4, 0.1 + Math.random() * 0.4, 1, 1)
+      const geometry = new THREE.PlaneBufferGeometry(0.1 + Math.random() * 0.4, 0.1 + Math.random() * 0.4, 1, 1)
       const material = Utils3.randomColorMaterial({hue: 10, saturation: 50, lightness: 25 + Math.floor(Math.random() * 25)})
       this._wall.push(this.craft(geometry, material, this._moistureHolder))
       this._wall[this._wall.length - 1].position.set(0.00001 * i, Math.random() * 3, Math.random() * 5 - 2.5)
@@ -434,7 +434,7 @@ class RoomSquat {
         if (clothesSlots[i]) {
           const zOffset = i * 0.4 + Math.floor(Math.random()) * 0.1
           const height = Math.floor(Math.random() * 3 + 1) * 0.05
-          const geometry = new THREE.BoxGeometry(
+          const geometry = new THREE.BoxBufferGeometry(
             Math.floor(Math.random() * 3) * 0.05 + 0.2,
             height,
             Math.floor(Math.random() * 3) * 0.05 + 0.2
@@ -455,7 +455,7 @@ class RoomSquat {
   createLight () {
     this._lights = new THREE.Object3D()
 
-    this._ambient = new THREE.AmbientLight(0x111111)
+    this._ambient = new THREE.AmbientLight(0xffffff, this._ctx._gamma)
     this._lights.add(this._ambient)
 
     this._point = new THREE.PointLight(0xd9c726, 0.7, 10)
