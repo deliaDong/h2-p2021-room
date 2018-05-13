@@ -40,7 +40,7 @@ class Room {
     this._sounds = { // Other sounds
       click: false
     }
-    this._timeout = 1000
+    this._timeout = 10000
     this._loaded = false
     let loading = 0
     let elements = 1
