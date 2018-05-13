@@ -524,6 +524,9 @@ class Room {
 
         this._$screen[action].classList.add("active")
         setTimeout(() => {
+          for (let i = 0; i < this._$screen["all"].length; i++) {
+            this._$screen["all"][i].classList.remove("select")
+          }
           this._$screen[action].classList.add("select")
         }, this._$screen[action].classList.contains("fast") ? 500 : 1000)
 
