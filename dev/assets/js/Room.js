@@ -71,6 +71,7 @@ class Room {
         }
       }, () => { // Once ready
         loading++
+        this._sounds[sound].volume = 0.3
         if (loading >= elements) {
           this._loaded = true
           this.isLoaded()
