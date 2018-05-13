@@ -24,7 +24,7 @@ Without NPM :
 
 ## Features
 
-- 7 uniques rooms
+- 7 unique rooms
 - THREE.js shaders to enhance scene render
 
 - Environment:
