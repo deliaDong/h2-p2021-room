@@ -43,6 +43,7 @@ Without NPM :
   - Need to be played on a device with a keyboard and a mouse / trackpad (not enought time to craft a mobile friendly way to play)
   - Message if mobile to tell user to use app on a computer
   - Timeout on sounds loading to let player play before sounds are load if connection to slow
+  - Feature detection with Modernizr
 
 ## Tech
 - Front:

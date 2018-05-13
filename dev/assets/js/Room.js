@@ -8,27 +8,33 @@ class Room {
     if (!this._$output) { // Handle error
       console.error(`Room: Can't find ${output}, please check that value`)
     } else { // Success
-      // Create context
-      this.initContext()
+      if (Modernizr.webgl) { // If webgl
+        // Create context
+        this.initContext()
 
-      // Events listener
-      this.initListener()
+        // Events listener
+        this.initListener()
 
-      // Init skybox
-      this.initSky()
+        // Init skybox
+        this.initSky()
 
-      // Go to the first room
-      this.getNextRoom()
+        // Go to the first room
+        this.getNextRoom()
 
-      // Fps meter (require stats.min.js)
-      /* this._stats = new Stats()
-      this._$output.appendChild(this._stats.dom) */
+        // Fps meter (require stats.min.js)
+        /* this._stats = new Stats()
+        this._$output.appendChild(this._stats.dom) */
 
-      // Loop
-      this.loop()
+        // Loop
+        this.loop()
 
-      // Load medias
-      this.load()
+        // Load medias
+        this.load()
+      } else { // If no webgl
+        this._$output.querySelector(".start").classList.remove("loading")
+        this._$output.querySelector(".startButton").innerHTML = `Sorry you browser doesn't support webGL D:<br>
+        <a href="https://www.mozilla.org/fr/firefox/" target="_blank" rel="noopener">Download Firefox here.</a>`
+      }
     }
   }
 
