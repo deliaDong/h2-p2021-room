@@ -272,7 +272,8 @@ const Utils3 = (function () {
         this._scene,
         this._camera
       )
-      this._outlinePass.pulsePeriod = 5
+      this._outlinePass.pulsePeriod = 3
+      this._outlinePass.hiddenEdgeColor.set("#000000")
       this.updatePass()
     }
 
