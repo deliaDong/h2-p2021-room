@@ -1,3 +1,6 @@
+/**
+ * Each RoomNAME.js are just meant to create the 3D room and some management methods related to it (loop, etc.)
+ */
 class RoomJail {
   constructor (ctx) {
     this._ctx = ctx

@@ -5,8 +5,14 @@ A THREE.js solo school project made within 2 weeks.
 
 **[Live version here](https://room.edhbr.fr/)**
 
-## Note (important)
-It was a fun project to make, performances should be ok.
+## Note (**important, must read**)
+It was a fun project to make, performances should be ok (fps button can increase performances by turning off most shaders).
+
+There're 3 differents ending right now according to what you furnitures / object you clicked on (only bad ending at the moment, please do not draw hasty morals), here's how to access each of them (spoiler alert) :
+- **Homeless ending**: Just get through rooms, don't click on post-it or paper when on squat room (see below).
+- **Incarceration ending**: Click on the left screen on student room then click on the post-it on the door in squat room OR just click on the paper under the transparent table in squat room.
+- **Light ending**: Click on the room's lights of the hospital room, child room, student room and of the squat room (if you click on too many other furnitures you wont be able to access light ending, max. 8 more excluding lights and doors).
+
 
 ## Install
 With NPM :
@@ -19,6 +25,7 @@ Without NPM :
 ## Features
 
 - 7 uniques rooms
+- THREE.js shaders to enhance scene render
 
 - Environment:
   - Random date generation
@@ -32,6 +39,8 @@ Without NPM :
   - WASD, ZQSD and keyboard arrow controls
   - Sounds output control button
   - Toggle shaders button to improve performances
+
+- Message if mobile to tell user to use app on a computer
 
 ## Tech
 - Front:

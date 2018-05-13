@@ -1,3 +1,6 @@
+/**
+ * Utils3: A homemade library to init and control basic THREE.js things
+ */
 const Utils3 = (function () {
 
   const u = {}
@@ -17,11 +20,13 @@ const Utils3 = (function () {
       scene.add(this._holder)
     }
 
+    // Resize camera
     updateSize (width, height) {
       this._camera.aspect = width / height
       this._camera.updateProjectionMatrix()
     }
 
+    // Return camera object or camera Object3D holder
     get (param, holder = false) {
       if (param == "angle") {
         return holder ? this._holder.rotation : this._camera.rotation
@@ -32,6 +37,7 @@ const Utils3 = (function () {
       }
     }
 
+    // Change position or rotation on camera or camera Object3D holder
     set (param, value, holder = false) {
       if (value && param) {
         if (param == "angle") {
@@ -66,6 +72,7 @@ const Utils3 = (function () {
       }
     }
 
+    // Add to position or rotation on camera or camera Object3D holder
     add (param, value, holder = false) {
       if (value && param) {
         if (param == "angle") {
@@ -131,14 +138,17 @@ const Utils3 = (function () {
       this._camera = camera.get()
     }
 
+    // Resize renderer
     updateSize (width, height) {
       this._renderer.setSize (width, height)
     }
 
+    // Fire a render
     render () {
       this._renderer.render(this._scene, this._camera)
     }
 
+    // Return renderer
     get () {
       return this._renderer
     }
@@ -252,6 +262,7 @@ const Utils3 = (function () {
       this._composer.addPass(this._copyPass)
     }
 
+    // Update size
     updateSize (width, height) {
       this._composer.setSize(width, height)
       // Updating vector bases pass
@@ -264,10 +275,12 @@ const Utils3 = (function () {
       this.updatePass()
     }
 
+    // Outline required object
     outlineSelect (array = []) {
       this._outlinePass.selectedObjects = array
     }
 
+    // Fire a render
     render () {
       this._composer.render()
     }
@@ -278,7 +291,7 @@ const Utils3 = (function () {
    */
 
   /**
-   * Random color material
+   * Random color material, return a material according to input param
    */
   u.randomColorMaterial = ({
     hue = Math.floor(Math.random() * 360),

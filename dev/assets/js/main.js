@@ -1,1 +1,2 @@
-room = new Room(".roomApp")
+// Launch Room once previous .js are loaded
+new Room(".roomApp")

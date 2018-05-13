@@ -1,3 +1,6 @@
+/**
+ * Main controller for the game Room
+ */
 class Room {
   constructor (output) {
     // Try to get output element
@@ -17,9 +20,9 @@ class Room {
       // Go to the first room
       this.getNextRoom()
 
-      // Fps meter
-      this._stats = new Stats()
-      this._$output.appendChild(this._stats.dom)
+      // Fps meter (require stats.min.js)
+      /* this._stats = new Stats()
+      this._$output.appendChild(this._stats.dom) */
 
       // Loop
       this.loop()
@@ -603,7 +606,7 @@ class Room {
     this.updateCamera()
     this.updateSky()
     this._composer.render()
-    this._stats.update() // Stats
+    //this._stats.update() // Stats
   }
 
   // Update camera according to context and user input
