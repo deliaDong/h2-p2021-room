@@ -56,6 +56,9 @@ div.roomApp
     justify-content center
     flex-flow column nowrap
     user-select none
+    -moz-user-select none
+    -webkit-user-select none
+    -ms-user-select none
     pointer-events none
     opacity 0
     transition opacity .5s ease .5s
@@ -189,9 +192,13 @@ div.roomApp
 
       span
         opacity .7
-      a
-        pointer-events auto
-        user-select auto
+
+    &.active a
+      pointer-events auto
+      user-select text
+      -moz-user-select text
+      -webkit-user-select text
+      -ms-user-select text
 
     &.active.loading .startButton
       animation breathing 1s ease infinite
@@ -215,13 +222,17 @@ div.roomApp
   // Intro screen (no additional css)
   //.intro
 
-  // End screen (no additional css)
-  //.end
+  // End screen
+  .end.active
+    .desc
+      user-select text
+      -moz-user-select text
+      -webkit-user-select text
+      -ms-user-select text
 
   // If selectable
   .select
     pointer-events auto
-    user-select auto
 
   // Options css
   .options
