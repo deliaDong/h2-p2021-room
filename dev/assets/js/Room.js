@@ -5,46 +5,81 @@ class Room {
     if (!this._$output) { // Handle error
       console.error(`Room: Can't find ${output}, please check that value`)
     } else { // Success
-      // Init everything once context ready
+      // Create context
+      this.initContext()
+
+      // Events listener
+      this.initListener()
+
+      // Init skybox
+      this.initSky()
+
+      // Go to the first room
+      this.getNextRoom()
+
+      // Fps meter
+      this._stats = new Stats()
+      this._$output.appendChild(this._stats.dom)
+
+      // Loop
+      this.loop()
+
+      // Load medias
       this.load()
     }
   }
 
   // Load ressources before game start
   load () {
-    this.init() // Dont wait if outside sound
     // Load sound
-    let timeout = 10000
-    let loaded = false
+    this._audioPath = "assets/audio/" // Main theme
+    this._theme = "the_stanley_parable_exploring_stanley.mp3" // Main theme
+    this._sounds = { // Other sounds
+      click: false
+    }
+    this._timeout = 1000
+    this._loaded = false
+    let loading = 0
+    let elements = 1
+
+    for (const key in this._sounds) { elements++ }
+    // Theme
     this._theme = new Pizzicato.Sound({
       source: "file",
       options: {
-        path: "assets/audio/the_stanley_parable_exploring_stanley.mp3",
+        path: `${this._audioPath}${this._theme}`,
         loop: true,
         attack: 5
       }
     }, () => { // Once ready
-      loaded = true
-      if (timeout) {
-        timeout = false
-        this._$output.classList.remove("preload")
-        this._$screen["start"].classList.remove("loading")
-        this._$buttons["start"].innerText = "Start"
-        this._$buttons["start"].addEventListener("mouseup", () => {
-          this._playing = true
-          this._nextRoom = 0
-          this._textMemory = {}
-          this.updateText("intro", this._rooms[this._nextRoom])
-          this.tryPlaySound() // Play sounds if loaded fast enough
-        })
-      } else if (this._playing) { // Play sounds once ready if timeout and player already playing
-        this.tryPlaySound()
+      loading++
+      if (loading >= elements) {
+        this._loaded = true
+        this.isLoaded()
       }
     })
+
+    // Other sounds, actually one
+    for (const sound in this._sounds) {
+      this._sounds[sound] = new Pizzicato.Sound({
+        source: "file",
+        options: {
+          path: `${this._audioPath}${sound}.mp3`
+        }
+      }, () => { // Once ready
+        loading++
+        if (loading >= elements) {
+          this._loaded = true
+          this.isLoaded()
+        }
+      })
+    }
+
+    // If timeout
     setTimeout(() => {
-      if (timeout) {
-        timeout = false
-        console.info("Loader timeout, sounds will be played once ready.")
+      if (this._timeout) {
+        this._timeout = false
+        console.warn("Loader timeout, sounds will be played once ready.")
         this._$output.classList.remove("preload")
         this._$screen["start"].classList.remove("loading")
         this._$buttons["start"].innerText = "Start"
@@ -53,13 +88,32 @@ class Room {
           this._nextRoom = 0
           this._textMemory = {}
           this.updateText("intro", this._rooms[this._nextRoom])
-          if (loaded) { this.tryPlaySound() } // Playsound once ready if timeout and player not already playing
+          if (this._loaded) { this.tryPlayTheme() } // Playsound once ready if timeout and player not already playing
         })
       }
-    }, timeout)
+    }, this._timeout)
   }
 
-  tryPlaySound () {
+  isLoaded () {
+    if (this._timeout) {
+      this._timeout = false
+      this._$output.classList.remove("preload")
+      this._$screen["start"].classList.remove("loading")
+      this._$buttons["start"].innerText = "Start"
+      this._$buttons["start"].addEventListener("mouseup", () => {
+        this._playing = true
+        this._nextRoom = 0
+        this._textMemory = {}
+        this.updateText("intro", this._rooms[this._nextRoom])
+        this.tryPlayTheme() // Play sounds if loaded fast enough
+      })
+    } else if (this._playing) { // Play sounds once ready if timeout and player already playing
+      this.tryPlayTheme()
+    }
+  }
+
+  // Try to play theme sound
+  tryPlayTheme () {
     // Deal with chrome autoplay policy
     if (!this._theme.play()) {
       document.addEventListener("mouseup", () => {
@@ -70,32 +124,12 @@ class Room {
     }
   }
 
-  // Init everything
-  init () {
-    // Create context
-    this.initContext()
-
-    // Events listener
-    this.initListener()
-
-    // Init skybox
-    this.initSky()
-
-    // Go to the first room
-    this.getNextRoom()
-
-    // Fps meter
-    this._stats = new Stats()
-    this._$output.appendChild(this._stats.dom)
-
-    // Loop
-    this.loop()
-  }
-
   // Create default context
   initContext () {
 
+    // Game state
     this._playing = false
+    this._loaded = false
 
     // General DOM
     this._$output = this._$output
@@ -142,15 +176,15 @@ class Room {
 
     // VIEW
     this._cAngle = 70 // Camera angle
-    this._scene = new THREE.Scene()
-    this._camera = new Utils3.Camera(
+    this._scene = new THREE.Scene() // Init scene
+    this._camera = new Utils3.Camera( // Init camera
       this._scene,
       this._cAngle,
       this._w,
       this._h,
       1.5
     )
-    this._renderer = new Utils3.Renderer({
+    this._renderer = new Utils3.Renderer({ // Init renderer
       canvas: this._$canvas,
       width: this._w,
       height: this._h,
@@ -158,7 +192,7 @@ class Room {
       camera: this._camera
     })
     this._shader = true
-    this._composer = new Utils3.Composer({
+    this._composer = new Utils3.Composer({ // Init composer
       renderer: this._renderer,
       scene: this._scene,
       camera: this._camera,
@@ -168,7 +202,7 @@ class Room {
       vignette: this._shader,
       outline: this._shader
     })
-    this._raycaster = new THREE.Raycaster(
+    this._raycaster = new THREE.Raycaster( // Init raycaster :pew: :pew:
       THREE.Vector3(0, 0, 0),
       THREE.Vector3(0, 0, 0),
       0,
@@ -273,7 +307,7 @@ class Room {
       {
         scene: () => new RoomLight(this),
         intro: `Light - ${Date.now()}`,
-        desc: "I did not want explore interesting things, so i ended up being in this room.",
+        desc: "I did not want to explore interesting things, so i ended up being in this room.",
         cameraOffset: Math.PI,
         getNextRoom: () => -1
       }
@@ -303,7 +337,7 @@ class Room {
       },
       light : {
         intro: `End - ${Date.now() * Math.PI}`,
-        desc: "·−··−· ···· −−− ·−−  −− ·− −· −·−−  −− · −·  ··−· ·−·· −−− −·−· −·−  − −−−  − ···· ·  ·−·· ·· −−· ···· −  −· −−− −  − −−−  ··· · ·  −··· · − − · ·−· −−··−−  −··· ··− −  − −−−  ··· ···· ·· −· ·  −··· · − − · ·−· ·−·−·− ·−··−·  −····−  ··−· ·−· ·· · −·· ·−· ·· −·−· ····  −· ·· · − −−·· ··· −·−· ···· ·"
+        desc: ".-..-. .... --- .-- / -- .- -. -.-- / -- . -. / ..-. .-.. --- -.-. -.- / - --- / - .... . / .-.. .. --. .... - / -. --- - / - --- / ... . . / -... . - - . .-. --..-- / -... ..- - / - --- / ... .... .. -. . / -... . - - . .-. .-.-.- .-..-. -....- ..-. .-. .. . -.. .-. .. -.-. .... / -. .. . - --.. ... -.-. .... ."
       }
     }
   }
@@ -326,6 +360,9 @@ class Room {
     this._$output.addEventListener("mousedown", () => {
       this._mouse.clicked = true
       this._mouseUpdate = true
+      if (this._loaded) {
+        this._sounds["click"].play()
+      }
     })
     this._$output.addEventListener("mouseup", () => {
       this._mouse.clicked = false
@@ -370,10 +407,10 @@ class Room {
       e.stopPropagation()
       if (this._$mute.classList.contains("muted")) {
         this._$mute.classList.remove("muted")
-        this._theme.volume = 1
+        Pizzicato.volume = 1
       } else {
         this._$mute.classList.add("muted")
-        this._theme.volume = 0
+        Pizzicato.volume = 0
       }
     })
     this._$fps.addEventListener("mousedown", (e) => { e.stopPropagation() })

@@ -1,1 +1,1 @@
-const room = new Room (".roomApp")
+room = new Room(".roomApp")
