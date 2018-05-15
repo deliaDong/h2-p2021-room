@@ -89,7 +89,7 @@ class Room {
     setTimeout(() => {
       if (this._timeout) {
         this._timeout = false
-        console.warn("Loader timeout, sounds will be played once ready.")
+        console.warn("Room: Loader timeout, sounds will be played once ready.")
         this._$output.classList.remove("preload")
         this._$screen["start"].classList.remove("loading")
         this._$buttons["start"].innerText = "Start"
