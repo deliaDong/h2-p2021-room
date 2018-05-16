@@ -15,11 +15,13 @@ There're 3 differents ending right now according to what you furnitures / object
 
 
 ## Install
-With NPM :
+With NPM:
 - Run `npm i`
 - Run `gulp` (gulp-cli required)
 
-Without NPM :
+> Note: I came accross some bug with npm recently but `npm i` and `gulp` should still run fine.
+
+Without NPM:
 - Just run index.html in `dev/` (local server may be needed on chromium based browser)
 
 ## Features
