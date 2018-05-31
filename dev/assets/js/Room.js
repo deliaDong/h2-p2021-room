@@ -224,10 +224,6 @@ class Room {
     this._mouse = {x: 0, y: 0, clicked: false}
     this._mouseUpdate = false
     this._input = {}
-    this._keyboard = {
-      qwerty: "wasd",
-      azerty: "zqsd"
-    }
 
     // STATIC VAR
     this._months = [
@@ -363,8 +359,8 @@ class Room {
       this._mouse.y = Math.round((e.clientY / this._h - 0.5) * 100) / -100
       this._mouseUpdate = true
     })
-    document.addEventListener("keydown", (e) => { this._input[e.key] = true })
-    document.addEventListener("keyup", (e) => { this._input[e.key] = false })
+    document.addEventListener("keydown", (e) => { this._input[e.code] = true })
+    document.addEventListener("keyup", (e) => { this._input[e.code] = false })
 
     // Mouse events
     this._$output.addEventListener("mousedown", () => {
@@ -563,35 +559,6 @@ class Room {
           this._$text["endD"].innerText = text.desc
           this._$HUD.classList.add("active", "darker")
         }
-
-        /* if (this._currentText != text) {
-          if (this._actionText != "choice" && action != "intro") {
-            this._currentText = text
-            this._actionText = action
-            this._$textOutput.innerText = this._currentText
-            this._$textOutput.classList.remove("active")
-            this._$HUD.classList.add("active")
-
-            if (action == "choice") {
-              this._$choice.classList.add("active")
-              this._$HUD.classList.add("dark")
-              setTimeout(() => { this._canAnswer = true }, 450);
-            }
-          } else if (action == "intro") {
-            this._currentText = text
-            this._actionText = action
-            this._$textOutput.classList.add("active")
-            this._$date.innerText = this._currentText
-
-            this._$choice.classList.remove("active")
-            this._$HUD.classList.add("darker")
-            this._$desc.innerText = subText
-
-            this._$date.classList.remove("active")
-            this._$desc.classList.add("active")
-            this._$next.classList.add("active")
-          }
-        } */
       } else {
         this._actionText = false
       }
@@ -660,22 +627,22 @@ class Room {
     // Movement
     let x = 0
     let z = 0
-    if (this._input[this._keyboard["qwerty"][1]] || this._input[this._keyboard["azerty"][1]] || this._input["ArrowLeft"]) { // if left
+    if (this._input["KeyA"] || this._input["ArrowLeft"]) { // if left
       x -= Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
       z -= Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
 
-    if (this._input[this._keyboard["qwerty"][3]] || this._input[this._keyboard["azerty"][3]] || this._input["ArrowRight"]) { // if right
+    if (this._input["KeyD"] || this._input["ArrowRight"]) { // if right
       x += Math.sin(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
       z += Math.cos(this._camera.get("angle", true).y + Math.PI / 2) * this._speed
     }
 
-    if (this._input[this._keyboard["qwerty"][0]] || this._input[this._keyboard["azerty"][0]] || this._input["ArrowUp"]) { // if up
+    if (this._input["KeyW"] || this._input["ArrowUp"]) { // if up
       x -= Math.sin(this._camera.get("angle", true).y) * this._speed
       z -= Math.cos(this._camera.get("angle", true).y) * this._speed
     }
 
-    if (this._input[this._keyboard["qwerty"][2]] || this._input[this._keyboard["azerty"][2]] || this._input["ArrowDown"]) { // if down
+    if (this._input["KeyS"] || this._input["ArrowDown"]) { // if down
       x += Math.sin(this._camera.get("angle", true).y) * this._speed
       z += Math.cos(this._camera.get("angle", true).y) * this._speed
     }
