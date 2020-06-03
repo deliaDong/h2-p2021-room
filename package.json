@@ -4,10 +4,10 @@
   "description": "Gulp template",
   "main": "README.md",
   "author": {
-    "name": "edhbr",
-    "url": "https://github.com/edhbr"
+    "name": "lihbr",
+    "url": "https://github.com/lihbr"
   },
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
